@@ -24,7 +24,7 @@ class ErrorHandler {
 
     protected function displayError($error_number, $error_string, $error_file, $error_line, $response = 404) {
         http_response_code($response);
-        if ($response = 404 && !DEBUG) {
+        if ($response == 404 && !DEBUG) {
             require WWW . '/errors/404.php';
             die;
         }
