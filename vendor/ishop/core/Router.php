@@ -19,4 +19,16 @@ class Router {
         return self::$route;
     }
 
+    public static function dispatch($url) {
+        if (self::matchRoute($url)) {
+            echo 'Yes';
+        } else {
+            echo 'No';
+        }
+    }
+
+    public static function matchRoute($url) {
+        return false;
+    }
+
 }
