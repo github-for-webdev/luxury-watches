@@ -21,13 +21,33 @@ class Router {
 
     public static function dispatch($url) {
         if (self::matchRoute($url)) {
-            echo 'Yes';
+            echo $controller = 'app\controllers\\' . self::$route['prefix'] . self::$route['controller'] . 'Controller';
         } else {
-            echo 'No';
+            throw new \Exception("Страница не найдена", 404);
         }
     }
 
     public static function matchRoute($url) {
+        foreach(self::$routes as $pattern => $route) {
+            if (preg_match("#($pattern)#", $url, $matches)) {
+                foreach($matches as $key => $value) {
+                    if (is_string($key)) {
+                        $route[$key] = $value;
+                    }
+                }
+                if (empty($route['action'])) {
+                    $route['action'] = 'index';
+                }
+                if (!isset($route['prefix'])) {
+                    $route['prefix'] = '';
+                } else {
+                    $route['prefix'] .= '\\';
+                }
+                self::$route = $route;
+                debug(self::$route);
+                return true;
+            }
+        }
         return false;
     }
 
