@@ -75,3 +75,12 @@
 [2022-01-20 22:46:52] Текст ошибки: Class 'app\controllers\App' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\MainController.php | Строка: 8
 [2022-01-20 22:51:38] Текст ошибки: syntax error, unexpected '=', expecting ']' | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\MainController.php | Строка: 9
 [2022-01-20 22:51:40] Текст ошибки: syntax error, unexpected '=', expecting ']' | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\MainController.php | Строка: 9
+[2022-01-21 22:34:06] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 38
+[2022-01-21 22:35:34] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 38
+[2022-01-21 22:35:36] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 38
+[2022-01-21 22:35:39] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 38
+[2022-01-21 22:51:21] Текст ошибки: Контроллер app\controllers\ViewController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 37
+[2022-01-21 22:52:02] Текст ошибки: Call to undefined method app\controllers\PageController::getView() | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 32
+[2022-01-21 22:54:02] Текст ошибки: Не найден вид D:\OpenServer\domains\luxurywatches/app/views/Page/view.php | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\base\View.php | Строка: 38
+[2022-01-21 23:08:45] Текст ошибки: Не найден вид D:\OpenServer\domains\luxurywatches/app/views/Page/view.php | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\base\View.php | Строка: 38
+[2022-01-21 23:14:54] Текст ошибки: Не найден вид D:\OpenServer\domains\luxurywatches/app/views/Page/view.php | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\base\View.php | Строка: 38
