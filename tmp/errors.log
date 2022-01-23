@@ -84,3 +84,16 @@
 [2022-01-21 22:54:02] Текст ошибки: Не найден вид D:\OpenServer\domains\luxurywatches/app/views/Page/view.php | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\base\View.php | Строка: 38
 [2022-01-21 23:08:45] Текст ошибки: Не найден вид D:\OpenServer\domains\luxurywatches/app/views/Page/view.php | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\base\View.php | Строка: 38
 [2022-01-21 23:14:54] Текст ошибки: Не найден вид D:\OpenServer\domains\luxurywatches/app/views/Page/view.php | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\base\View.php | Строка: 38
+[2022-01-23 19:16:07] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-01-23 19:44:10] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 19:44:12] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 19:44:12] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 19:44:13] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 19:45:22] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 19:45:23] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 19:48:17] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 19:49:27] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 19:49:27] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 20:13:07] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 20:13:08] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
+[2022-01-23 20:14:15] Текст ошибки: Class 'app\controllers\AppModel' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 11
