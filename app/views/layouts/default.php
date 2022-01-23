@@ -9,5 +9,12 @@
 <body>
     <h1>Шаблон DEFAULT</h1>
     <?php echo $content; ?>
+    <?php
+        $logs = \R::getDatabaseAdapter()
+                ->getDatabase()
+                ->getLogger();
+
+        debug( $logs->grep( 'SELECT' ) );
+    ?>
 </body>
 </html>

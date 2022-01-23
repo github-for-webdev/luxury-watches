@@ -12,8 +12,10 @@ class Database {
         \R::setup($db['dsn'], $db['user'], $db['password']);
         if ( !\R::testConnection() ) {
             throw new \Exception("Нет соединения с базой данных", 500);
-        } else {
-            echo "Соединение установлено!";
+        }
+        \R::freeze(true);
+        if(DEBUG) {
+            \R::debug(true, 1);
         }
     }
 
