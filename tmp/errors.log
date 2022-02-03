@@ -8,3 +8,5 @@
 [2022-02-02 22:22:07] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
 [2022-02-02 22:25:15] Текст ошибки: Контроллер app\controllers\CartController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
 [2022-02-02 22:25:16] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-03 22:15:10] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-03 22:41:36] Текст ошибки: Class 'app\controllers\Currency' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 13
