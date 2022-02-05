@@ -10,3 +10,11 @@
 [2022-02-02 22:25:16] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
 [2022-02-03 22:15:10] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
 [2022-02-03 22:41:36] Текст ошибки: Class 'app\controllers\Currency' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 13
+[2022-02-05 22:12:51] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-05 22:31:51] Текст ошибки: Class 'app\widgets\currency\App' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\currency\Currency.php | Строка: 17
+[2022-02-05 22:32:46] Текст ошибки: Class 'app\widgets\currency\App' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\currency\Currency.php | Строка: 17
+[2022-02-05 22:33:29] Текст ошибки: Class 'app\widgets\currency\App' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\currency\Currency.php | Строка: 17
+[2022-02-05 22:33:30] Текст ошибки: Class 'app\widgets\currency\App' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\currency\Currency.php | Строка: 17
+[2022-02-05 22:34:38] Текст ошибки: Class 'app\widgets\currency\App' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\currency\Currency.php | Строка: 17
+[2022-02-05 22:34:39] Текст ошибки: Class 'app\widgets\currency\App' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\currency\Currency.php | Строка: 17
+[2022-02-05 22:35:36] Текст ошибки: Class 'app\widgets\currency\App' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\currency\Currency.php | Строка: 17

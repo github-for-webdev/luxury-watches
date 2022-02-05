@@ -26,9 +26,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="drop">
 						<div class="box">
 							<select tabindex="4" class="dropdown drop">
-								<option value="" class="label">Dollar :</option>
-								<option value="1">Dollar</option>
-								<option value="2">Euro</option>
+								<?php new \app\widgets\currency\Currency(); ?>
 							</select>
 						</div>
 						<div class="box1">
