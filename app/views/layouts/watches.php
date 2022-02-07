@@ -1,9 +1,3 @@
-<!--A Design by W3layouts 
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,6 +60,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="container">
 			<div class="header">
 				<div class="col-md-9 header-left">
+					<div class="menu">
+						<?php new \app\widgets\menu\Menu([
+							'tpl' => WWW . '/menu/menu.php'
+						]); ?>
+					</div>
+				<!--
 				<div class="top-nav">
 					<ul class="memenu skyblue"><li class="active"><a href="index.html">Home</a></li>
 						<li class="grid"><a href="#">Men</a>
@@ -203,6 +203,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</li>
 					</ul>
 				</div>
+				-->
 				<div class="clearfix"> </div>
 			</div>
 			<div class="col-md-3 header-right"> 
