@@ -2,6 +2,9 @@
 
 namespace app\widgets\menu;
 
+use ishop\App;
+use ishop\Cache;
+
 class Menu {
 
     protected $data;
@@ -11,7 +14,7 @@ class Menu {
     protected $container = 'ul';
     protected $table = 'category';
     protected $cache = 3600;
-    protected $cacheKey = 'ishop/menu';
+    protected $cacheKey = 'ishop_menu';
     protected $attrs = [];
     protected $prepend = '';
 
@@ -34,13 +37,28 @@ class Menu {
         $cache = Cache::instance();
         $this->menuHtml = $cache->get($this->cacheKey);
         if (!$this->menuHtml) {
-            
+            $this->data = App::$app->getProperty('cats');
+            if (!$this->data) {
+                $this->data = $cats = \R::getAssoc("SELECT * FROM {$this->table}");
+            }
         }
         $this->output();
     }
 
     protected function output() {
-        echo $this->menuHtml();
+        echo $this->menuHtml;
+    }
+
+    protected function getTree() {
+
+    }
+
+    protected function getMenuHtml($tree, $tab = '') {
+
+    }
+
+    protected function catToTemplate($category, $tab, $id) {
+
     }
 
 }
