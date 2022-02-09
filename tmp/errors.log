@@ -8,3 +8,4 @@
 [2022-02-08 02:04:18] Текст ошибки: Class 'app\controllers\Cache' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 22
 [2022-02-08 02:04:54] Текст ошибки: Class 'app\widgets\menu\Cache' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\menu\Menu.php | Строка: 34
 [2022-02-08 02:05:56] Текст ошибки: Call to undefined method app\widgets\menu\Menu::menuHtml() | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\menu\Menu.php | Строка: 46
+[2022-02-09 21:50:33] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
