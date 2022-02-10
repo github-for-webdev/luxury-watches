@@ -9,3 +9,9 @@
 [2022-02-08 02:04:54] Текст ошибки: Class 'app\widgets\menu\Cache' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\menu\Menu.php | Строка: 34
 [2022-02-08 02:05:56] Текст ошибки: Call to undefined method app\widgets\menu\Menu::menuHtml() | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\menu\Menu.php | Строка: 46
 [2022-02-09 21:50:33] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-10 20:38:39] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-10 21:32:46] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-02-10 21:32:51] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-02-10 21:32:55] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-02-10 21:36:41] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-02-10 21:36:44] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36

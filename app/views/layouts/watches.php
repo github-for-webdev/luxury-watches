@@ -3,13 +3,12 @@
 <head>
 <?=$this->getMeta();?>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="megamenu/css/ionicons.min.css" rel="stylesheet" type="text/css" media="all" />
+<link href="megamenu/css/style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />	
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!--start-menu-->
-<link href="css/memenu.css" rel="stylesheet" type="text/css" media="all" />
-
 </head>
 <body> 
 	<!--top-header-->
@@ -60,10 +59,12 @@
 		<div class="container">
 			<div class="header">
 				<div class="col-md-9 header-left">
-					<div class="menu">
-						<?php new \app\widgets\menu\Menu([
-							'tpl' => WWW . '/menu/menu.php'
-						]); ?>
+					<div class="menu-container">
+						<div class="menu">
+							<?php new \app\widgets\menu\Menu([
+								'tpl' => WWW . '/menu/menu.php'
+							]); ?>
+						</div>
 					</div>
 				<!--
 				<div class="top-nav">
@@ -310,6 +311,7 @@
     
         });
     </script>
+	<script src="megamenu/js/megamenu.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>
