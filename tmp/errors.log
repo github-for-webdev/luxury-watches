@@ -15,3 +15,8 @@
 [2022-02-10 21:32:55] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
 [2022-02-10 21:36:41] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
 [2022-02-10 21:36:44] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-02-11 21:13:43] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-11 21:22:50] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-02-11 21:22:58] Текст ошибки: Контроллер app\controllers\ProductController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-02-11 21:32:33] Текст ошибки: syntax error, unexpected end of file | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 1
+[2022-02-11 21:34:49] Текст ошибки: syntax error, unexpected end of file | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 1
