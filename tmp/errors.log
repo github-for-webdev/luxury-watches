@@ -23,3 +23,5 @@
 [2022-02-12 18:22:29] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
 [2022-02-12 18:32:33] Текст ошибки: syntax error, unexpected '->' (T_OBJECT_OPERATOR), expecting ',' or ';' | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 38
 [2022-02-12 18:32:47] Текст ошибки: syntax error, unexpected '->' (T_OBJECT_OPERATOR), expecting ',' or ';' | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 38
+[2022-02-13 14:29:47] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-13 14:39:23] Текст ошибки: syntax error, unexpected '$related' (T_VARIABLE), expecting function (T_FUNCTION) or const (T_CONST) | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\ProductController.php | Строка: 16
