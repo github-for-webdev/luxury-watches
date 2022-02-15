@@ -27,3 +27,8 @@
 [2022-02-13 14:39:23] Текст ошибки: syntax error, unexpected '$related' (T_VARIABLE), expecting function (T_FUNCTION) or const (T_CONST) | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\ProductController.php | Строка: 16
 [2022-02-14 01:15:17] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
 [2022-02-14 01:27:08] Текст ошибки: syntax error, unexpected '?' | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 25
+[2022-02-15 22:49:32] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-15 23:14:04] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-02-15 23:14:08] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-02-15 23:14:21] Текст ошибки: Метод app\controllers\ProductController::indexAction не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 33
+[2022-02-15 23:14:27] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
