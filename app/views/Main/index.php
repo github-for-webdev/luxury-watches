@@ -21,7 +21,7 @@
 <div class="about">
     <div class="container">
         <div class="about-top grid-1">
-            <?php foreach($brands as $brand): ?>
+            <?php foreach ($brands as $brand): ?>
                 <div class="col-md-4 about-left">
                     <figure class="effect-bubba">
                         <img class="img-responsive" src="images/<?=$brand->img;?>" alt=""/>
@@ -45,7 +45,7 @@
     <div class="container">
         <div class="product-top">
             <div class="product-one">
-                <?php foreach($hits as $hit): ?>
+                <?php foreach ($hits as $hit): ?>
                     <div class="col-md-3 product-left">
                         <div class="product-main simpleCart_shelfItem">
                             <a href="product/<?=$hit->alias;?>" class="mask"><img class="img-responsive zoom-img" src="images/<?=$hit->img;?>" alt="" /></a>
@@ -54,7 +54,7 @@
                                 <p>Explore Now</p>
                                 <h4>
                                 <a class="add-to-cart-link" href="cart/add?id=<?=$hit->id;?>"><i></i></a> <span class=" item_price"><?=$curr['symbol_left'];?><?=$hit->price * $curr['value'];?><?=$curr['symbol_right'];?></span>
-                                <?php if($hit->old_price): ?>
+                                <?php if ($hit->old_price): ?>
                                     <small><del><?=$curr['symbol_left'];?><?=$hit->old_price * $curr['value'];?><?=$curr['symbol_right'];?></del></small>
                                 <?php endif; ?>
                                 </h4>

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Breadcrumbs;
 use app\models\Product;
 
 class ProductController extends AppController {
@@ -12,6 +13,7 @@ class ProductController extends AppController {
         if (!$product) {
             throw new \Exception('Страница не найдена', 404);
         }
+        $breadcrumbs = Breadcrumbs::getBreadcrumbs($product->category_id, $product->title);
         $related = \R::getAll("SELECT * FROM related_product JOIN product ON product.id = related_product.related_id WHERE related_product.product_id = ?", [$product->id]);
         $p_model = new Product();
         $p_model->setRecentlyViewed($product->id);
@@ -22,7 +24,7 @@ class ProductController extends AppController {
         }
         $gallery = \R::findAll('gallery', 'product_id = ?', [$product->id]);
         $this->setMeta($product->title, $product->description, $product->keywords);
-        $this->set(compact('product', 'related', 'gallery', 'recentlyViewed'));
+        $this->set(compact('product', 'related', 'gallery', 'recentlyViewed', 'breadcrumbs'));
     }
 
 }
