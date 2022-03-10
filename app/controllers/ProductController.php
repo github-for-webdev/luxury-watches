@@ -23,8 +23,9 @@ class ProductController extends AppController {
             $recentlyViewed = \R::findAll('product', 'id IN (' . \R::genSlots($r_viewed) . ') LIMIT 3', $r_viewed);
         }
         $gallery = \R::findAll('gallery', 'product_id = ?', [$product->id]);
+        $mods = \R::findAll('modification', 'product_id = ?', [$product->id]);
         $this->setMeta($product->title, $product->description, $product->keywords);
-        $this->set(compact('product', 'related', 'gallery', 'recentlyViewed', 'breadcrumbs'));
+        $this->set(compact('product', 'related', 'gallery', 'recentlyViewed', 'breadcrumbs', 'mods'));
     }
 
 }

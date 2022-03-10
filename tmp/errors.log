@@ -1,35 +1,13 @@
-[2022-02-07 23:14:56] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-08 01:22:02] Текст ошибки: Call to undefined function app\widgets\menu\Menu() | Файл: D:\OpenServer\domains\luxurywatches\app\views\layouts\watches.php | Строка: 64
-[2022-02-08 01:23:18] Текст ошибки: Call to undefined function app\widgets\menu\Menu() | Файл: D:\OpenServer\domains\luxurywatches\app\views\layouts\watches.php | Строка: 64
-[2022-02-08 01:24:56] Текст ошибки: Call to undefined function app\widgets\menu\Menu() | Файл: D:\OpenServer\domains\luxurywatches\app\views\layouts\watches.php | Строка: 64
-[2022-02-08 01:31:42] Текст ошибки: Call to undefined function app\widgets\menu\Menu() | Файл: D:\OpenServer\domains\luxurywatches\app\views\layouts\watches.php | Строка: 64
-[2022-02-08 01:31:44] Текст ошибки: Call to undefined function app\widgets\menu\Menu() | Файл: D:\OpenServer\domains\luxurywatches\app\views\layouts\watches.php | Строка: 64
-[2022-02-08 02:03:46] Текст ошибки: Class 'app\controllers\Cache' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 22
-[2022-02-08 02:04:18] Текст ошибки: Class 'app\controllers\Cache' not found | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\AppController.php | Строка: 22
-[2022-02-08 02:04:54] Текст ошибки: Class 'app\widgets\menu\Cache' not found | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\menu\Menu.php | Строка: 34
-[2022-02-08 02:05:56] Текст ошибки: Call to undefined method app\widgets\menu\Menu::menuHtml() | Файл: D:\OpenServer\domains\luxurywatches\app\widgets\menu\Menu.php | Строка: 46
-[2022-02-09 21:50:33] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-10 20:38:39] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-10 21:32:46] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
-[2022-02-10 21:32:51] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
-[2022-02-10 21:32:55] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
-[2022-02-10 21:36:41] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
-[2022-02-10 21:36:44] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
-[2022-02-11 21:13:43] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-11 21:22:50] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
-[2022-02-11 21:22:58] Текст ошибки: Контроллер app\controllers\ProductController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
-[2022-02-11 21:32:33] Текст ошибки: syntax error, unexpected end of file | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 1
-[2022-02-11 21:34:49] Текст ошибки: syntax error, unexpected end of file | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 1
-[2022-02-12 18:22:29] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-12 18:32:33] Текст ошибки: syntax error, unexpected '->' (T_OBJECT_OPERATOR), expecting ',' or ';' | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 38
-[2022-02-12 18:32:47] Текст ошибки: syntax error, unexpected '->' (T_OBJECT_OPERATOR), expecting ',' or ';' | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 38
-[2022-02-13 14:29:47] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-13 14:39:23] Текст ошибки: syntax error, unexpected '$related' (T_VARIABLE), expecting function (T_FUNCTION) or const (T_CONST) | Файл: D:\OpenServer\domains\luxurywatches\app\controllers\ProductController.php | Строка: 16
-[2022-02-14 01:15:17] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-14 01:27:08] Текст ошибки: syntax error, unexpected '?' | Файл: D:\OpenServer\domains\luxurywatches\app\views\Product\view.php | Строка: 25
-[2022-02-15 22:49:32] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-15 23:14:04] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
-[2022-02-15 23:14:08] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-15 23:14:21] Текст ошибки: Метод app\controllers\ProductController::indexAction не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 33
-[2022-02-15 23:14:27] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
-[2022-02-20 15:25:48] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 39
+[2022-03-10 21:34:24] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:34:29] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:34:30] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:34:30] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:35:02] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:35:07] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:35:18] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:35:24] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:44:01] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:44:11] Текст ошибки: Контроллер app\controllers\CategoryController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 36
+[2022-03-10 21:56:19] Текст ошибки: Нет соединения с базой данных | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Database.php | Строка: 14
+[2022-03-10 21:56:25] Текст ошибки: Нет соединения с базой данных | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Database.php | Строка: 14
+[2022-03-10 21:56:31] Текст ошибки: Нет соединения с базой данных | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Database.php | Строка: 14
