@@ -154,8 +154,8 @@
 <script>
     var path = '<?=PATH;?>',
         course = <?=$curr['value'];?>,
-        symbolLeft = <?=$curr['symbol_left'];?>,
-        symbolRight = <?=$curr['symbol_right'];?>;
+        symbolLeft = '<?=$curr['symbol_left'];?>',
+        symbolRight = '<?=$curr['symbol_right'];?>';
 </script>
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/simpleCart.min.js"> </script>
@@ -218,7 +218,7 @@
 
     });
 </script>
-<script src="js/main.js"></script>
+<script src="public/js/main.js"></script>
 <!--End-slider-script-->
 <?php
     $logs = \R::getDatabaseAdapter()

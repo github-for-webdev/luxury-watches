@@ -8,8 +8,8 @@ $(".available select").on("change", function () {
     price = $(this).find("option").filter(":selected").data("price"),
     basePrice = $("#base-price").data("base");
   if (price) {
-    $("#base-price").text(symboleLeft + price + symboleRight);
+    $("#base-price").text(symbolLeft + price + symbolRight);
   } else {
-    $("#base-price").text(symboleLeft + basePrice + symboleRight);
+    $("#base-price").text(symbolLeft + basePrice + symbolRight);
   }
 });
