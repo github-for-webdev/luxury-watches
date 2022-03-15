@@ -84,6 +84,7 @@
 <!--bottom-header-->
 
 <div class="content">
+    <?php debug($_SESSION); //session_destroy();  ?>
     <?=$content;?>
 </div>
 
@@ -154,11 +155,10 @@
 <script>
     var path = '<?=PATH;?>',
         course = <?=$curr['value'];?>,
-        symbolLeft = '<?=$curr['symbol_left'];?>',
-        symbolRight = '<?=$curr['symbol_right'];?>';
+        symboleLeft = '<?=$curr['symbol_left'];?>',
+        symboleRight = '<?=$curr['symbol_right'];?>';
 </script>
 <script src="js/jquery-1.11.0.min.js"></script>
-<script src="js/simpleCart.min.js"> </script>
 <!--dropdown-->
 <script src="js/jquery.easydropdown.js"></script>
 <!--Slider-Starts-Here-->
@@ -218,14 +218,14 @@
 
     });
 </script>
-<script src="public/js/main.js"></script>
+<script src="js/main.js"></script>
 <!--End-slider-script-->
 <?php
-    $logs = \R::getDatabaseAdapter()
-        ->getDatabase()
-        ->getLogger();
+$logs = \R::getDatabaseAdapter()
+    ->getDatabase()
+    ->getLogger();
 
-    debug( $logs->grep( 'SELECT' ) );
+debug( $logs->grep( 'SELECT' ) );
 ?>
 </body>
 </html>
