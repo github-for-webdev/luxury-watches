@@ -36,28 +36,28 @@ class Frozen extends Base
 	public function testTrash()
 	{
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$book->xownPageList[] = R::dispense( 'page' );
-		$book->sharedTagList[] = R::dispense( 'tag' );
-		R::store( $book );
+		$book = R::dispense('book');
+		$book->xownPageList[] = R::dispense('page');
+		$book->sharedTagList[] = R::dispense('tag');
+		R::store($book);
 		$book = $book->fresh();
-		R::freeze( TRUE );
+		R::freeze(TRUE);
 		$book->xownPageList = array();
-		R::store( $book );
+		R::store($book);
 		$book = $book->fresh();
-		asrt( R::count('page'), 0 );
-		$book->xownPageList[] = R::dispense( 'page' );
-		R::store( $book );
+		asrt(R::count('page'), 0);
+		$book->xownPageList[] = R::dispense('page');
+		R::store($book);
 		$book = $book->fresh();
-		asrt( R::count('page'), 1 );
+		asrt(R::count('page'), 1);
 		$book->xownPageList;
 		$book->sharedTagList;
-		R::trash( $book );
-		asrt( R::count('book'), 0 );
-		asrt( R::count('page'), 0 );
-		asrt( R::count('tag'), 1 );
-		asrt( R::count('book_tag'), 0 );
-		R::freeze( FALSE );
+		R::trash($book);
+		asrt(R::count('book'), 0);
+		asrt(R::count('page'), 0);
+		asrt(R::count('tag'), 1);
+		asrt(R::count('book_tag'), 0);
+		R::freeze(FALSE);
 	}
 
 	/**
@@ -69,20 +69,20 @@ class Frozen extends Base
 	public function testInvalidList()
 	{
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$book->xownPageList[] = R::dispense( 'page' );
-		$book->sharedTagList[] = R::dispense( 'tag' );
-		R::store( $book );
-		R::freeze( TRUE );
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
+		$book->xownPageList[] = R::dispense('page');
+		$book->sharedTagList[] = R::dispense('tag');
+		R::store($book);
+		R::freeze(TRUE);
+		$book = R::dispense('book');
 		$book->xownPageList[] = 'nonsense';
 		try {
-			R::store( $book );
+			R::store($book);
 			fail();
-		} catch( \Exception $e ) {
+		} catch (\Exception $e) {
 			pass();
 		}
-		R::freeze( FALSE );
+		R::freeze(FALSE);
 	}
 
 	/**
@@ -94,11 +94,11 @@ class Frozen extends Base
 	public function testLoadNonExistant()
 	{
 		R::nuke();
-		R::store( R::dispense( 'bean' ) );
-		R::freeze( TRUE );
-		$bean = R::load( 'bean', 123 );
-		R::freeze( FALSE );
-		asrt( ( $bean instanceof OODBBean ), TRUE );
-		asrt( $bean->id, 0 );
+		R::store(R::dispense('bean'));
+		R::freeze(TRUE);
+		$bean = R::load('bean', 123);
+		R::freeze(FALSE);
+		asrt(($bean instanceof OODBBean), TRUE);
+		asrt($bean->id, 0);
 	}
 }

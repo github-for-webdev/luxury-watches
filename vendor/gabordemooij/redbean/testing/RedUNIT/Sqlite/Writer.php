@@ -9,6 +9,7 @@ use RedBeanPHP\QueryWriter\SQLiteT as SQLiteT;
 use RedBeanPHP\RedException\SQL as SQL;
 use RedBeanPHP\RedException as RedException;
 use RedBeanPHP\QueryWriter\AQueryWriter;
+
 /**
  * Writer
  *
@@ -36,16 +37,16 @@ class Writer extends Sqlite
 	public function testWriterShouldFilterSelectForUpdate()
 	{
 		R::nuke();
-		$id = R::store( R::dispense('bean') );
-		R::debug( TRUE, 1 );
+		$id = R::store(R::dispense('bean'));
+		R::debug(TRUE, 1);
 		$bean = R::findForUpdate('bean', 'id > 0');
-		$logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->grep( AQueryWriter::C_SELECT_SNIPPET_FOR_UPDATE );
-		asrt( count($logs), 0 ); //if no cache clear, then would have been 2
+		$logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->grep(AQueryWriter::C_SELECT_SNIPPET_FOR_UPDATE);
+		asrt(count($logs), 0); //if no cache clear, then would have been 2
 		$bean = R::loadForUpdate('bean', $id);
-		$logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->grep( AQueryWriter::C_SELECT_SNIPPET_FOR_UPDATE );
-		asrt( count($logs), 0 ); //if no cache clear, then would have been 2
-		R::getWriter()->setUseCache( FALSE );
-		R::debug( FALSE );
+		$logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->grep(AQueryWriter::C_SELECT_SNIPPET_FOR_UPDATE);
+		asrt(count($logs), 0); //if no cache clear, then would have been 2
+		R::getWriter()->setUseCache(FALSE);
+		R::debug(FALSE);
 		R::nuke();
 	}
 
@@ -57,45 +58,45 @@ class Writer extends Sqlite
 	public function testWriterSpeedUp()
 	{
 		R::nuke();
-		$id = R::store( R::dispense( 'book' ) );
+		$id = R::store(R::dispense('book'));
 		$writer = R::getWriter();
-		$count1 = $writer->queryRecordCount( 'book', array( 'id' => $id ), ' id = :id ', array( ':id' => $id ) );
-		$count2 = $writer->queryRecordCount( 'book', array( ), ' id = :id ', array( ':id' => $id ) );
-		$count3 = $writer->queryRecordCount( 'book', NULL, ' id = :id ', array( ':id' => $id ) );
-		$count4 = $writer->queryRecordCount( 'book', array( 'id' => $id ) );
-		asrt( $count1, $count2 );
-		asrt( $count2, $count3 );
-		asrt( $count3, $count4 );
+		$count1 = $writer->queryRecordCount('book', array('id' => $id), ' id = :id ', array(':id' => $id));
+		$count2 = $writer->queryRecordCount('book', array(), ' id = :id ', array(':id' => $id));
+		$count3 = $writer->queryRecordCount('book', NULL, ' id = :id ', array(':id' => $id));
+		$count4 = $writer->queryRecordCount('book', array('id' => $id));
+		asrt($count1, $count2);
+		asrt($count2, $count3);
+		asrt($count3, $count4);
 		R::nuke();
-		$books = R::dispenseAll( 'book*4' );
-		$ids = R::storeAll( $books[0] );
-		$writer->deleteRecord( 'book', array( 'id' => $ids[0] ) );
-		$writer->deleteRecord( 'book', array( 'id' => $ids[1] ), ' id = :id ', array( ':id' => $ids[1] ) );
-		$writer->deleteRecord( 'book', NULL, ' id = :id ', array( ':id' => $ids[2] ) );
-		$writer->deleteRecord( 'book', array(), ' id = :id ', array( ':id' => $ids[3] ) );
-		asrt( R::count( 'book' ), 0 );
+		$books = R::dispenseAll('book*4');
+		$ids = R::storeAll($books[0]);
+		$writer->deleteRecord('book', array('id' => $ids[0]));
+		$writer->deleteRecord('book', array('id' => $ids[1]), ' id = :id ', array(':id' => $ids[1]));
+		$writer->deleteRecord('book', NULL, ' id = :id ', array(':id' => $ids[2]));
+		$writer->deleteRecord('book', array(), ' id = :id ', array(':id' => $ids[3]));
+		asrt(R::count('book'), 0);
 		R::nuke();
-		$id = R::store( R::dispense( 'book' ) );
-		$record = $writer->queryRecord( 'book', array( 'id' => $id ) );
-		asrt( is_array( $record ), TRUE );
-		asrt( is_array( $record[0] ), TRUE );
-		asrt( isset( $record[0]['id'] ), TRUE );
-		asrt( (int) $record[0]['id'], $id );
-		$record = $writer->queryRecord( 'book', array( 'id' => $id ), ' id = :id ', array( ':id' => $id ) );
-		asrt( is_array( $record ), TRUE );
-		asrt( is_array( $record[0] ), TRUE );
-		asrt( isset( $record[0]['id'] ), TRUE );
-		asrt( (int) $record[0]['id'], $id );
-		$record = $writer->queryRecord( 'book', NULL, ' id = :id ', array( ':id' => $id ) );
-		asrt( is_array( $record ), TRUE );
-		asrt( is_array( $record[0] ), TRUE );
-		asrt( isset( $record[0]['id'] ), TRUE );
-		asrt( (int) $record[0]['id'], $id );
-		$record = $writer->queryRecord( 'book', array(), ' id = :id ', array( ':id' => $id ) );
-		asrt( is_array( $record ), TRUE );
-		asrt( is_array( $record[0] ), TRUE );
-		asrt( isset( $record[0]['id'] ), TRUE );
-		asrt( (int) $record[0]['id'], $id );
+		$id = R::store(R::dispense('book'));
+		$record = $writer->queryRecord('book', array('id' => $id));
+		asrt(is_array($record), TRUE);
+		asrt(is_array($record[0]), TRUE);
+		asrt(isset($record[0]['id']), TRUE);
+		asrt((int) $record[0]['id'], $id);
+		$record = $writer->queryRecord('book', array('id' => $id), ' id = :id ', array(':id' => $id));
+		asrt(is_array($record), TRUE);
+		asrt(is_array($record[0]), TRUE);
+		asrt(isset($record[0]['id']), TRUE);
+		asrt((int) $record[0]['id'], $id);
+		$record = $writer->queryRecord('book', NULL, ' id = :id ', array(':id' => $id));
+		asrt(is_array($record), TRUE);
+		asrt(is_array($record[0]), TRUE);
+		asrt(isset($record[0]['id']), TRUE);
+		asrt((int) $record[0]['id'], $id);
+		$record = $writer->queryRecord('book', array(), ' id = :id ', array(':id' => $id));
+		asrt(is_array($record), TRUE);
+		asrt(is_array($record[0]), TRUE);
+		asrt(isset($record[0]['id']), TRUE);
+		asrt((int) $record[0]['id'], $id);
 	}
 
 	/**
@@ -108,14 +109,14 @@ class Writer extends Sqlite
 	public function testWriteDeleteQuery()
 	{
 		$queryWriter = R::getWriter();
-		asrt( ( $queryWriter instanceof SQLiteT ), TRUE );
+		asrt(($queryWriter instanceof SQLiteT), TRUE);
 		R::nuke();
-		$bean = R::dispense( 'bean' );
+		$bean = R::dispense('bean');
 		$bean->name = 'a';
-		$id = R::store( $bean );
-		asrt( R::count( 'bean' ), 1 );
-		$queryWriter->deleteRecord( 'bean', array(), $addSql = ' id = :id ', $bindings = array( ':id' => $id ) );
-		asrt( R::count( 'bean' ), 0 );
+		$id = R::store($bean);
+		asrt(R::count('bean'), 1);
+		$queryWriter->deleteRecord('bean', array(), $addSql = ' id = :id ', $bindings = array(':id' => $id));
+		asrt(R::count('bean'), 0);
 	}
 
 	/**
@@ -127,19 +128,19 @@ class Writer extends Sqlite
 	public function testWriteCountQuery()
 	{
 		$queryWriter = R::getWriter();
-		asrt( ( $queryWriter instanceof SQLiteT ), TRUE );
+		asrt(($queryWriter instanceof SQLiteT), TRUE);
 		R::nuke();
-		$bean = R::dispense( 'bean' );
+		$bean = R::dispense('bean');
 		$bean->name = 'a';
-		R::store( $bean );
-		$bean = R::dispense( 'bean' );
+		R::store($bean);
+		$bean = R::dispense('bean');
 		$bean->name = 'b';
-		R::store( $bean );
-		$bean = R::dispense( 'bean' );
+		R::store($bean);
+		$bean = R::dispense('bean');
 		$bean->name = 'b';
-		R::store( $bean );
-		$count = $queryWriter->queryRecordCount( 'bean', array( 'name' => 'b' ), $addSql = ' id > :id ', $bindings = array( ':id' => 0 ) );
-		asrt( $count, 2 );
+		R::store($bean);
+		$count = $queryWriter->queryRecordCount('bean', array('name' => 'b'), $addSql = ' id > :id ', $bindings = array(':id' => 0));
+		asrt($count, 2);
 	}
 
 	/**
@@ -152,33 +153,32 @@ class Writer extends Sqlite
 	public function testWriteJoinSnippets()
 	{
 		$queryWriter = R::getWriter();
-		asrt( ( $queryWriter instanceof SQLiteT ), TRUE );
-		$snippet = $queryWriter->writeJoin( 'book', 'page' ); //default must be LEFT
-		asrt( is_string( $snippet ), TRUE );
-		asrt( ( strlen( $snippet ) > 0 ), TRUE );
-		asrt( ' LEFT JOIN `page` ON `page`.id = `book`.page_id ', $snippet );
-		$snippet = $queryWriter->writeJoin( 'book', 'page', 'LEFT' );
-		asrt( is_string( $snippet ), TRUE );
-		asrt( ( strlen( $snippet ) > 0 ), TRUE );
-		asrt( ' LEFT JOIN `page` ON `page`.id = `book`.page_id ', $snippet );
-		$snippet = $queryWriter->writeJoin( 'book', 'page', 'RIGHT' );
-		asrt( is_string( $snippet ), TRUE );
-		asrt( ( strlen( $snippet ) > 0 ), TRUE );
-		asrt( ' RIGHT JOIN `page` ON `page`.id = `book`.page_id ', $snippet );
-		$snippet = $queryWriter->writeJoin( 'book', 'page', 'INNER' );
-		asrt( ' INNER JOIN `page` ON `page`.id = `book`.page_id ', $snippet );
+		asrt(($queryWriter instanceof SQLiteT), TRUE);
+		$snippet = $queryWriter->writeJoin('book', 'page'); //default must be LEFT
+		asrt(is_string($snippet), TRUE);
+		asrt((strlen($snippet) > 0), TRUE);
+		asrt(' LEFT JOIN `page` ON `page`.id = `book`.page_id ', $snippet);
+		$snippet = $queryWriter->writeJoin('book', 'page', 'LEFT');
+		asrt(is_string($snippet), TRUE);
+		asrt((strlen($snippet) > 0), TRUE);
+		asrt(' LEFT JOIN `page` ON `page`.id = `book`.page_id ', $snippet);
+		$snippet = $queryWriter->writeJoin('book', 'page', 'RIGHT');
+		asrt(is_string($snippet), TRUE);
+		asrt((strlen($snippet) > 0), TRUE);
+		asrt(' RIGHT JOIN `page` ON `page`.id = `book`.page_id ', $snippet);
+		$snippet = $queryWriter->writeJoin('book', 'page', 'INNER');
+		asrt(' INNER JOIN `page` ON `page`.id = `book`.page_id ', $snippet);
 		$exception = NULL;
 		try {
-			$snippet = $queryWriter->writeJoin( 'book', 'page', 'MIDDLE' );
-		}
-		catch(\Exception $e) {
+			$snippet = $queryWriter->writeJoin('book', 'page', 'MIDDLE');
+		} catch (\Exception $e) {
 			$exception = $e;
 		}
-		asrt( ( $exception instanceof RedException ), TRUE );
+		asrt(($exception instanceof RedException), TRUE);
 		$errorMessage = $exception->getMessage();
-		asrt( is_string( $errorMessage ), TRUE );
-		asrt( ( strlen( $errorMessage ) > 0 ), TRUE );
-		asrt( $errorMessage, 'Invalid JOIN.' );
+		asrt(is_string($errorMessage), TRUE);
+		asrt((strlen($errorMessage) > 0), TRUE);
+		asrt($errorMessage, 'Invalid JOIN.');
 	}
 
 	/**
@@ -193,48 +193,48 @@ class Writer extends Sqlite
 		$writer  = $toolbox->getWriter();
 		$redbean = $toolbox->getRedBean();
 		$pdo     = $adapter->getDatabase();
-		$a = new AssociationManager( $toolbox );
-		asrt( in_array( "testtable", $writer->getTables() ), FALSE );
-		$writer->createTable( "testtable" );
-		asrt( in_array( "testtable", $writer->getTables() ), TRUE );
-		asrt( count( array_keys( $writer->getColumns( "testtable" ) ) ), 1 );
-		asrt( in_array( "id", array_keys( $writer->getColumns( "testtable" ) ) ), TRUE );
-		asrt( in_array( "c1", array_keys( $writer->getColumns( "testtable" ) ) ), FALSE );
-		$writer->addColumn( "testtable", "c1", 1 );
-		asrt( count( array_keys( $writer->getColumns( "testtable" ) ) ), 2 );
-		asrt( in_array( "c1", array_keys( $writer->getColumns( "testtable" ) ) ), TRUE );
-		foreach ( $writer->sqltype_typeno as $key => $type ) {
-			asrt( $writer->code( $key ), $type );
+		$a = new AssociationManager($toolbox);
+		asrt(in_array("testtable", $writer->getTables()), FALSE);
+		$writer->createTable("testtable");
+		asrt(in_array("testtable", $writer->getTables()), TRUE);
+		asrt(count(array_keys($writer->getColumns("testtable"))), 1);
+		asrt(in_array("id", array_keys($writer->getColumns("testtable"))), TRUE);
+		asrt(in_array("c1", array_keys($writer->getColumns("testtable"))), FALSE);
+		$writer->addColumn("testtable", "c1", 1);
+		asrt(count(array_keys($writer->getColumns("testtable"))), 2);
+		asrt(in_array("c1", array_keys($writer->getColumns("testtable"))), TRUE);
+		foreach ($writer->sqltype_typeno as $key => $type) {
+			asrt($writer->code($key), $type);
 		}
-		asrt( $writer->code( "unknown" ), 99 );
-		asrt( $writer->scanType( FALSE ), SQLiteT::C_DATATYPE_INTEGER );
-		asrt( $writer->scanType( NULL ), SQLiteT::C_DATATYPE_INTEGER );
-		asrt( $writer->scanType( 2 ), SQLiteT::C_DATATYPE_INTEGER );
-		asrt( $writer->scanType( 255 ), SQLiteT::C_DATATYPE_INTEGER );
-		asrt( $writer->scanType( 256 ), SQLiteT::C_DATATYPE_INTEGER );
-		asrt( $writer->scanType( -1 ), SQLiteT::C_DATATYPE_INTEGER );
-		asrt( $writer->scanType( 1.5 ), SQLiteT::C_DATATYPE_NUMERIC );
-		asrt( $writer->scanType( 2147483648 - 1 ), SQLiteT::C_DATATYPE_INTEGER );
-		asrt( $writer->scanType( 2147483648 ), SQLiteT::C_DATATYPE_TEXT );
-		asrt( $writer->scanType( -2147483648 + 1), SQLiteT::C_DATATYPE_INTEGER );
-		asrt( $writer->scanType( -2147483648 ), SQLiteT::C_DATATYPE_TEXT );
-		asrt( $writer->scanType( INF ), SQLiteT::C_DATATYPE_TEXT );
-		asrt( $writer->scanType( "abc" ), SQLiteT::C_DATATYPE_TEXT );
-		asrt( $writer->scanType( '2010-10-10' ), SQLiteT::C_DATATYPE_NUMERIC );
-		asrt( $writer->scanType( '2010-10-10 10:00:00' ), SQLiteT::C_DATATYPE_NUMERIC );
-		asrt( $writer->scanType( str_repeat( "lorem ipsum", 100 ) ), SQLiteT::C_DATATYPE_TEXT );
-		$writer->widenColumn( "testtable", "c1", 2 );
-		$cols = $writer->getColumns( "testtable" );
-		asrt( $writer->code( $cols["c1"] ), 2 );
-		$id  = $writer->updateRecord( "testtable", array( array( "property" => "c1", "value" => "lorem ipsum" ) ) );
-		$row = $writer->queryRecord( "testtable", array( "id" => array( $id ) ) );
-		asrt( $row[0]["c1"], "lorem ipsum" );
-		$writer->updateRecord( "testtable", array( array( "property" => "c1", "value" => "ipsum lorem" ) ), $id );
-		$row = $writer->queryRecord( "testtable", array( "id" => array( $id ) ) );
-		asrt( $row[0]["c1"], "ipsum lorem" );
-		$writer->deleteRecord( "testtable", array( "id" => array( $id ) ) );
-		$row = $writer->queryRecord( "testtable", array( "id" => array( $id ) ) );
-		asrt( empty( $row ), TRUE );
+		asrt($writer->code("unknown"), 99);
+		asrt($writer->scanType(FALSE), SQLiteT::C_DATATYPE_INTEGER);
+		asrt($writer->scanType(NULL), SQLiteT::C_DATATYPE_INTEGER);
+		asrt($writer->scanType(2), SQLiteT::C_DATATYPE_INTEGER);
+		asrt($writer->scanType(255), SQLiteT::C_DATATYPE_INTEGER);
+		asrt($writer->scanType(256), SQLiteT::C_DATATYPE_INTEGER);
+		asrt($writer->scanType(-1), SQLiteT::C_DATATYPE_INTEGER);
+		asrt($writer->scanType(1.5), SQLiteT::C_DATATYPE_NUMERIC);
+		asrt($writer->scanType(2147483648 - 1), SQLiteT::C_DATATYPE_INTEGER);
+		asrt($writer->scanType(2147483648), SQLiteT::C_DATATYPE_TEXT);
+		asrt($writer->scanType(-2147483648 + 1), SQLiteT::C_DATATYPE_INTEGER);
+		asrt($writer->scanType(-2147483648), SQLiteT::C_DATATYPE_TEXT);
+		asrt($writer->scanType(INF), SQLiteT::C_DATATYPE_TEXT);
+		asrt($writer->scanType("abc"), SQLiteT::C_DATATYPE_TEXT);
+		asrt($writer->scanType('2010-10-10'), SQLiteT::C_DATATYPE_NUMERIC);
+		asrt($writer->scanType('2010-10-10 10:00:00'), SQLiteT::C_DATATYPE_NUMERIC);
+		asrt($writer->scanType(str_repeat("lorem ipsum", 100)), SQLiteT::C_DATATYPE_TEXT);
+		$writer->widenColumn("testtable", "c1", 2);
+		$cols = $writer->getColumns("testtable");
+		asrt($writer->code($cols["c1"]), 2);
+		$id  = $writer->updateRecord("testtable", array(array("property" => "c1", "value" => "lorem ipsum")));
+		$row = $writer->queryRecord("testtable", array("id" => array($id)));
+		asrt($row[0]["c1"], "lorem ipsum");
+		$writer->updateRecord("testtable", array(array("property" => "c1", "value" => "ipsum lorem")), $id);
+		$row = $writer->queryRecord("testtable", array("id" => array($id)));
+		asrt($row[0]["c1"], "ipsum lorem");
+		$writer->deleteRecord("testtable", array("id" => array($id)));
+		$row = $writer->queryRecord("testtable", array("id" => array($id)));
+		asrt(empty($row), TRUE);
 	}
 
 	/**
@@ -244,25 +244,25 @@ class Writer extends Sqlite
 	 */
 	public function testZeroIssue()
 	{
-		testpack( "Zero issue" );
+		testpack("Zero issue");
 		$toolbox = R::getToolBox();
 		$redbean = $toolbox->getRedBean();
-		$bean = $redbean->dispense( "zero" );
+		$bean = $redbean->dispense("zero");
 		$bean->zero  = FALSE;
 		$bean->title = "bla";
-		$redbean->store( $bean );
-		asrt( count( $redbean->find( "zero", array(), " zero = 0 " ) ), 1 );
-		testpack( "Test ANSI92 issue in clearrelations" );
+		$redbean->store($bean);
+		asrt(count($redbean->find("zero", array(), " zero = 0 ")), 1);
+		testpack("Test ANSI92 issue in clearrelations");
 		$redbean = $toolbox->getRedBean();
-		$a = new AssociationManager( $toolbox );
-		$book    = $redbean->dispense( "book" );
-		$author1 = $redbean->dispense( "author" );
-		$author2 = $redbean->dispense( "author" );
+		$a = new AssociationManager($toolbox);
+		$book    = $redbean->dispense("book");
+		$author1 = $redbean->dispense("author");
+		$author2 = $redbean->dispense("author");
 		$book->title = "My First Post";
 		$author1->name = "Derek";
 		$author2->name = "Whoever";
-		set1toNAssoc( $a, $book, $author1 );
-		set1toNAssoc( $a, $book, $author2 );
+		set1toNAssoc($a, $book, $author1);
+		set1toNAssoc($a, $book, $author2);
 		pass();
 	}
 
@@ -279,35 +279,35 @@ class Writer extends Sqlite
 		$toolbox = R::getToolBox();
 		$redbean = $toolbox->getRedBean();
 		$adapter = $toolbox->getDatabaseAdapter();
-		$a = new AssociationManager( $toolbox );
-		$book    = $redbean->dispense( "book" );
-		$author1 = $redbean->dispense( "author" );
-		$author2 = $redbean->dispense( "author" );
+		$a = new AssociationManager($toolbox);
+		$book    = $redbean->dispense("book");
+		$author1 = $redbean->dispense("author");
+		$author2 = $redbean->dispense("author");
 		$book->title = "My First Post";
 		$author1->name = "Derek";
 		$author2->name = "Whoever";
-		$a->associate( $book, $author1 );
-		$a->associate( $book, $author2 );
+		$a->associate($book, $author1);
+		$a->associate($book, $author2);
 		pass();
-		testpack( "Test Association Issue Group keyword (Issues 9 and 10)" );
-		$group       = $redbean->dispense( "group" );
+		testpack("Test Association Issue Group keyword (Issues 9 and 10)");
+		$group       = $redbean->dispense("group");
 		$group->name = "mygroup";
-		$redbean->store( $group );
+		$redbean->store($group);
 		try {
-			$a->associate( $group, $book );
+			$a->associate($group, $book);
 			pass();
-		} catch ( SQL $e ) {
+		} catch (SQL $e) {
 			fail();
 		}
 		// Test issue SQL error 23000
 		try {
-			$a->associate( $group, $book );
+			$a->associate($group, $book);
 			pass();
-		} catch ( SQL $e ) {
-			print_r( $e );
+		} catch (SQL $e) {
+			print_r($e);
 			fail();
 		}
-		asrt( (int) $adapter->getCell( "select count(*) from book_group" ), 1 ); //just 1 rec!
+		asrt((int) $adapter->getCell("select count(*) from book_group"), 1); //just 1 rec!
 	}
 
 	/**
@@ -322,22 +322,22 @@ class Writer extends Sqlite
 	{
 		$toolbox = R::getToolBox();
 		$redbean = $toolbox->getRedBean();
-		$a = new AssociationManager( $toolbox );
-		$book    = $redbean->dispense( "book" );
-		$author1 = $redbean->dispense( "author" );
-		$author2 = $redbean->dispense( "author" );
+		$a = new AssociationManager($toolbox);
+		$book    = $redbean->dispense("book");
+		$author1 = $redbean->dispense("author");
+		$author2 = $redbean->dispense("author");
 		$book->title = "My First Post";
 		$author1->name = "Derek";
 		$author2->name = "Whoever";
-		$a->unassociate( $book, $author1 );
-		$a->unassociate( $book, $author2 );
+		$a->unassociate($book, $author1);
+		$a->unassociate($book, $author2);
 		pass();
-		$redbean->trash( $redbean->dispense( "bla" ) );
+		$redbean->trash($redbean->dispense("bla"));
 		pass();
-		$bean = $redbean->dispense( "bla" );
+		$bean = $redbean->dispense("bla");
 		$bean->name = 1;
 		$bean->id   = 2;
-		$redbean->trash( $bean );
+		$redbean->trash($bean);
 		pass();
 	}
 
@@ -348,20 +348,20 @@ class Writer extends Sqlite
 	 */
 	public function testSpecialDataTypes()
 	{
-		testpack( 'Special data types' );
-		$bean = R::dispense( 'bean' );
+		testpack('Special data types');
+		$bean = R::dispense('bean');
 		$bean->date = 'someday';
-		R::store( $bean );
-		$cols = R::getColumns( 'bean' );
-		asrt( $cols['date'], 'TEXT' );
-		$bean = R::dispense( 'bean' );
+		R::store($bean);
+		$cols = R::getColumns('bean');
+		asrt($cols['date'], 'TEXT');
+		$bean = R::dispense('bean');
 		$bean->date = '2011-10-10';
 		R::nuke();
-		$bean = R::dispense( 'bean' );
+		$bean = R::dispense('bean');
 		$bean->date = '2011-10-10';
-		R::store( $bean );
-		$cols = R::getColumns( 'bean' );
-		asrt( $cols['date'], 'NUMERIC' );
+		R::store($bean);
+		$cols = R::getColumns('bean');
+		asrt($cols['date'], 'NUMERIC');
 	}
 
 	/**
@@ -374,33 +374,33 @@ class Writer extends Sqlite
 	public function testErrorHandling()
 	{
 		R::nuke();
-		R::store( R::dispense( 'book' ) );
-		R::freeze( FALSE );
-		R::find( 'book2', ' id > 0' );
+		R::store(R::dispense('book'));
+		R::freeze(FALSE);
+		R::find('book2', ' id > 0');
 		pass();
-		R::find( 'book', ' id2 > ?' );
+		R::find('book', ' id2 > ?');
 		pass();
 		$exception = NULL;
 		try {
-			R::find( 'book', ' id = ?', array( 0, 1 ) );
-		} catch( \Exception $e ) {
+			R::find('book', ' id = ?', array(0, 1));
+		} catch (\Exception $e) {
 			$exception = $e;
 		}
-		asrt( ( $exception instanceof SQL ), TRUE );
-		R::freeze( TRUE );
+		asrt(($exception instanceof SQL), TRUE);
+		R::freeze(TRUE);
 		$exception = NULL;
 		try {
-			R::find( 'book2', ' id > 0' );
-		} catch( \Exception $e ) {
+			R::find('book2', ' id > 0');
+		} catch (\Exception $e) {
 			$exception = $e;
 		}
-		asrt( ( $exception instanceof SQL ), TRUE );
+		asrt(($exception instanceof SQL), TRUE);
 		$exception = NULL;
 		try {
-			R::find( 'book', ' id2 > 0' );
-		} catch( \Exception $e ) {
+			R::find('book', ' id2 > 0');
+		} catch (\Exception $e) {
 			$exception = $e;
 		}
-		asrt( ( $exception instanceof SQL ), TRUE );
+		asrt(($exception instanceof SQL), TRUE);
 	}
 }

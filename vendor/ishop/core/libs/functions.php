@@ -1,10 +1,12 @@
 <?php
 
-function debug($array) {
+function debug($array)
+{
     echo '<pre>' . print_r($array, true) . '</pre>';
 }
 
-function redirect($http = false) {
+function redirect($http = false)
+{
     if ($http) {
         $redirect = $http;
     } else {

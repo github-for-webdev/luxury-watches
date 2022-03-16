@@ -29,6 +29,6 @@ class Sqlite extends RedUNIT
 	 */
 	public function getTargetDrivers()
 	{
-		return array( 'sqlite' );
+		return array('sqlite');
 	}
 }

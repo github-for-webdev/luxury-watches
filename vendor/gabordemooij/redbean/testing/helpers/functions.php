@@ -12,15 +12,15 @@
  * @param string $user username
  * @param string $pass passwords
  */
-function add_writer_to_tests( $name, $dsn, $user, $pass )
+function add_writer_to_tests($name, $dsn, $user, $pass)
 {
 
 	global $ini;
 
-	\RedUNIT\Base::addToDriverList( $name );
-	R::addDatabase( $name, $dsn, $user, $pass );
+	\RedUNIT\Base::addToDriverList($name);
+	R::addDatabase($name, $dsn, $user, $pass);
 
-	$ini[ $name ] = TRUE;
+	$ini[$name] = TRUE;
 }
 
 /**
@@ -29,9 +29,9 @@ function add_writer_to_tests( $name, $dsn, $user, $pass )
  *
  * @param string $text
  */
-function printtext( $text )
+function printtext($text)
 {
-	if ( $_SERVER["DOCUMENT_ROOT"] ) {
+	if ($_SERVER["DOCUMENT_ROOT"]) {
 		echo "<BR>" . $text;
 	} else {
 		echo "\n" . $text;
@@ -47,16 +47,16 @@ function printtext( $text )
  * @param mixed    $a value for A
  * @param mixed    $b value for B
  */
-function asrt( $a, $b )
+function asrt($a, $b)
 {
-	if ( $a === $b ) {
+	if ($a === $b) {
 		global $tests;
 
 		$tests++;
 
-		print( "[" . $tests . "]" );
+		print("[" . $tests . "]");
 	} else {
-		printtext( "FAILED TEST: EXPECTED $b BUT GOT: $a " );
+		printtext("FAILED TEST: EXPECTED $b BUT GOT: $a ");
 
 		fail();
 	}
@@ -71,7 +71,7 @@ function pass()
 
 	$tests++;
 
-	print( "[" . $tests . "]" );
+	print("[" . $tests . "]");
 }
 
 /**
@@ -79,11 +79,11 @@ function pass()
  */
 function fail()
 {
-	printtext( "FAILED TEST" );
+	printtext("FAILED TEST");
 
 	debug_print_backtrace();
 
-	exit( 1 );
+	exit(1);
 }
 
 /**
@@ -91,9 +91,9 @@ function fail()
  *
  * @param string $name name of the test pack
  */
-function testpack( $name )
+function testpack($name)
 {
-	printtext( "\n\tSub testpack: " . $name . " \n\t" );
+	printtext("\n\tSub testpack: " . $name . " \n\t");
 }
 
 /**
@@ -101,41 +101,40 @@ function testpack( $name )
  *
  * @param string $name name of the test pack
  */
-function maintestpack( $name )
+function maintestpack($name)
 {
-	printtext( "\n\nTestpack: " . $name . " \n\t" );
+	printtext("\n\nTestpack: " . $name . " \n\t");
 }
 
 /**
  * Quickly resolves the formatted table name
  */
-function tbl( $table )
+function tbl($table)
 {
-	return R::$writer->getFormattedTableName( $table );
+	return R::$writer->getFormattedTableName($table);
 }
 
 /**
  * Quickly resolves the formatted ID
  */
-function ID( $table )
+function ID($table)
 {
-	return R::$writer->getIDField( $table );
+	return R::$writer->getIDField($table);
 }
 
 /**
  * Emulates legacy function for use with older tests.
  */
-function set1toNAssoc( $a, \RedBeanPHP\OODBBean $bean1, \RedBeanPHP\OODBBean $bean2 )
+function set1toNAssoc($a, \RedBeanPHP\OODBBean $bean1, \RedBeanPHP\OODBBean $bean2)
 {
-	$type = $bean1->getMeta( "type" );
+	$type = $bean1->getMeta("type");
 
-	$a->clearRelations( $bean2, $type );
-	$a->associate( $bean1, $bean2 );
+	$a->clearRelations($bean2, $type);
+	$a->associate($bean1, $bean2);
 
-	if ( count( $a->related( $bean2, $type ) ) === 1 ) {
-		;
+	if (count($a->related($bean2, $type)) === 1) {;
 	} else {
-		throw new \RedBeanPHP\RedException\SQL( "Failed to enforce 1-N Relation for $type " );
+		throw new \RedBeanPHP\RedException\SQL("Failed to enforce 1-N Relation for $type ");
 	}
 }
 
@@ -148,17 +147,17 @@ function set1toNAssoc( $a, \RedBeanPHP\OODBBean $bean1, \RedBeanPHP\OODBBean $be
  *
  * @return string $values  values
  */
-function getList( $beans, $property )
+function getList($beans, $property)
 {
 	$items = array();
 
-	foreach ( $beans as $bean ) {
+	foreach ($beans as $bean) {
 		$items[] = $bean->$property;
 	}
 
-	sort( $items );
+	sort($items);
 
-	return implode( ",", $items );
+	return implode(",", $items);
 }
 
 /**
@@ -166,10 +165,10 @@ function getList( $beans, $property )
  *
  * @param array $array array
  */
-function testids( $array )
+function testids($array)
 {
-	foreach ( $array as $key => $bean ) {
-		asrt( intval( $key ), intval( $bean->getID() ) );
+	foreach ($array as $key => $bean) {
+		asrt(intval($key), intval($bean->getID()));
 	}
 }
 
@@ -183,104 +182,104 @@ function testids( $array )
  * @param mixed $pictures pictures
  * @param mixed $topics   topics
  */
-function modgr( $book3, $quotes, $pictures, $topics )
+function modgr($book3, $quotes, $pictures, $topics)
 {
-	$key = array_rand( $quotes );
+	$key = array_rand($quotes);
 
 	$quote = $quotes[$key];
 
-	$keyPic = array_rand( $pictures );
+	$keyPic = array_rand($pictures);
 
 	$picture = $pictures[$keyPic];
 
-	$keyTop = array_rand( $topics );
+	$keyTop = array_rand($topics);
 
 	$topic = $topics[$keyTop];
 
-	if ( rand( 0, 1 ) ) {
+	if (rand(0, 1)) {
 		$f = 0;
 
-		foreach ( $book3->ownQuote as $z ) {
-			if ( $z->note == $quote->note ) {
+		foreach ($book3->ownQuote as $z) {
+			if ($z->note == $quote->note) {
 				$f = 1;
 
 				break;
 			}
 		}
-		if ( !$f ) {
+		if (!$f) {
 			//echo "\n add a quote ";
 
 			$book3->ownQuote[] = $quote;
 		}
 	}
 
-	if ( rand( 0, 1 ) ) {
+	if (rand(0, 1)) {
 		$f = 0;
 
-		foreach ( $book3->ownPicture as $z ) {
-			if ( $z->note == $picture->note ) {
+		foreach ($book3->ownPicture as $z) {
+			if ($z->note == $picture->note) {
 				$f = 1;
 
 				break;
 			}
 		}
-		if ( !$f ) {
+		if (!$f) {
 			//	echo "\n add a picture ";
 
 			$book3->ownPicture[] = $picture;
 		}
 	}
 
-	if ( rand( 0, 1 ) ) {
+	if (rand(0, 1)) {
 		$f = 0;
 
-		foreach ( $book3->sharedTopic as $z ) {
-			if ( $z->note == $topic->note ) {
+		foreach ($book3->sharedTopic as $z) {
+			if ($z->note == $topic->note) {
 				$f = 1;
 
 				break;
 			}
 		}
 
-		if ( !$f ) {
+		if (!$f) {
 			$book3->sharedTopic[] = $topic;
 		}
 	}
 
-	if ( rand( 0, 1 ) && count( $book3->ownQuote ) > 0 ) {
-		$key = array_rand( $book3->ownQuote );
+	if (rand(0, 1) && count($book3->ownQuote) > 0) {
+		$key = array_rand($book3->ownQuote);
 
-		unset( $book3->ownQuote[$key] );
+		unset($book3->ownQuote[$key]);
 	}
 
-	if ( rand( 0, 1 ) && count( $book3->ownPicture ) > 0 ) {
-		$key = array_rand( $book3->ownPicture );
+	if (rand(0, 1) && count($book3->ownPicture) > 0) {
+		$key = array_rand($book3->ownPicture);
 
-		unset( $book3->ownPicture[$key] );
+		unset($book3->ownPicture[$key]);
 	}
 
-	if ( rand( 0, 1 ) && count( $book3->sharedTopic ) > 0 ) {
-		$key = array_rand( $book3->sharedTopic );
+	if (rand(0, 1) && count($book3->sharedTopic) > 0) {
+		$key = array_rand($book3->sharedTopic);
 
-		unset( $book3->sharedTopic[$key] );
+		unset($book3->sharedTopic[$key]);
 	}
 
-	if ( rand( 0, 1 ) && count( $book3->ownPicture ) > 0 ) {
-		$key = array_rand( $book3->ownPicture );
+	if (rand(0, 1) && count($book3->ownPicture) > 0) {
+		$key = array_rand($book3->ownPicture);
 
-		$book3->ownPicture[$key]->change = rand( 0, 100 );
+		$book3->ownPicture[$key]->change = rand(0, 100);
 	}
 
-	if ( rand( 0, 1 ) && count( $book3->ownQuote ) > 0 ) {
-		$key = array_rand( $book3->ownQuote );
+	if (rand(0, 1) && count($book3->ownQuote) > 0) {
+		$key = array_rand($book3->ownQuote);
 
-		$book3->ownQuote[$key]->change = 'note ch ' . rand( 0, 100 );
+		$book3->ownQuote[$key]->change = 'note ch ' . rand(0, 100);
 	}
 
-	if ( rand( 0, 1 ) && count( $book3->sharedTopic ) > 0 ) {
-		$key = array_rand( $book3->sharedTopic );
+	if (rand(0, 1) && count($book3->sharedTopic) > 0) {
+		$key = array_rand($book3->sharedTopic);
 
-		$book3->sharedTopic[$key]->change = rand( 0, 100 );
+		$book3->sharedTopic[$key]->change = rand(0, 100);
 	}
 }
 
@@ -293,17 +292,17 @@ function modgr( $book3, $quotes, $pictures, $topics )
  *
  * @return mixed $val the value as returned after storage-retrieval cycle.
  */
-function setget( $val )
+function setget($val)
 {
 	R::nuke();
 
-	$bean = R::dispense( "page" );
+	$bean = R::dispense("page");
 
 	$bean->prop = $val;
 
-	$id = R::store( $bean );
+	$id = R::store($bean);
 
-	$bean = R::load( "page", $id );
+	$bean = R::load("page", $id);
 
 	return $bean->prop;
 }
@@ -318,7 +317,7 @@ function setget( $val )
  *
  * @return string $out Output JSON from BeanCan server.
  */
-function fakeBeanCanServerRequest( $data, $params = NULL, $id = "1234", $whiteList = 'all' )
+function fakeBeanCanServerRequest($data, $params = NULL, $id = "1234", $whiteList = 'all')
 {
 	$j = array(
 		"jsonrpc" => "2.0",
@@ -329,11 +328,11 @@ function fakeBeanCanServerRequest( $data, $params = NULL, $id = "1234", $whiteLi
 
 	$can = new \RedBeanPHP\Plugin\BeanCan;
 
-	$request = json_encode( $j );
+	$request = json_encode($j);
 
-	$can->setWhitelist( $whiteList );
+	$can->setWhitelist($whiteList);
 
-	$out = $can->handleJSONRequest( $request );
+	$out = $can->handleJSONRequest($request);
 
 	return $out;
 }
@@ -345,12 +344,12 @@ function fakeBeanCanServerRequest( $data, $params = NULL, $id = "1234", $whiteLi
  */
 function candy_canes()
 {
-	$canes = R::dispense( 'cane', 10 );
+	$canes = R::dispense('cane', 10);
 
 	$i = 0;
 
-	foreach ( $canes as $k => $cane ) {
-		$canes[$k]->label = 'Cane No. ' . ( $i++ );
+	foreach ($canes as $k => $cane) {
+		$canes[$k]->label = 'Cane No. ' . ($i++);
 	}
 
 	$canes[0]->cane = $canes[1];
@@ -371,57 +370,57 @@ function candy_canes()
  *
  * @return array
  */
-function getIndexes( $tableNoQ )
+function getIndexes($tableNoQ)
 {
 	$writer = R::getWriter();
 
-	if ( ( $writer instanceof \RedBeanPHP\QueryWriter\MySQL ) || ( $writer instanceof \RedBeanPHP\QueryWriter\CUBRID ) ) {
+	if (($writer instanceof \RedBeanPHP\QueryWriter\MySQL) || ($writer instanceof \RedBeanPHP\QueryWriter\CUBRID)) {
 		$indexes = array();
-		$list = R::getAll( "SHOW INDEX FROM `{$tableNoQ}`" );
-		foreach( $list as $listItem ) {
+		$list = R::getAll("SHOW INDEX FROM `{$tableNoQ}`");
+		foreach ($list as $listItem) {
 			$indexes[] = $listItem['Key_name'];
 		}
 		return $indexes;
 	}
 
-	if ( ( $writer instanceof \RedBeanPHP\QueryWriter\SQLiteT ) ) {
+	if (($writer instanceof \RedBeanPHP\QueryWriter\SQLiteT)) {
 		$indexes = array();
-		$list = R::getAll( " pragma index_list(`{$tableNoQ}`) " );
-		foreach( $list as $listItem ) {
+		$list = R::getAll(" pragma index_list(`{$tableNoQ}`) ");
+		foreach ($list as $listItem) {
 			$indexes[] = $listItem['name'];
 		}
 		return $indexes;
 	}
 
-	if ( ( $writer instanceof \RedBeanPHP\QueryWriter\PostgreSQL ) ) {
-		return R::getCol( " SELECT indexname FROM pg_indexes WHERE tablename = '{$tableNoQ}' AND schemaname = 'public' " );
+	if (($writer instanceof \RedBeanPHP\QueryWriter\PostgreSQL)) {
+		return R::getCol(" SELECT indexname FROM pg_indexes WHERE tablename = '{$tableNoQ}' AND schemaname = 'public' ");
 	}
 
 	return array();
 }
 
-function are_cols_in_unique( $type, $properties )
+function are_cols_in_unique($type, $properties)
 {
-	sort( $properties );
-	$propertyFootprint = implode( ',', $properties );
-	$uniques = get_uniques_for_type( $type );
-	foreach( $uniques as $unique ) {
-		sort( $unique );
-		$uniqueFootprint = implode( ',', $unique );
-		if ( $uniqueFootprint === $propertyFootprint ) return TRUE;
+	sort($properties);
+	$propertyFootprint = implode(',', $properties);
+	$uniques = get_uniques_for_type($type);
+	foreach ($uniques as $unique) {
+		sort($unique);
+		$uniqueFootprint = implode(',', $unique);
+		if ($uniqueFootprint === $propertyFootprint) return TRUE;
 	}
 	return FALSE;
 }
 
-function get_uniques_for_type( $type )
+function get_uniques_for_type($type)
 {
 	$list = array();
 	$writer = R::getWriter();
 	$adapter = R::getDatabaseAdapter();
 	global $currentDriver;
-	switch( $currentDriver ) {
+	switch ($currentDriver) {
 		case 'mysql':
-			$table = $writer->esc( $type, TRUE );
+			$table = $writer->esc($type, TRUE);
 			$columns = $adapter->get('
 				SELECT
 				information_schema.key_column_usage.constraint_name,
@@ -438,16 +437,16 @@ function get_uniques_for_type( $type )
 				information_schema.table_constraints.table_schema IN (SELECT DATABASE())
 				AND information_schema.table_constraints.table_name = ?
 				AND information_schema.table_constraints.constraint_type = \'UNIQUE\'
-			', array( $table ) );
+			', array($table));
 			$uniques = array();
-			foreach( $columns as $column ) {
-				if ( !isset( $uniques[ $column['constraint_name'] ] ) ) $uniques[ $column['constraint_name'] ] = array();
-				$uniques[ $column['constraint_name'] ][] = $column['column_name'];
+			foreach ($columns as $column) {
+				if (!isset($uniques[$column['constraint_name']])) $uniques[$column['constraint_name']] = array();
+				$uniques[$column['constraint_name']][] = $column['column_name'];
 			}
 			$list = $uniques;
-		break;
+			break;
 		case 'pgsql':
-			$table = $writer->esc( $type, TRUE );
+			$table = $writer->esc($type, TRUE);
 			$columns = $adapter->get('
 				SELECT
 				information_schema.key_column_usage.constraint_name,
@@ -465,33 +464,33 @@ function get_uniques_for_type( $type )
 				AND information_schema.key_column_usage.table_schema = ANY( current_schemas( FALSE ) )
 				AND information_schema.table_constraints.table_name = ?
 				AND information_schema.table_constraints.constraint_type = \'UNIQUE\'
-				', array( $table ) );
+				', array($table));
 			$uniques = array();
-			foreach( $columns as $column ) {
-				if ( !isset( $uniques[ $column['constraint_name'] ] ) ) $uniques[ $column['constraint_name'] ] = array();
-				$uniques[ $column['constraint_name'] ][] = $column['column_name'];
+			foreach ($columns as $column) {
+				if (!isset($uniques[$column['constraint_name']])) $uniques[$column['constraint_name']] = array();
+				$uniques[$column['constraint_name']][] = $column['column_name'];
 			}
-			$list= $uniques;
-		break;
+			$list = $uniques;
+			break;
 		case 'sqlite':
 			$uniques = array();
-			$table = $writer->esc( $type, TRUE );
-			$indexes = $adapter->get( "PRAGMA index_list({$table})" );
-			foreach( $indexes as $index ) {
-				if ( $index['unique'] == 1 ) {
-					$info = $adapter->get( "PRAGMA index_info({$index['name']})" );
-					if ( !isset( $uniques[$index['name']] ) ) $uniques[$index['name']] = array();
-					foreach( $info as $piece ) {
+			$table = $writer->esc($type, TRUE);
+			$indexes = $adapter->get("PRAGMA index_list({$table})");
+			foreach ($indexes as $index) {
+				if ($index['unique'] == 1) {
+					$info = $adapter->get("PRAGMA index_info({$index['name']})");
+					if (!isset($uniques[$index['name']])) $uniques[$index['name']] = array();
+					foreach ($info as $piece) {
 						$uniques[$index['name']][] = $piece['name'];
 					}
 				}
 			}
 			$list = $uniques;
-		break;
+			break;
 		case 'CUBRID':
 			try {
 				$sqlCode = $adapter->get("SHOW CREATE TABLE `{$type}`");
-			} catch ( \Exception $e ) {
+			} catch (\Exception $e) {
 				$sqlCode = '';
 			}
 			if (!isset($sqlCode[0])) return array();
@@ -500,21 +499,22 @@ function get_uniques_for_type( $type )
 			$list = array();
 			if (!isset($matches[0])) return $list;
 			$max = count($matches[0]);
-			for($i = 0; $i < $max; $i++) {
+			for ($i = 0; $i < $max; $i++) {
 				$columns = explode(',', $matches[2][$i]);
-				foreach( $columns as $key => $column ) {
-					$columns[$key] = trim( $column, '[] ');
+				foreach ($columns as $key => $column) {
+					$columns[$key] = trim($column, '[] ');
 				}
-				$list[ $matches[1][$i] ] = $columns;
+				$list[$matches[1][$i]] = $columns;
 			}
-		break;
+			break;
 	}
 	return $list;
 }
 
 //array_column PHP 7 implementation
-function colfield( $objects, $field ) {
+function colfield($objects, $field)
+{
 	$ids = array();
-	foreach($objects as $object) $ids[] = $object->{$field};
+	foreach ($objects as $object) $ids[] = $object->{$field};
 	return $ids;
 }

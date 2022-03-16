@@ -8,9 +8,11 @@ use ishop\App;
 use ishop\base\Controller;
 use ishop\Cache;
 
-class AppController extends Controller {
+class AppController extends Controller
+{
 
-    public function __construct($route) {
+    public function __construct($route)
+    {
         parent::__construct($route);
         new AppModel();
         App::$app->setProperty('currencies', Currency::getCurrencies());
@@ -18,7 +20,8 @@ class AppController extends Controller {
         App::$app->setProperty('cats', self::cacheCategory());
     }
 
-    public static function cacheCategory() {
+    public static function cacheCategory()
+    {
         $cache = Cache::instance();
         $cats = $cache->get('cats');
         if (!$cats) {
@@ -27,5 +30,4 @@ class AppController extends Controller {
         }
         return $cats;
     }
-
 }

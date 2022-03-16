@@ -32,10 +32,10 @@ class Performance extends Base
 		R::nuke();
 
 		//Prepare structure
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
 		$book->title = 'book';
-		$pages = R::dispense( 'page', 10 );
-		foreach( $pages as $page ) {
+		$pages = R::dispense('page', 10);
+		foreach ($pages as $page) {
 			$page->content = 'lorem ipsum';
 			$page->title = 'data';
 			$page->sequence = 'data';
@@ -48,12 +48,12 @@ class Performance extends Base
 			$page->paragraphs4 = 'data';
 		}
 		$book->xownPageList = $pages;
-		$tags = R::dispense( 'tag', 6 );
-		foreach( $tags as $tag ) {
+		$tags = R::dispense('tag', 6);
+		foreach ($tags as $tag) {
 			$tag->label = 'tag';
 		}
 		$book->sharedTagList = $tags;
-		R::store( $book );
+		R::store($book);
 	}
 
 	/**
@@ -63,9 +63,9 @@ class Performance extends Base
 	 */
 	public function crud()
 	{
-		R::freeze( TRUE );
+		R::freeze(TRUE);
 
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
 		$book->title = 'Book';
 		$page = R::dispense('page');
 		$page->content = 'Content';
@@ -82,12 +82,11 @@ class Performance extends Base
 		$tag->label = 'Tag ';
 		$book->noLoad()->ownPage[] = $page;
 		$book->noLoad()->sharedTag[] = $tag;
-		R::store( $book );
+		R::store($book);
 		$book = $book->fresh();
 		$book->ownPage;
 		$book->sharedTag;
-		R::trash( $book );
-
+		R::trash($book);
 	}
 
 	/**
@@ -97,9 +96,9 @@ class Performance extends Base
 	 */
 	public function crudaa()
 	{
-		R::freeze( TRUE );
+		R::freeze(TRUE);
 
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
 		$book['title'] = 'Book';
 		$page = R::dispense('page');
 		$page['content'] = 'Content';
@@ -116,11 +115,10 @@ class Performance extends Base
 		$tag['label'] = 'Tag ';
 		$book->ownPage[] = $page;
 		$book->noLoad()->sharedTag[] = $tag;
-		R::store( $book );
+		R::store($book);
 		$book = $book->fresh();
 		$book->ownPage;
 		$book->sharedTag;
-		R::trash( $book );
-
+		R::trash($book);
 	}
 }

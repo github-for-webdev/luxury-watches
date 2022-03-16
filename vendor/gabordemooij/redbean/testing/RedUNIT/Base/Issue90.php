@@ -30,15 +30,15 @@ class Issue90 extends Base
 	 */
 	public function testIssue90()
 	{
-		$s = R::dispense( 'box' );
+		$s = R::dispense('box');
 		$s->name = 'a';
-		$f = R::dispense( 'bottle' );
+		$f = R::dispense('bottle');
 		$s->ownBottle[] = $f;
-		R::store( $s );
-		$s2 = R::dispense( 'box' );
+		R::store($s);
+		$s2 = R::dispense('box');
 		$s2->name = 'a';
-		R::store( $s2 );
-		R::trash( $s2 );
+		R::store($s2);
+		R::trash($s2);
 		pass();
 	}
 }

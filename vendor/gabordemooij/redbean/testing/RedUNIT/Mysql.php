@@ -30,6 +30,6 @@ class Mysql extends RedUNIT
 	 */
 	public function getTargetDrivers()
 	{
-		return array( 'mysql' );
+		return array('mysql');
 	}
 }

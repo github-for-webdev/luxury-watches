@@ -2,21 +2,22 @@
 
 namespace ishop;
 
-class Database {
+class Database
+{
 
     use TSingletone;
-    
-    protected function __construct() {
+
+    protected function __construct()
+    {
         $db = require_once CONF . '/config_db.php';
         class_alias('\RedBeanPHP\R', '\R');
         \R::setup($db['dsn'], $db['user'], $db['password']);
-        if ( !\R::testConnection() ) {
+        if (!\R::testConnection()) {
             throw new \Exception("Нет соединения с базой данных", 500);
         }
         \R::freeze(true);
-        if(DEBUG) {
+        if (DEBUG) {
             \R::debug(true, 1);
         }
     }
-
 }

@@ -29,12 +29,12 @@ class Utf8 extends Base
 	 */
 	public function testMalformed()
 	{
-		$byte = pack( 'I', 129 );
-		$bean = R::dispense( 'bean' );
+		$byte = pack('I', 129);
+		$bean = R::dispense('bean');
 		$bean->byte = $byte;
-		OODBBean::setEnforceUTF8encoding( TRUE );
-		$str = strval( $bean );
-		OODBBean::setEnforceUTF8encoding( FALSE );
+		OODBBean::setEnforceUTF8encoding(TRUE);
+		$str = strval($bean);
+		OODBBean::setEnforceUTF8encoding(FALSE);
 		pass();
 	}
 
@@ -48,11 +48,11 @@ class Utf8 extends Base
 		//skip if < 5.3
 		if (version_compare(PHP_VERSION, '5.4', '<')) return pass();
 		$str = '𠜎ὃ𠻗𠻹𠻺𠼭𠼮𠽌𠾴𠾼𠿪𡁜';
-		$bean      = R::dispense( 'bean' );
+		$bean      = R::dispense('bean');
 		$bean->bla = $str;
-		R::store( $bean );
-		$bean = R::load( 'bean', $bean->id );
-		asrt( $bean->bla, $str );
+		R::store($bean);
+		$bean = R::load('bean', $bean->id);
+		asrt($bean->bla, $str);
 		pass();
 	}
 }

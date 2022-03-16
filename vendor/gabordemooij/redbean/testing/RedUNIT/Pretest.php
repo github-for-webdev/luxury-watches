@@ -19,14 +19,14 @@
 testpack('Running pre-tests. (before config).');
 
 try {
-	R::debug( TRUE );
+	R::debug(TRUE);
 	fail();
-} catch( Exception $e ) {
+} catch (Exception $e) {
 	pass();
 }
 
-asrt( R::testConnection(), FALSE);
+asrt(R::testConnection(), FALSE);
 
-R::addDatabase( 'broken', 'mysql:host=nowhere', 'defunct', 'void' );
-R::selectDatabase( 'broken' );
-asrt( R::testConnection(), FALSE );
+R::addDatabase('broken', 'mysql:host=nowhere', 'defunct', 'void');
+R::selectDatabase('broken');
+asrt(R::testConnection(), FALSE);

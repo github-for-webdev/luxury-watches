@@ -20,7 +20,7 @@ use RedBeanPHP\Facade as R;
  * This source file is subject to the New BSD/GPLv2 License that is bundled
  * with this source code in the file license.txt.
  */
- 
+
 class PullRequest530 extends Base
 {
 	/**
@@ -35,8 +35,8 @@ class PullRequest530 extends Base
 	 */
 	public function testPullRequest530()
 	{
-		testpack( 'Testing Pull Request #530 - OODBBean __set() checks if $property is a field link' );
-		R::freeze( FALSE );
+		testpack('Testing Pull Request #530 - OODBBean __set() checks if $property is a field link');
+		R::freeze(FALSE);
 		$linkedObjects = R::dispense('linked', 2);
 		R::storeAll($linkedObjects);
 		$tester = R::dispense('parent');

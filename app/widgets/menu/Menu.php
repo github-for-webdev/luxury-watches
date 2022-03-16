@@ -6,7 +6,8 @@ use ishop\App;
 use ishop\Cache;
 use RedUNIT\Base\Threeway;
 
-class Menu{
+class Menu
+{
 
     protected $data;
     protected $tree;
@@ -20,21 +21,24 @@ class Menu{
     protected $attrs = [];
     protected $prepend = '';
 
-    public function __construct($options = []) {
+    public function __construct($options = [])
+    {
         $this->tpl = __DIR__ . '/menu_tpl/menu.php';
         $this->getOptions($options);
         $this->run();
     }
 
-    protected function getOptions($options) {
-        foreach($options as $key => $value) {
+    protected function getOptions($options)
+    {
+        foreach ($options as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
             }
         }
     }
 
-    protected function run() {
+    protected function run()
+    {
         $cache = Cache::instance();
         $this->menuHtml = $cache->get($this->cacheKey);
         if (!$this->menuHtml) {
@@ -51,23 +55,25 @@ class Menu{
         $this->output();
     }
 
-    protected function output() {
+    protected function output()
+    {
         $attrs = '';
         if (!empty($this->attrs)) {
-            foreach($this->attrs as $key => $value) {
+            foreach ($this->attrs as $key => $value) {
                 $attrs .= " $key='$value' ";
             }
         }
         echo "<{$this->container} class='{$this->class}' $attrs>";
-            echo $this->prepend;
-            echo $this->menuHtml;
+        echo $this->prepend;
+        echo $this->menuHtml;
         echo "</{$this->container}>";
     }
 
-    protected function getTree() {
+    protected function getTree()
+    {
         $tree = [];
         $data = $this->data;
-        foreach ($data as $id=>&$node) {
+        foreach ($data as $id => &$node) {
             if (!$node['parent_id']) {
                 $tree[$id] = &$node;
             } else {
@@ -77,7 +83,8 @@ class Menu{
         return $tree;
     }
 
-    protected function getMenuHtml($tree, $tab = '') {
+    protected function getMenuHtml($tree, $tab = '')
+    {
         $str = '';
         foreach ($tree as $id => $category) {
             $str .= $this->catToTemplate($category, $tab, $id);
@@ -85,10 +92,10 @@ class Menu{
         return $str;
     }
 
-    protected function catToTemplate($category, $tab, $id) {
+    protected function catToTemplate($category, $tab, $id)
+    {
         ob_start();
         require $this->tpl;
         return ob_get_clean();
     }
-
 }

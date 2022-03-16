@@ -29,6 +29,6 @@ class Postgres extends RedUNIT
 	 */
 	public function getTargetDrivers()
 	{
-		return array( 'pgsql' );
+		return array('pgsql');
 	}
 }

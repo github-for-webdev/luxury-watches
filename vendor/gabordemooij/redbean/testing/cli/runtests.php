@@ -1,9 +1,10 @@
 <?php
 
-function redunit_error_handler($errno,$errstr,$errfile,$errline) {
+function redunit_error_handler($errno, $errstr, $errfile, $errline)
+{
 	$err = "REDUNITERROR: $errno,$errstr,$errfile,$errline";
 	/* ignore certain errors like deprecated notices that have already been checked in main code */
-	if (strpos($err,'PGSQL_ATTR_DISABLE_NATIVE_PREPARED_STATEMENT') !== FALSE) {
+	if (strpos($err, 'PGSQL_ATTR_DISABLE_NATIVE_PREPARED_STATEMENT') !== FALSE) {
 		return FALSE;
 	}
 	echo $err;
@@ -11,29 +12,29 @@ function redunit_error_handler($errno,$errstr,$errfile,$errline) {
 	return TRUE;
 }
 
-chdir( '..' );
+chdir('..');
 $xdebugSupported = (function_exists('xdebug_start_code_coverage'));
 
-if ($xdebugSupported) xdebug_start_code_coverage( XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE );
+if ($xdebugSupported) xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
 require 'testcontainer/rb.php';
 
 //load core classes
 require 'RedUNIT.php';
-error_reporting( E_ALL );
+error_reporting(E_ALL);
 
 //Load configuration file
-if ( file_exists( 'config/test.ini' ) ) {
-	$ini = parse_ini_file( "config/test.ini", TRUE );
+if (file_exists('config/test.ini')) {
+	$ini = parse_ini_file("config/test.ini", TRUE);
 	$travis = FALSE;
-} elseif ( file_exists( 'config/test-travis.ini' ) ) {
-	$ini = parse_ini_file( "config/test-travis.ini", TRUE );
+} elseif (file_exists('config/test-travis.ini')) {
+	$ini = parse_ini_file("config/test-travis.ini", TRUE);
 	$travis = TRUE;
 } else {
-	die( 'Cant find configuration file.' );
+	die('Cant find configuration file.');
 }
 
-echo '*** RedUNIT ***'.PHP_EOL;
-echo 'Welcome to RedUNIT Unit testing framework for RedBeanPHP.'.PHP_EOL;
+echo '*** RedUNIT ***' . PHP_EOL;
+echo 'Welcome to RedUNIT Unit testing framework for RedBeanPHP.' . PHP_EOL;
 echo PHP_EOL;
 
 echo sprintf('PHP version: %s', phpversion());
@@ -46,87 +47,87 @@ global $pdo;
 global $currentDriver;
 
 //Load basic functions and classes
-require_once( 'helpers/functions.php' );
-require_once( 'helpers/classes.php' );
+require_once('helpers/functions.php');
+require_once('helpers/classes.php');
 
 //Load main classes
-require_once( 'RedUNIT/Base.php' );
-require_once( 'RedUNIT/Blackhole.php' );
-require_once( 'RedUNIT/Mysql.php' );
-require_once( 'RedUNIT/Postgres.php' );
-require_once( 'RedUNIT/Sqlite.php' );
-require_once( 'RedUNIT/CUBRID.php' );
-require_once( 'RedUNIT/Pretest.php' );
+require_once('RedUNIT/Base.php');
+require_once('RedUNIT/Blackhole.php');
+require_once('RedUNIT/Mysql.php');
+require_once('RedUNIT/Postgres.php');
+require_once('RedUNIT/Sqlite.php');
+require_once('RedUNIT/CUBRID.php');
+require_once('RedUNIT/Pretest.php');
 
 $extraTestsFromHook = array();
 $hookPath = '';
 
 $colorMap = array(
-		 'mysql'  => '0;31',
-		 'pgsql'  => '0;32',
-		 'sqlite' => '0;34',
-		 'CUBRID' => '0;35',
+	'mysql'  => '0;31',
+	'pgsql'  => '0;32',
+	'sqlite' => '0;34',
+	'CUBRID' => '0;35',
 );
 
 @include 'cli/test_hook.php';
 
 //Configure the databases
-if ( isset( $ini['mysql'] ) ) {
+if (isset($ini['mysql'])) {
 	$dsn = "mysql:host={$ini['mysql']['host']};dbname={$ini['mysql']['schema']}";
 
-	R::addDatabase( 'mysql', $dsn, $ini['mysql']['user'], $ini['mysql']['pass'], FALSE );
-	R::addDatabase( 'mysqlc', $dsn, $ini['mysql']['user'], $ini['mysql']['pass'], FALSE );
-	R::addDatabase( 'mysqlc2', $dsn, $ini['mysql']['user'], $ini['mysql']['pass'], FALSE );
+	R::addDatabase('mysql', $dsn, $ini['mysql']['user'], $ini['mysql']['pass'], FALSE);
+	R::addDatabase('mysqlc', $dsn, $ini['mysql']['user'], $ini['mysql']['pass'], FALSE);
+	R::addDatabase('mysqlc2', $dsn, $ini['mysql']['user'], $ini['mysql']['pass'], FALSE);
 
-	R::selectDatabase( 'mysql' );
+	R::selectDatabase('mysql');
 
-	R::exec( ' SET GLOBAL sql_mode="" ' );
+	R::exec(' SET GLOBAL sql_mode="" ');
 }
 
 //HHVM on Travis does not yet support PostgreSQL.
-if ( defined( 'HHVM_VERSION' ) ) {
-	unset( $ini['pgsql'] );
+if (defined('HHVM_VERSION')) {
+	unset($ini['pgsql']);
 } else {
-	if ( isset( $ini['pgsql'] ) ) {
+	if (isset($ini['pgsql'])) {
 		$dsn = "pgsql:host={$ini['pgsql']['host']};dbname={$ini['pgsql']['schema']}";
-		R::addDatabase( 'pgsql', $dsn, $ini['pgsql']['user'], $ini['pgsql']['pass'], FALSE );
-		R::addDatabase( 'pgsqlc', $dsn, $ini['pgsql']['user'], $ini['pgsql']['pass'], FALSE );
-		R::addDatabase( 'pgsqlc2', $dsn, $ini['pgsql']['user'], $ini['pgsql']['pass'], FALSE );
+		R::addDatabase('pgsql', $dsn, $ini['pgsql']['user'], $ini['pgsql']['pass'], FALSE);
+		R::addDatabase('pgsqlc', $dsn, $ini['pgsql']['user'], $ini['pgsql']['pass'], FALSE);
+		R::addDatabase('pgsqlc2', $dsn, $ini['pgsql']['user'], $ini['pgsql']['pass'], FALSE);
 	}
 }
 
-if ( isset( $ini['sqlite'] ) ) {
-	R::addDatabase( 'sqlite', 'sqlite:' . $ini['sqlite']['file'], NULL, NULL, FALSE );
-	R::selectDatabase( 'sqlite' );
+if (isset($ini['sqlite'])) {
+	R::addDatabase('sqlite', 'sqlite:' . $ini['sqlite']['file'], NULL, NULL, FALSE);
+	R::selectDatabase('sqlite');
 }
 
-if ( isset( $ini['CUBRID'] ) ) {
-       $dsn = "cubrid:host={$ini['CUBRID']['host']};port=33000;dbname={$ini['CUBRID']['schema']}";
-       R::addDatabase( 'CUBRID', $dsn, $ini['CUBRID']['user'], $ini['CUBRID']['pass'], FALSE );
-       R::selectDatabase( 'CUBRID' );
-       R::exec( 'AUTOCOMMIT IS ON' );
+if (isset($ini['CUBRID'])) {
+	$dsn = "cubrid:host={$ini['CUBRID']['host']};port=33000;dbname={$ini['CUBRID']['schema']}";
+	R::addDatabase('CUBRID', $dsn, $ini['CUBRID']['user'], $ini['CUBRID']['pass'], FALSE);
+	R::selectDatabase('CUBRID');
+	R::exec('AUTOCOMMIT IS ON');
 }
 
 // Function to activate a driver
-function activate_driver( $d )
+function activate_driver($d)
 {
-	R::selectDatabase( $d );
+	R::selectDatabase($d);
 }
 
 $arguments = $_SERVER['argc'];
 
 $mode = 'all';
-if ( $arguments > 1 ) {
+if ($arguments > 1) {
 	$mode = $_SERVER['argv'][1];
 }
 
 $classSpec = null;
-if ( $arguments > 2 ) {
+if ($arguments > 2) {
 	$classSpec = $_SERVER['argv'][2];
 }
 
 $covFilter = null;
-if ( $arguments > 3 ) {
+if ($arguments > 3) {
 	$covFilter = $_SERVER['argv'][3];
 }
 
@@ -233,58 +234,58 @@ $suffix = array(
 );
 
 // Default (mode == all)
-if ( $mode == 'all' ) {
+if ($mode == 'all') {
 	$packList = $allPacks;
 } else {
-	foreach ( $allPacks as $pack ) {
-		if ( strpos( $pack, $mode ) === 0 ) $packList[] = $pack;
+	foreach ($allPacks as $pack) {
+		if (strpos($pack, $mode) === 0) $packList[] = $pack;
 	}
 	//Add plugin pack to list.
-	if ( count($packList) === 0 && count($extraTestsFromHook) === 0 ) {
+	if (count($packList) === 0 && count($extraTestsFromHook) === 0) {
 		$packList[] = $mode;
 	}
 }
 
 // Always include the last ones.
-$packList = array_unique(array_merge( $packList, $suffix, $extraTestsFromHook ));
+$packList = array_unique(array_merge($packList, $suffix, $extraTestsFromHook));
 $j = 0;
-foreach ( $packList as $testPack ) {
+foreach ($packList as $testPack) {
 	$j++;
-	if ( file_exists( $path . $testPack . '.php' ) ) require( $path . $testPack . '.php' );
-	elseif ( file_exists( $hookPath . $testPack . '.php') ) require( $hookPath . $testPack . '.php' );
-	$testPack = str_replace( '../', '', $testPack );
+	if (file_exists($path . $testPack . '.php')) require($path . $testPack . '.php');
+	elseif (file_exists($hookPath . $testPack . '.php')) require($hookPath . $testPack . '.php');
+	$testPack = str_replace('../', '', $testPack);
 	if ($j === 1 && $classSpec) {
 		$testClass = $classSpec;
 	} else {
-		$testClassName = str_replace( ' ', '\\', ( str_replace( '/', ' ', $testPack ) ) );
-		$testClass     = '\\RedUNIT\\' . ucfirst( $testClassName );
+		$testClassName = str_replace(' ', '\\', (str_replace('/', ' ', $testPack)));
+		$testClass     = '\\RedUNIT\\' . ucfirst($testClassName);
 	}
 	$test          = new $testClass();
 	$drivers       = $test->getTargetDrivers();
-	maintestpack( str_replace( '_', ' ', get_class( $test ) ) );
+	maintestpack(str_replace('_', ' ', get_class($test)));
 	$round = 0;
-	$test->setRound( $round );
-	if ( $drivers && is_array( $drivers ) ) {
-		foreach ( $drivers as $driver ) {
-			if ( !isset( $ini[$driver] ) ) continue;
+	$test->setRound($round);
+	if ($drivers && is_array($drivers)) {
+		foreach ($drivers as $driver) {
+			if (!isset($ini[$driver])) continue;
 			echo PHP_EOL;
 			echo '===== DRIVER : (' . $driver . ') =====';
 			echo PHP_EOL;
 			echo PHP_EOL;
-			if ( isset( $colorMap[$driver] ) ) {
+			if (isset($colorMap[$driver])) {
 				echo "\033[{$colorMap[$driver]}m";
 			}
-			activate_driver( $driver );
+			activate_driver($driver);
 			$currentDriver = $driver;
-			$test->setCurrentDriver( $driver );
+			$test->setCurrentDriver($driver);
 			$test->prepare();
 			$test->run();
 			$test->cleanUp();
-			if ( isset ( $colorMap[$driver] ) ) {
+			if (isset($colorMap[$driver])) {
 				echo "\033[0m";
 			}
 			echo PHP_EOL;
-			$test->setRound( ++$round );
+			$test->setRound(++$round);
 		}
 	} else {
 		$test->prepare();
@@ -303,49 +304,49 @@ $misses = 0;
 $hits = 0;
 
 $covLines = array();
-foreach( $report as $file => $lines ) {
+foreach ($report as $file => $lines) {
 
-	$pi = pathinfo( $file );
+	$pi = pathinfo($file);
 
-	if ( $covFilter !== null ) {
-		if ( strpos( $file, $covFilter ) === FALSE ) continue;
+	if ($covFilter !== null) {
+		if (strpos($file, $covFilter) === FALSE) continue;
 	} else {
-		if ( strpos( $file, '/rb.php' ) === FALSE ) {
-			if ( strpos( $file, 'phar/' ) === FALSE ) continue;
-			if ( strpos( $file, '.php' ) === FALSE ) continue;
-			if ( strpos( $file, 'RedBeanPHP' ) === FALSE ) continue;
+		if (strpos($file, '/rb.php') === FALSE) {
+			if (strpos($file, 'phar/') === FALSE) continue;
+			if (strpos($file, '.php') === FALSE) continue;
+			if (strpos($file, 'RedBeanPHP') === FALSE) continue;
 		}
 	}
-	$covLines[] = '***** File:'.$file.' ******';
-	$fileData = file_get_contents( $file );
-	$fileLines = explode( "\n", $fileData );
+	$covLines[] = '***** File:' . $file . ' ******';
+	$fileData = file_get_contents($file);
+	$fileLines = explode("\n", $fileData);
 	$i = 1;
-	foreach( $fileLines as $covLine ) {
-		if ( isset( $lines [$i] ) ) {
-			if ( $lines[$i] === 1 ) {
-				$covLines[] = '[ OK      ] '.$covLine;
-				$hits ++;
-			} else if ( $lines[$i] === -1 ){
-				$covLines[] = '[ MISSED! ] '.$covLine;
-				$misses ++;
+	foreach ($fileLines as $covLine) {
+		if (isset($lines[$i])) {
+			if ($lines[$i] === 1) {
+				$covLines[] = '[ OK      ] ' . $covLine;
+				$hits++;
+			} else if ($lines[$i] === -1) {
+				$covLines[] = '[ MISSED! ] ' . $covLine;
+				$misses++;
 			} else {
-				$covLines[] = '[ -       ] '.$covLine;
+				$covLines[] = '[ -       ] ' . $covLine;
 			}
 		} else {
-			$covLines[] = '[ -       ] '.$covLine;
+			$covLines[] = '[ -       ] ' . $covLine;
 		}
-		$i ++;
+		$i++;
 	}
 }
-$covFile = implode( "\n", $covLines );
-@file_put_contents( 'cli/coverage_log.txt', $covFile );
-if ( $hits > 0 ) {
-	$perc = ( $hits / ( $hits + $misses ) ) * 100;
+$covFile = implode("\n", $covLines);
+@file_put_contents('cli/coverage_log.txt', $covFile);
+if ($hits > 0) {
+	$perc = ($hits / ($hits + $misses)) * 100;
 } else {
 	$perc = 0;
 }
-echo 'Code Coverage: '.PHP_EOL;
-echo 'Hits: '.$hits.PHP_EOL;
-echo 'Misses: '.$misses.PHP_EOL;
-echo 'Percentage: '.$perc.' %'.PHP_EOL;
-exit( 0 );
+echo 'Code Coverage: ' . PHP_EOL;
+echo 'Hits: ' . $hits . PHP_EOL;
+echo 'Misses: ' . $misses . PHP_EOL;
+echo 'Percentage: ' . $perc . ' %' . PHP_EOL;
+exit(0);

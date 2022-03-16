@@ -33,20 +33,20 @@ class Version extends Blackhole
 	private function getFeatureFlags()
 	{
 		$features = array();
-		$old = OODBBean::useFluidCount( TRUE );
-		OODBBean::useFluidCount( $old );
-		$features[] = intval( $old );
-		$old = R::noNuke( TRUE );
-		R::noNuke( $old );
-		$features[] = intval( $old );
+		$old = OODBBean::useFluidCount(TRUE);
+		OODBBean::useFluidCount($old);
+		$features[] = intval($old);
+		$old = R::noNuke(TRUE);
+		R::noNuke($old);
+		$features[] = intval($old);
 		$features[] = 0;
-		$old = R::setAllowHybridMode( TRUE );
-		R::setAllowHybridMode( $old );
-		$features[] = intval( $old );
-		$old = R::useISNULLConditions( TRUE );
-		R::useISNULLConditions( $old );
-		$features[] = intval( $old );
-		$features = implode( ',', $features );
+		$old = R::setAllowHybridMode(TRUE);
+		R::setAllowHybridMode($old);
+		$features[] = intval($old);
+		$old = R::useISNULLConditions(TRUE);
+		R::useISNULLConditions($old);
+		$features[] = intval($old);
+		$features = implode(',', $features);
 		return $features;
 	}
 
@@ -58,7 +58,7 @@ class Version extends Blackhole
 	public function testVersion()
 	{
 		$version = R::getVersion();
-		asrt( is_string( $version ), TRUE );
+		asrt(is_string($version), TRUE);
 	}
 
 	/**
@@ -68,9 +68,9 @@ class Version extends Blackhole
 	 */
 	public function testTools()
 	{
-		asrt( class_exists( '\\RedBean_SimpleModel' ), TRUE );
-		asrt( class_exists( '\\R' ), TRUE );
-		asrt( function_exists( 'EID' ), TRUE );
+		asrt(class_exists('\\RedBean_SimpleModel'), TRUE);
+		asrt(class_exists('\\R'), TRUE);
+		asrt(function_exists('EID'), TRUE);
 	}
 
 	/**
@@ -82,25 +82,25 @@ class Version extends Blackhole
 	public function testFeature()
 	{
 		R::useFeatureSet('original');
-		asrt( $this->getFeatureFlags(), '1,0,0,0,0' );
+		asrt($this->getFeatureFlags(), '1,0,0,0,0');
 		R::useFeatureSet('5.3');
-		asrt( $this->getFeatureFlags(), '1,0,0,0,0' );
+		asrt($this->getFeatureFlags(), '1,0,0,0,0');
 		R::useFeatureSet('novice/5.3');
-		asrt( $this->getFeatureFlags(), '1,1,0,0,0' );
+		asrt($this->getFeatureFlags(), '1,1,0,0,0');
 		R::useFeatureSet('5.4');
-		asrt( $this->getFeatureFlags(), '1,0,0,1,1' );
+		asrt($this->getFeatureFlags(), '1,0,0,1,1');
 		R::useFeatureSet('latest');
-		asrt( $this->getFeatureFlags(), '1,0,0,1,1' );
+		asrt($this->getFeatureFlags(), '1,0,0,1,1');
 		R::useFeatureSet('novice/5.4');
-		asrt( $this->getFeatureFlags(), '1,1,0,0,1' );
+		asrt($this->getFeatureFlags(), '1,1,0,0,1');
 		R::useFeatureSet('5.5');
-		asrt( $this->getFeatureFlags(), '1,0,0,1,1' );
+		asrt($this->getFeatureFlags(), '1,0,0,1,1');
 		R::useFeatureSet('novice/5.5');
-		asrt( $this->getFeatureFlags(), '1,1,0,0,1' );
+		asrt($this->getFeatureFlags(), '1,1,0,0,1');
 		R::useFeatureSet('novice/latest');
-		asrt( $this->getFeatureFlags(), '1,1,0,0,1' );
+		asrt($this->getFeatureFlags(), '1,1,0,0,1');
 		R::useFeatureSet('original');
-		asrt( $this->getFeatureFlags(), '1,0,0,0,0' );
+		asrt($this->getFeatureFlags(), '1,0,0,0,0');
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Version extends Blackhole
 		try {
 			R::useFeatureSet('Invalid');
 			fail();
-		} catch( \Exception $e ) {
+		} catch (\Exception $e) {
 			pass();
 		}
 	}

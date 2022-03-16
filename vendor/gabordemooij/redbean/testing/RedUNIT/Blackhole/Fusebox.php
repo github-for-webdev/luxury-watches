@@ -31,11 +31,11 @@ class Fusebox extends Blackhole
 	 *
 	 * @param Model_Soup $soup
 	 */
-	private function giveMeSoup( \Model_Soup $soup )
+	private function giveMeSoup(\Model_Soup $soup)
 	{
-		asrt( ( $soup instanceof \Model_Soup ), TRUE );
-		asrt( 'A bit too salty', $soup->taste() );
-		asrt( 'tomato', $soup->flavour );
+		asrt(($soup instanceof \Model_Soup), TRUE);
+		asrt('A bit too salty', $soup->taste());
+		asrt('tomato', $soup->flavour);
 	}
 
 	/**
@@ -43,11 +43,11 @@ class Fusebox extends Blackhole
 	 *
 	 * @param OODBBean $bean
 	 */
-	private function giveMeBean( OODBBean $bean )
+	private function giveMeBean(OODBBean $bean)
 	{
-		asrt( ( $bean instanceof OODBBean ), TRUE );
-		asrt( 'A bit too salty', $bean->taste() );
-		asrt( 'tomato', $bean->flavour );
+		asrt(($bean instanceof OODBBean), TRUE);
+		asrt('A bit too salty', $bean->taste());
+		asrt('tomato', $bean->flavour);
 	}
 
 	/**
@@ -57,10 +57,10 @@ class Fusebox extends Blackhole
 	 */
 	public function testBasicBox()
 	{
-		$soup = R::dispense( 'soup' );
+		$soup = R::dispense('soup');
 		$soup->flavour = 'tomato';
-		$this->giveMeSoup( $soup->box() );
-		$this->giveMeBean( $soup->box()->unbox() );
-		$this->giveMeBean( $soup );
+		$this->giveMeSoup($soup->box());
+		$this->giveMeBean($soup->box()->unbox());
+		$this->giveMeBean($soup);
 	}
 }

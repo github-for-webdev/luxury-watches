@@ -34,26 +34,26 @@ class Meta extends Blackhole
 	 */
 	public function testMetaData()
 	{
-		testpack( 'Test meta data' );
+		testpack('Test meta data');
 		$bean = new OODBBean;
-		$bean->setMeta( "this.is.a.custom.metaproperty", "yes" );
-		asrt( $bean->getMeta( "this.is.a.custom.metaproperty" ), "yes" );
-		asrt( $bean->getMeta( "nonexistant" ), NULL );
-		asrt( $bean->getMeta( "nonexistant", "abc" ), "abc" );
-		asrt( $bean->getMeta( "nonexistant.nested" ), NULL );
-		asrt( $bean->getMeta( "nonexistant,nested", "abc" ), "abc" );
-		$bean->setMeta( "test.two", "second" );
-		asrt( $bean->getMeta( "test.two" ), "second" );
-		$bean->setMeta( "another.little.property", "yes" );
-		asrt( $bean->getMeta( "another.little.property" ), "yes" );
-		asrt( $bean->getMeta( "test.two" ), "second" );
+		$bean->setMeta("this.is.a.custom.metaproperty", "yes");
+		asrt($bean->getMeta("this.is.a.custom.metaproperty"), "yes");
+		asrt($bean->getMeta("nonexistant"), NULL);
+		asrt($bean->getMeta("nonexistant", "abc"), "abc");
+		asrt($bean->getMeta("nonexistant.nested"), NULL);
+		asrt($bean->getMeta("nonexistant,nested", "abc"), "abc");
+		$bean->setMeta("test.two", "second");
+		asrt($bean->getMeta("test.two"), "second");
+		$bean->setMeta("another.little.property", "yes");
+		asrt($bean->getMeta("another.little.property"), "yes");
+		asrt($bean->getMeta("test.two"), "second");
 		// Copy Metadata
 		$bean = new OODBBean;
-		$bean->setMeta( "meta.meta", "123" );
+		$bean->setMeta("meta.meta", "123");
 		$bean2 = new OODBBean;
-		asrt( $bean2->getMeta( "meta.meta" ), NULL );
-		$bean2->copyMetaFrom( $bean );
-		asrt( $bean2->getMeta( "meta.meta" ), "123" );
+		asrt($bean2->getMeta("meta.meta"), NULL);
+		$bean2->copyMetaFrom($bean);
+		asrt($bean2->getMeta("meta.meta"), "123");
 	}
 
 	/**
@@ -63,13 +63,13 @@ class Meta extends Blackhole
 	 */
 	public function testMetaPersist()
 	{
-		$bean = R::dispense( 'bean' );
+		$bean = R::dispense('bean');
 		$bean->property = 'test';
-		$bean->setMeta( 'meta', 'hello' );
-		R::store( $bean );
-		asrt( $bean->getMeta( 'meta' ), 'hello' );
+		$bean->setMeta('meta', 'hello');
+		R::store($bean);
+		asrt($bean->getMeta('meta'), 'hello');
 		$bean = $bean->fresh();
-		asrt( $bean->getMeta( 'meta' ), NULL );
+		asrt($bean->getMeta('meta'), NULL);
 	}
 
 	/**
@@ -79,13 +79,13 @@ class Meta extends Blackhole
 	 */
 	public function testNoArrayMetaAccess()
 	{
-		$bean = R::dispense( 'bean' );
-		$bean->setMeta( 'greet', 'hello' );
-		asrt( isset( $bean['greet'] ), FALSE );
-		asrt( isset( $bean['__info']['greet'] ), FALSE );
-		asrt( isset( $bean['__info'] ), FALSE );
-		asrt( isset( $bean['meta'] ), FALSE );
-		asrt( count( $bean ), 1 );
+		$bean = R::dispense('bean');
+		$bean->setMeta('greet', 'hello');
+		asrt(isset($bean['greet']), FALSE);
+		asrt(isset($bean['__info']['greet']), FALSE);
+		asrt(isset($bean['__info']), FALSE);
+		asrt(isset($bean['meta']), FALSE);
+		asrt(count($bean), 1);
 	}
 
 	/**
@@ -96,28 +96,28 @@ class Meta extends Blackhole
 	public function testMetaMask()
 	{
 		$rows = array(
-			array('id'=>1, 'name'=>'a', '__meta_rows'=>2, '__meta_columns'=>4),
-			array('id'=>2, 'name'=>'b', '__meta_rows'=>2, '__meta_columns'=>4)
+			array('id' => 1, 'name' => 'a', '__meta_rows' => 2, '__meta_columns' => 4),
+			array('id' => 2, 'name' => 'b', '__meta_rows' => 2, '__meta_columns' => 4)
 		);
-		$books = R::convertToBeans( 'book', $rows, '__meta' );
+		$books = R::convertToBeans('book', $rows, '__meta');
 		$book = reset($books);
 		$data = $book->getMeta('data.bundle');
-		asrt( $data['__meta_rows'], 2 );
-		asrt( $data['__meta_columns'], 4 );
-		$books = R::convertToBeans( 'book', $rows, array( '__meta_rows', '__meta_columns' ) );
+		asrt($data['__meta_rows'], 2);
+		asrt($data['__meta_columns'], 4);
+		$books = R::convertToBeans('book', $rows, array('__meta_rows', '__meta_columns'));
 		$book = reset($books);
 		$data = $book->getMeta('data.bundle');
-		asrt( $data['__meta_rows'], 2 );
-		asrt( $data['__meta_columns'], 4 );
-		$books = R::convertToBeans( 'book', $rows, array( '__meta_rows' ) );
+		asrt($data['__meta_rows'], 2);
+		asrt($data['__meta_columns'], 4);
+		$books = R::convertToBeans('book', $rows, array('__meta_rows'));
 		$book = reset($books);
 		$data = $book->getMeta('data.bundle');
-		asrt( $data['__meta_rows'], 2 );
-		asrt( isset($data['__meta_columns']), FALSE );
-		$books = R::convertToBeans( 'book', $rows, array( '__meta_rows', TRUE ) );
+		asrt($data['__meta_rows'], 2);
+		asrt(isset($data['__meta_columns']), FALSE);
+		$books = R::convertToBeans('book', $rows, array('__meta_rows', TRUE));
 		$book = reset($books);
 		$data = $book->getMeta('data.bundle');
-		asrt( isset($data['__meta_rows']), FALSE );
-		asrt( isset($data['__meta_columns']), FALSE );
+		asrt(isset($data['__meta_rows']), FALSE);
+		asrt(isset($data['__meta_columns']), FALSE);
 	}
 }

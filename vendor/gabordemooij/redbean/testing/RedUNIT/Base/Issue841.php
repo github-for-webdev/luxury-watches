@@ -29,24 +29,24 @@ class Issue841 extends Base
 	public function testIssue841()
 	{
 		R::nuke();
-		R::bindFunc( 'read', 'record.point', 'abs' );
-		R::bindFunc( 'write', 'record.point', 'abs' );
-		for($i = 0;$i < 3;$i++){
+		R::bindFunc('read', 'record.point', 'abs');
+		R::bindFunc('write', 'record.point', 'abs');
+		for ($i = 0; $i < 3; $i++) {
 			$tag = R::dispense('tag');
-			$tag->name = 'TAG_'.$i;
+			$tag->name = 'TAG_' . $i;
 			R::store($tag);
 		}
 		$record = R::dispense('record');
-		$record->point = rand(-100,-1);
-		$record->sharedTagList[] = R::load('tag',2);
+		$record->point = rand(-100, -1);
+		$record->sharedTagList[] = R::load('tag', 2);
 		R::store($record);
-		asrt(count($record->sharedTagList),1);
-		$record = R::load('record',1);
+		asrt(count($record->sharedTagList), 1);
+		$record = R::load('record', 1);
 		$record->sharedTagList = array();
 		R::store($record);
-		$record = R::load('record',1);
-		asrt(count($record->sharedTagList),0);
-		R::bindFunc( 'read', 'record.point', null );
-		R::bindFunc( 'write', 'record.point', null );
+		$record = R::load('record', 1);
+		asrt(count($record->sharedTagList), 0);
+		R::bindFunc('read', 'record.point', null);
+		R::bindFunc('write', 'record.point', null);
 	}
 }

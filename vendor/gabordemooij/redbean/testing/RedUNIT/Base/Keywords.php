@@ -34,7 +34,7 @@ class Keywords extends Base
 	 */
 	public function getTargetDrivers()
 	{
-		return array( 'mysql', 'pgsql', 'sqlite' ); // CUBRID excluded for now.
+		return array('mysql', 'pgsql', 'sqlite'); // CUBRID excluded for now.
 	}
 
 	/**
@@ -52,19 +52,19 @@ class Keywords extends Base
 			'having', 'else', 'if', 'while',
 			'distinct', 'like'
 		);
-		foreach ( $keywords as $k ) {
+		foreach ($keywords as $k) {
 			R::nuke();
-			$bean = R::dispense( $k );
+			$bean = R::dispense($k);
 			$bean->$k = $k;
-			$id = R::store( $bean );
-			$bean = R::load( $k, $id );
-			$bean2 = R::dispense( 'other' );
+			$id = R::store($bean);
+			$bean = R::load($k, $id);
+			$bean2 = R::dispense('other');
 			$bean2->name = $k;
 			$bean->bean = $bean2;
 			$bean->ownBean[]    = $bean2;
 			$bean->sharedBean[] = $bean2;
-			$id = R::store( $bean );
-			R::trash( $bean );
+			$id = R::store($bean);
+			R::trash($bean);
 			pass();
 		}
 	}

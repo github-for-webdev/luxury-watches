@@ -29,6 +29,6 @@ echo "Done.\n";
 
 echo "Adding stub... ";
 $phar->setStub($phar->createDefaultStub("loader.php"));
-echo "Done.\n"; 
+echo "Done.\n";
 
 echo "Your PHAR file has been generated.\n";

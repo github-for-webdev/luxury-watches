@@ -35,26 +35,28 @@ class Parambind extends Sqlite
 		$writer  = $toolbox->getWriter();
 		$redbean = $toolbox->getRedBean();
 		$pdo     = $adapter->getDatabase();
-		asrt( (int) $adapter->getCell( "SELECT 123" ), 123 );
-		asrt( (int) $adapter->getCell( "SELECT ?", array( "987" ) ), 987 );
-		asrt( (int) $adapter->getCell( "SELECT ?+?", array( "987", "2" ) ), 989 );
-		asrt( (int) $adapter->getCell(
-			"SELECT :numberOne+:numberTwo",
-			array(
-				":numberOne" => 42,
-				":numberTwo" => 50 )
+		asrt((int) $adapter->getCell("SELECT 123"), 123);
+		asrt((int) $adapter->getCell("SELECT ?", array("987")), 987);
+		asrt((int) $adapter->getCell("SELECT ?+?", array("987", "2")), 989);
+		asrt(
+			(int) $adapter->getCell(
+				"SELECT :numberOne+:numberTwo",
+				array(
+					":numberOne" => 42,
+					":numberTwo" => 50
+				)
 			),
 			92
 		);
-		$pair = $adapter->getAssoc( "SELECT 'thekey','thevalue' " );
-		asrt( is_array( $pair ), TRUE );
-		asrt( count( $pair ), 1 );
-		asrt( isset( $pair["thekey"] ), TRUE );
-		asrt( $pair["thekey"], "thevalue" );
-		testpack( 'Test whether we can properly bind and receive NULL values' );
-		asrt( $adapter->getCell( 'SELECT :nil ', array( ':nil' => 'NULL' ) ), 'NULL' );
-		asrt( $adapter->getCell( 'SELECT :nil ', array( ':nil' => NULL ) ), NULL );
-		asrt( $adapter->getCell( 'SELECT ? ', array( 'NULL' ) ), 'NULL' );
-		asrt( $adapter->getCell( 'SELECT ? ', array( NULL ) ), NULL );
+		$pair = $adapter->getAssoc("SELECT 'thekey','thevalue' ");
+		asrt(is_array($pair), TRUE);
+		asrt(count($pair), 1);
+		asrt(isset($pair["thekey"]), TRUE);
+		asrt($pair["thekey"], "thevalue");
+		testpack('Test whether we can properly bind and receive NULL values');
+		asrt($adapter->getCell('SELECT :nil ', array(':nil' => 'NULL')), 'NULL');
+		asrt($adapter->getCell('SELECT :nil ', array(':nil' => NULL)), NULL);
+		asrt($adapter->getCell('SELECT ? ', array('NULL')), 'NULL');
+		asrt($adapter->getCell('SELECT ? ', array(NULL)), NULL);
 	}
 }

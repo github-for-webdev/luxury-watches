@@ -42,21 +42,20 @@ class Close extends Base
 		try {
 			R::useFeatureSet('5.2');
 			fail();
-		} catch ( \Exception $e ) {
-			asrt( $e->getMessage(), 'Unknown feature set label.' );
+		} catch (\Exception $e) {
+			asrt($e->getMessage(), 'Unknown feature set label.');
 		}
 		try {
 			R::nuke();
 			fail();
-		} catch( \Exception $e ) {
-			asrt( $e->getMessage(), 'The nuke() command has been disabled using noNuke() or R::feature(novice/...).' );
+		} catch (\Exception $e) {
+			asrt($e->getMessage(), 'The nuke() command has been disabled using noNuke() or R::feature(novice/...).');
 		}
 		R::useFeatureSet('latest');
 		//Close
-		R::getDatabaseAdapter()->setOption( 'setInitQuery', NULL );
-		asrt( R::getDatabaseAdapter()->getDatabase()->isConnected(), TRUE );
+		R::getDatabaseAdapter()->setOption('setInitQuery', NULL);
+		asrt(R::getDatabaseAdapter()->getDatabase()->isConnected(), TRUE);
 		R::close();
-		asrt( R::getDatabaseAdapter()->getDatabase()->isConnected(), FALSE );
+		asrt(R::getDatabaseAdapter()->getDatabase()->isConnected(), FALSE);
 	}
 }
-

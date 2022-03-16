@@ -34,30 +34,29 @@ class Issue411 extends Mysql
 	public function testInnoDBIndexLimit()
 	{
 		R::nuke();
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
 		$book->text = 'abcd';
-		R::store( $book );
-		$columns = R::inspect( 'book' );
-		asrt( isset( $columns['text'] ), TRUE );
-		asrt( $columns['text'], 'varchar(191)' );
+		R::store($book);
+		$columns = R::inspect('book');
+		asrt(isset($columns['text']), TRUE);
+		asrt($columns['text'], 'varchar(191)');
 		$book = $book->fresh();
-		$book->text = str_repeat( 'x', 190 );
-		R::store( $book );
-		$columns = R::inspect( 'book' );
-		asrt( isset( $columns['text'] ), TRUE );
-		asrt( $columns['text'], 'varchar(191)' );
+		$book->text = str_repeat('x', 190);
+		R::store($book);
+		$columns = R::inspect('book');
+		asrt(isset($columns['text']), TRUE);
+		asrt($columns['text'], 'varchar(191)');
 		$book = $book->fresh();
-		$book->text = str_repeat( 'x', 191 );
-		R::store( $book );
-		$columns = R::inspect( 'book' );
-		asrt( isset( $columns['text'] ), TRUE );
-		asrt( $columns['text'], 'varchar(191)' );
+		$book->text = str_repeat('x', 191);
+		R::store($book);
+		$columns = R::inspect('book');
+		asrt(isset($columns['text']), TRUE);
+		asrt($columns['text'], 'varchar(191)');
 		$book = $book->fresh();
-		$book->text = str_repeat( 'x', 192 );
-		R::store( $book );
-		$columns = R::inspect( 'book' );
-		asrt( isset( $columns['text'] ), TRUE );
-		asrt( $columns['text'], 'varchar(255)' );
+		$book->text = str_repeat('x', 192);
+		R::store($book);
+		$columns = R::inspect('book');
+		asrt(isset($columns['text']), TRUE);
+		asrt($columns['text'], 'varchar(255)');
 	}
 }
-

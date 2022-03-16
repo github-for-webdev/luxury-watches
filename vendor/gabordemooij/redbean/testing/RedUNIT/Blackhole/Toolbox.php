@@ -33,7 +33,8 @@ use RedBeanPHP\RedException as RedException;
  * This source file is subject to the New BSD/GPLv2 License that is bundled
  * with this source code in the file license.txt.
  */
-class Toolbox extends Blackhole {
+class Toolbox extends Blackhole
+{
 
 	/**
 	 * Tests the hasDatabase() method.
@@ -42,9 +43,9 @@ class Toolbox extends Blackhole {
 	 */
 	public function testDatabaseCheck()
 	{
-		R::addDatabase( 'key1', 'mysql:dsn1', 'user1', 'password1', TRUE );
-		asrt( R::hasDatabase( 'key1' ), TRUE );
-		asrt( R::hasDatabase( 'key2' ), FALSE );
+		R::addDatabase('key1', 'mysql:dsn1', 'user1', 'password1', TRUE);
+		asrt(R::hasDatabase('key1'), TRUE);
+		asrt(R::hasDatabase('key2'), FALSE);
 	}
 
 	/**
@@ -56,9 +57,9 @@ class Toolbox extends Blackhole {
 	public function testInvalidDB()
 	{
 		try {
-			R::selectDatabase( 'idontexist' );
+			R::selectDatabase('idontexist');
 			fail();
-		} catch ( RedException $exception ) {
+		} catch (RedException $exception) {
 			pass();
 		}
 	}
@@ -71,25 +72,25 @@ class Toolbox extends Blackhole {
 	public function testCanWeObtainToolbox()
 	{
 		$toolbox = R::getToolBox();
-		asrt( ( $toolbox instanceof TB), TRUE );
+		asrt(($toolbox instanceof TB), TRUE);
 		$extractedToolbox = R::getExtractedToolbox();
-		asrt( is_array( $extractedToolbox ), TRUE );
-		asrt( count( $extractedToolbox ), 4 );
-		asrt( ( $extractedToolbox[0] instanceof OODB ), TRUE );
-		asrt( ( $extractedToolbox[1] instanceof Adapter ), TRUE );
-		asrt( ( $extractedToolbox[2] instanceof QueryWriter ), TRUE );
-		asrt( ( $extractedToolbox[3] instanceof TB ), TRUE );
+		asrt(is_array($extractedToolbox), TRUE);
+		asrt(count($extractedToolbox), 4);
+		asrt(($extractedToolbox[0] instanceof OODB), TRUE);
+		asrt(($extractedToolbox[1] instanceof Adapter), TRUE);
+		asrt(($extractedToolbox[2] instanceof QueryWriter), TRUE);
+		asrt(($extractedToolbox[3] instanceof TB), TRUE);
 		$beanHelper = new SimpleFacadeBeanHelper;
 		$toolbox2 = $beanHelper->getToolbox();
-		asrt( ( $toolbox2 instanceof TB), TRUE );
-		asrt( $toolbox, $toolbox2 );
+		asrt(($toolbox2 instanceof TB), TRUE);
+		asrt($toolbox, $toolbox2);
 		$extractedToolbox = $beanHelper->getExtractedToolbox();
-		asrt( is_array( $extractedToolbox ), TRUE );
-		asrt( count( $extractedToolbox ), 4 );
-		asrt( ( $extractedToolbox[0] instanceof OODB ), TRUE );
-		asrt( ( $extractedToolbox[1] instanceof Adapter ), TRUE );
-		asrt( ( $extractedToolbox[2] instanceof QueryWriter ), TRUE );
-		asrt( ( $extractedToolbox[3] instanceof TB ), TRUE );
+		asrt(is_array($extractedToolbox), TRUE);
+		asrt(count($extractedToolbox), 4);
+		asrt(($extractedToolbox[0] instanceof OODB), TRUE);
+		asrt(($extractedToolbox[1] instanceof Adapter), TRUE);
+		asrt(($extractedToolbox[2] instanceof QueryWriter), TRUE);
+		asrt(($extractedToolbox[3] instanceof TB), TRUE);
 	}
 
 	/**
@@ -100,9 +101,9 @@ class Toolbox extends Blackhole {
 	public function testDoesToolboxContainTheTools()
 	{
 		$toolbox = R::getToolBox();
-		asrt( ( $toolbox->getDatabaseAdapter() instanceof Adapter ), TRUE );
-		asrt( ( $toolbox->getRedBean() instanceof OODB ), TRUE );
-		asrt( ( $toolbox->getWriter() instanceof QueryWriter ), TRUE );
+		asrt(($toolbox->getDatabaseAdapter() instanceof Adapter), TRUE);
+		asrt(($toolbox->getRedBean() instanceof OODB), TRUE);
+		asrt(($toolbox->getWriter() instanceof QueryWriter), TRUE);
 	}
 
 	/**
@@ -113,37 +114,37 @@ class Toolbox extends Blackhole {
 	 */
 	public function testRepoSwitching()
 	{
-		asrt( class_exists( 'RedBeanPHP\Repository' ), TRUE );
-		asrt( class_exists( 'RedBeanPHP\Repository\Fluid' ), TRUE );
-		asrt( class_exists( 'RedBeanPHP\Repository\Frozen' ), TRUE );
-		R::freeze( FALSE );
+		asrt(class_exists('RedBeanPHP\Repository'), TRUE);
+		asrt(class_exists('RedBeanPHP\Repository\Fluid'), TRUE);
+		asrt(class_exists('RedBeanPHP\Repository\Frozen'), TRUE);
+		R::freeze(FALSE);
 		$redbean = R::getRedBean();
 		$repo = $redbean->getCurrentRepository();
-		asrt( is_object( $repo ), TRUE );
-		asrt( ( $repo instanceof Repository ), TRUE );
-		asrt( ( $repo instanceof FluidRepo ), TRUE );
-		R::freeze( TRUE );
+		asrt(is_object($repo), TRUE);
+		asrt(($repo instanceof Repository), TRUE);
+		asrt(($repo instanceof FluidRepo), TRUE);
+		R::freeze(TRUE);
 		$fluid = $repo;
 		$repo = $redbean->getCurrentRepository();
-		asrt( is_object( $repo ), TRUE );
-		asrt( ( $repo instanceof Repository ), TRUE );
-		asrt( ( $repo instanceof FrozenRepo ), TRUE );
+		asrt(is_object($repo), TRUE);
+		asrt(($repo instanceof Repository), TRUE);
+		asrt(($repo instanceof FrozenRepo), TRUE);
 		$frozen = $repo;
-		R::freeze( FALSE );
+		R::freeze(FALSE);
 		$redbean = R::getRedBean();
 		$repo = $redbean->getCurrentRepository();
-		asrt( is_object( $repo ), TRUE );
-		asrt( ( $repo instanceof Repository ), TRUE );
-		asrt( ( $repo instanceof FluidRepo ), TRUE );
-		asrt( $repo, $fluid );
-		R::freeze( TRUE );
+		asrt(is_object($repo), TRUE);
+		asrt(($repo instanceof Repository), TRUE);
+		asrt(($repo instanceof FluidRepo), TRUE);
+		asrt($repo, $fluid);
+		R::freeze(TRUE);
 		$fluid = $repo;
 		$repo = $redbean->getCurrentRepository();
-		asrt( is_object( $repo ), TRUE );
-		asrt( ( $repo instanceof Repository ), TRUE );
-		asrt( ( $repo instanceof FrozenRepo ), TRUE );
-		asrt( $repo, $frozen );
-		R::freeze( FALSE );
+		asrt(is_object($repo), TRUE);
+		asrt(($repo instanceof Repository), TRUE);
+		asrt(($repo instanceof FrozenRepo), TRUE);
+		asrt($repo, $frozen);
+		R::freeze(FALSE);
 	}
 
 	/**
@@ -155,10 +156,10 @@ class Toolbox extends Blackhole {
 	public function testAddRemoveToolBox()
 	{
 		$t1 = R::getToolBox();
-		R::addToolBoxWithKey( 't1', $t1 );
-		asrt( ( R::getToolBoxByKey('t2') instanceof Toolbox), FALSE );
-		asrt( ( R::getToolBoxByKey('t1') instanceof Toolbox), FALSE );
-		asrt( R::removeToolBoxByKey('t1'), TRUE );
-		asrt( R::removeToolBoxByKey('t2'), FALSE );
+		R::addToolBoxWithKey('t1', $t1);
+		asrt((R::getToolBoxByKey('t2') instanceof Toolbox), FALSE);
+		asrt((R::getToolBoxByKey('t1') instanceof Toolbox), FALSE);
+		asrt(R::removeToolBoxByKey('t1'), TRUE);
+		asrt(R::removeToolBoxByKey('t2'), FALSE);
 	}
 }

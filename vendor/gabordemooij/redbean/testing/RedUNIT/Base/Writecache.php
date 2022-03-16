@@ -35,7 +35,7 @@ class Writecache extends Base
 	 */
 	public function getTargetDrivers()
 	{
-		return array( 'mysql', 'pgsql', 'sqlite', 'CUBRID' );
+		return array('mysql', 'pgsql', 'sqlite', 'CUBRID');
 	}
 
 	/**
@@ -51,13 +51,13 @@ class Writecache extends Base
 	public function testCacheFail()
 	{
 		R::nuke();
-		R::freeze( FALSE );
+		R::freeze(FALSE);
 		$author = R::dispense('author');
 		$author->name = "John";
 		$id = R::store($author);
 		$author = R::load('author', 1);                    // This gets cached
 		$author = $author->fresh();                        // This gets cached
-		$author = R::findOne('author', ' id = ? ', array( 1 )); // This gets cached
+		$author = R::findOne('author', ' id = ? ', array(1)); // This gets cached
 		asrt($author->name, 'John');
 		R::exec('UPDATE author SET name = "Bob" WHERE id = 1');
 		// It's broken because there's no cache check between those two calls
@@ -67,7 +67,7 @@ class Writecache extends Base
 		asrt($author->name, 'John');
 		$author = $author->fresh();
 		asrt($author->name, 'John');
-		$author = R::findOne('author', ' id = ? ', array( 1 ));
+		$author = R::findOne('author', ' id = ? ', array(1));
 		asrt($author->name, 'John');
 	}
 
@@ -80,38 +80,38 @@ class Writecache extends Base
 	public function testCacheSize()
 	{
 		R::nuke();
-		R::useWriterCache( TRUE );
+		R::useWriterCache(TRUE);
 		$writer = R::getWriter();
-		$bean = R::dispense( 'bean' );
+		$bean = R::dispense('bean');
 		$bean->prop = 1;
-		R::store( $bean );
-		$writer->flushCache( 20 );
+		R::store($bean);
+		$writer->flushCache(20);
 		$count = $writer->flushCache();
-		asrt( $count, 0 );
-		R::find( 'bean', ' prop < ? ', array( 1 ) );
+		asrt($count, 0);
+		R::find('bean', ' prop < ? ', array(1));
 		$count = $writer->flushCache();
-		asrt( $count, 2 );
-		R::find( 'bean', ' prop < ? ', array( 2 ) );
+		asrt($count, 2);
+		R::find('bean', ' prop < ? ', array(2));
 		$count = $writer->flushCache();
-		asrt( $count, 5 );
-		R::find( 'bean', ' prop < ? ', array( 2 ) );
+		asrt($count, 5);
+		R::find('bean', ' prop < ? ', array(2));
 		$count = $writer->flushCache();
-		asrt( $count, 5 );
-		for( $i = 0; $i < 40; $i ++ ) {
-			R::find( 'bean', ' prop < ? ', array( $i ) );
+		asrt($count, 5);
+		for ($i = 0; $i < 40; $i++) {
+			R::find('bean', ' prop < ? ', array($i));
 		}
 		$count = $writer->flushCache();
-		asrt( $count, 85 );
-		for( $i = 0; $i < 120; $i ++ ) {
-			R::find( 'bean', ' prop < ? ', array( $i ) );
+		asrt($count, 85);
+		for ($i = 0; $i < 120; $i++) {
+			R::find('bean', ' prop < ? ', array($i));
 		}
-		$count = $writer->flushCache( 1 );
-		asrt( $count, 85 );
-		for( $i = 0; $i < 20; $i ++ ) {
-			R::find( 'bean', ' prop < ? ', array( $i ) );
+		$count = $writer->flushCache(1);
+		asrt($count, 85);
+		for ($i = 0; $i < 20; $i++) {
+			R::find('bean', ' prop < ? ', array($i));
 		}
-		$count = $writer->flushCache( 20 );
-		asrt( $count, 9 );
+		$count = $writer->flushCache(20);
+		asrt($count, 9);
 	}
 
 	/**
@@ -120,53 +120,53 @@ class Writecache extends Base
 	 */
 	public function testCachingAndFetchAs()
 	{
-		testpack( 'Testing whether you can cache multiple records of the same type' );
-		R::debug( TRUE, 1 );
+		testpack('Testing whether you can cache multiple records of the same type');
+		R::debug(TRUE, 1);
 		$logger = R::getDatabaseAdapter()->getDatabase()->getLogger();
 		R::nuke();
-		$coauthor1 = R::dispense( 'author' );
+		$coauthor1 = R::dispense('author');
 		$coauthor1->name = 'John';
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
 		$book->title = 'a Funny Tale';
 		$book->coauthor = $coauthor1;
-		$id = R::store( $book );
-		$coauthor = R::dispense( 'author' );
+		$id = R::store($book);
+		$coauthor = R::dispense('author');
 		$coauthor->name = 'Pete';
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
 		$book->title = 'a Funny Tale 2';
 		$book->coauthor = $coauthor;
-		$id = R::store( $book );
-		$book = R::dispense( 'book' );
+		$id = R::store($book);
+		$book = R::dispense('book');
 		$book->title = 'a Funny Tale 3';
 		$book->coauthor = $coauthor1;
-		$id = R::store( $book );
-		$books = R::find( 'book' );
+		$id = R::store($book);
+		$books = R::find('book');
 		$logger->clear();
 		$authors = array();
 		$authorsByName = array();
-		foreach($books as $book) {
-			$coAuthor = $book->with( ' ORDER BY title ASC ' )
-				->fetchAs( 'author' )->coauthor;
+		foreach ($books as $book) {
+			$coAuthor = $book->with(' ORDER BY title ASC ')
+				->fetchAs('author')->coauthor;
 			$authors[] = $coAuthor->name;
-			$authorsByName[ $coAuthor->name ] = $coAuthor;
+			$authorsByName[$coAuthor->name] = $coAuthor;
 		}
-		asrt( count( $logger->grep( 'SELECT' ) ), 2 ); //must be 2! 3 if cache does not work!
-		asrt( count( $authors ), 3 );
-		asrt( isset( $authorsByName[ 'John' ] ), TRUE );
-		asrt( isset( $authorsByName[ 'Pete' ] ), TRUE );
+		asrt(count($logger->grep('SELECT')), 2); //must be 2! 3 if cache does not work!
+		asrt(count($authors), 3);
+		asrt(isset($authorsByName['John']), TRUE);
+		asrt(isset($authorsByName['Pete']), TRUE);
 		$logger->clear();
 		$authors = array();
 		$authorsByName = array();
-		foreach($books as $book) {
-			$coAuthor = $book->with( ' ORDER BY title DESC ' )
-				->fetchAs( 'author' )->coauthor;
+		foreach ($books as $book) {
+			$coAuthor = $book->with(' ORDER BY title DESC ')
+				->fetchAs('author')->coauthor;
 			$authors[] = $coAuthor->name;
-			$authorsByName[ $coAuthor->name ] = $coAuthor;
+			$authorsByName[$coAuthor->name] = $coAuthor;
 		}
-		asrt( count( $logger->grep( 'SELECT' ) ), 0 ); //must be 0!
-		asrt( count( $authors ), 3 );
-		asrt( isset( $authorsByName[ 'John' ] ), TRUE );
-		asrt( isset( $authorsByName[ 'Pete' ] ), TRUE );
+		asrt(count($logger->grep('SELECT')), 0); //must be 0!
+		asrt(count($authors), 3);
+		asrt(isset($authorsByName['John']), TRUE);
+		asrt(isset($authorsByName['Pete']), TRUE);
 	}
 
 	/**
@@ -176,117 +176,117 @@ class Writecache extends Base
 	 */
 	public function testCachingEffects()
 	{
-		testpack( 'Testing WriteCache Query Writer Cache' );
-		R::setNarrowFieldMode( FALSE );
-		R::useWriterCache( FALSE );
-		R::debug( TRUE, 1 );
+		testpack('Testing WriteCache Query Writer Cache');
+		R::setNarrowFieldMode(FALSE);
+		R::useWriterCache(FALSE);
+		R::debug(TRUE, 1);
 		$logger = R::getDatabaseAdapter()->getDatabase()->getLogger();
-		$book = R::dispense( 'book' )->setAttr( 'title', 'ABC' );
-		$book->ownPage[] = R::dispense( 'page' );
-		$id = R::store( $book );
+		$book = R::dispense('book')->setAttr('title', 'ABC');
+		$book->ownPage[] = R::dispense('page');
+		$id = R::store($book);
 		// Test load cache -- without
 		$logger->clear();
-		$book = R::load( 'book', $id );
-		$book = R::load( 'book', $id );
-		asrt( count( $logger->grep( 'SELECT' ) ), 2 );
+		$book = R::load('book', $id);
+		$book = R::load('book', $id);
+		asrt(count($logger->grep('SELECT')), 2);
 		// With cache
-		R::useWriterCache( TRUE );
+		R::useWriterCache(TRUE);
 		$logger->clear();
-		$book = R::load( 'book', $id );
-		$book = R::load( 'book', $id );
-		asrt( count( $logger->grep( 'SELECT' ) ), 1 );
-		R::useWriterCache( FALSE );
+		$book = R::load('book', $id);
+		$book = R::load('book', $id);
+		asrt(count($logger->grep('SELECT')), 1);
+		R::useWriterCache(FALSE);
 		// Test find cache
 		$logger->clear();
-		$book = R::find( 'book' );
-		$book = R::find( 'book' );
-		asrt( count( $logger->grep( 'SELECT' ) ), 2 );
+		$book = R::find('book');
+		$book = R::find('book');
+		asrt(count($logger->grep('SELECT')), 2);
 		// With cache
-		R::getWriter()->setUseCache( TRUE );
+		R::getWriter()->setUseCache(TRUE);
 		$logger->clear();
-		$book = R::find( 'book' );
-		$book = R::find( 'book' );
-		asrt( count( $logger->grep( 'SELECT' ) ), 1 );
-		R::getWriter()->setUseCache( FALSE );
+		$book = R::find('book');
+		$book = R::find('book');
+		asrt(count($logger->grep('SELECT')), 1);
+		R::getWriter()->setUseCache(FALSE);
 		// Test combinations
 		$logger->clear();
-		$book = R::findOne( 'book', ' id = ? ', array( $id ) );
+		$book = R::findOne('book', ' id = ? ', array($id));
 		$book->ownPage;
-		R::batch( 'book', array( $id ) );
-		$book = R::findOne( 'book', ' id = ? ', array( $id ) );
+		R::batch('book', array($id));
+		$book = R::findOne('book', ' id = ? ', array($id));
 		$book->ownPage;
-		R::batch( 'book', array( $id ) );
-		asrt( count( $logger->grep( 'SELECT' ) ), 6 );
+		R::batch('book', array($id));
+		asrt(count($logger->grep('SELECT')), 6);
 		// With cache
-		R::getWriter()->setUseCache( TRUE );
+		R::getWriter()->setUseCache(TRUE);
 		$logger->clear();
-		R::batch( 'book', array( $id ) );
-		$book = R::findOne( 'book', ' id = ? ', array( $id ) );
+		R::batch('book', array($id));
+		$book = R::findOne('book', ' id = ? ', array($id));
 		$book->ownPage;
-		$book = R::findOne( 'book', ' id = ? ', array( $id ) );
+		$book = R::findOne('book', ' id = ? ', array($id));
 		$book->ownPage;
-		asrt( count( $logger->grep( 'SELECT' ) ), 3 );
-		R::getWriter()->setUseCache( FALSE );
+		asrt(count($logger->grep('SELECT')), 3);
+		R::getWriter()->setUseCache(FALSE);
 		// Test auto flush
 		$logger->clear();
-		$book = R::findOne( 'book' );
+		$book = R::findOne('book');
 		$book->name = 'X';
-		R::store( $book );
-		$book = R::findOne( 'book' );
-		asrt( count( $logger->grep( 'SELECT *' ) ), 2 );
+		R::store($book);
+		$book = R::findOne('book');
+		asrt(count($logger->grep('SELECT *')), 2);
 		// With cache
-		R::getWriter()->setUseCache( TRUE );
+		R::getWriter()->setUseCache(TRUE);
 		$logger->clear();
-		$book = R::findOne( 'book' );
+		$book = R::findOne('book');
 		$book->name = 'Y';
 		// Will flush
-		R::store( $book );
-		$book = R::findOne( 'book' );
+		R::store($book);
+		$book = R::findOne('book');
 		// Now the same, auto flushed
-		asrt( count( $logger->grep( 'SELECT *' ) ), 2 );
-		R::getWriter()->setUseCache( FALSE );
+		asrt(count($logger->grep('SELECT *')), 2);
+		R::getWriter()->setUseCache(FALSE);
 		// Test whether delete flushes as well (because uses selectRecord - might be a gotcha!)
-		R::store( R::dispense( 'garbage' ) );
-		$garbage = R::findOne( 'garbage' );
+		R::store(R::dispense('garbage'));
+		$garbage = R::findOne('garbage');
 		$logger->clear();
-		$book = R::findOne( 'book' );
-		R::trash( $garbage );
-		$book = R::findOne( 'book' );
-		asrt( count( $logger->grep( 'SELECT *' ) ), 2 );
-		R::store( R::dispense( 'garbage' ) );
-		$garbage = R::findOne( 'garbage' );
+		$book = R::findOne('book');
+		R::trash($garbage);
+		$book = R::findOne('book');
+		asrt(count($logger->grep('SELECT *')), 2);
+		R::store(R::dispense('garbage'));
+		$garbage = R::findOne('garbage');
 		// With cache
-		R::getWriter()->setUseCache( TRUE );
+		R::getWriter()->setUseCache(TRUE);
 		$logger->clear();
-		$book = R::findOne( 'book' );
-		R::trash( $garbage );
-		$book = R::findOne( 'book' );
+		$book = R::findOne('book');
+		R::trash($garbage);
+		$book = R::findOne('book');
 		// Now the same, auto flushed
-		asrt( count( $logger->grep( 'SELECT *' ) ), 2 );
-		R::getWriter()->setUseCache( FALSE );
-		R::store( R::dispense( 'garbage' ) );
-		$garbage = R::findOne( 'garbage' );
+		asrt(count($logger->grep('SELECT *')), 2);
+		R::getWriter()->setUseCache(FALSE);
+		R::store(R::dispense('garbage'));
+		$garbage = R::findOne('garbage');
 		// With cache
-		R::getWriter()->setUseCache( TRUE );
+		R::getWriter()->setUseCache(TRUE);
 		$logger->clear();
-		$book = R::findOne( 'book' );
-		R::getWriter()->queryRecord( 'garbage', array( 'id' => array( $garbage->id ) ) );
-		$book = R::findOne( 'book' );
+		$book = R::findOne('book');
+		R::getWriter()->queryRecord('garbage', array('id' => array($garbage->id)));
+		$book = R::findOne('book');
 		// Now the same, auto flushed
-		asrt( count( $logger->grep( 'SELECT *' ) ), 2 );
+		asrt(count($logger->grep('SELECT *')), 2);
 		$page = R::dispense('page');
 		$book->sharedPage[] = $page;
-		R::store( $book );
+		R::store($book);
 		$logger->clear();
-		$link = R::getWriter()->queryRecordLink( 'book', 'page', $book->id, $page->id );
-		asrt( count( $logger->grep( 'SELECT' ) ), 1 );
-		$link = R::getWriter()->queryRecordLink( 'book', 'page', $book->id, $page->id );
-		asrt( count( $logger->grep( 'SELECT' ) ), 1 );
-		R::getWriter()->setUseCache( FALSE );
-		$link = R::getWriter()->queryRecordLink( 'book', 'page', $book->id, $page->id );
-		asrt( count( $logger->grep( 'SELECT' ) ), 2 );
-		R::getWriter()->setUseCache( TRUE );
-		R::setNarrowFieldMode( TRUE );
+		$link = R::getWriter()->queryRecordLink('book', 'page', $book->id, $page->id);
+		asrt(count($logger->grep('SELECT')), 1);
+		$link = R::getWriter()->queryRecordLink('book', 'page', $book->id, $page->id);
+		asrt(count($logger->grep('SELECT')), 1);
+		R::getWriter()->setUseCache(FALSE);
+		$link = R::getWriter()->queryRecordLink('book', 'page', $book->id, $page->id);
+		asrt(count($logger->grep('SELECT')), 2);
+		R::getWriter()->setUseCache(TRUE);
+		R::setNarrowFieldMode(TRUE);
 	}
 
 	/**
@@ -296,18 +296,18 @@ class Writecache extends Base
 	 */
 	public function testRegressions()
 	{
-		testpack( 'Testing possible regressions: Try to fool the cache' );
-		$str = 'SELECT * FROM ' . R::getWriter()->esc( 'bean', TRUE ) . ' WHERE ( ' . R::getWriter()->esc( 'id', TRUE ) . '  IN ( 1)  ) ';
-		$bean = R::dispense( 'bean' );
+		testpack('Testing possible regressions: Try to fool the cache');
+		$str = 'SELECT * FROM ' . R::getWriter()->esc('bean', TRUE) . ' WHERE ( ' . R::getWriter()->esc('id', TRUE) . '  IN ( 1)  ) ';
+		$bean = R::dispense('bean');
 		$bean->title = 'abc';
-		$id = R::store( $bean );
-		$bean = R::load( 'bean', $id );
+		$id = R::store($bean);
+		$bean = R::load('bean', $id);
 		$bean->title = 'xxx';
-		R::store( $bean );
+		R::store($bean);
 		// Fire exact same query so cache may think no other query has been fired
-		R::exec( $str );
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->title, 'xxx' );
+		R::exec($str);
+		$bean = R::load('bean', $id);
+		asrt($bean->title, 'xxx');
 	}
 
 	/**
@@ -317,16 +317,16 @@ class Writecache extends Base
 	 */
 	public function testKeepCacheCommentInSQL()
 	{
-		$bean = R::dispense( 'bean' );
+		$bean = R::dispense('bean');
 		$bean->title = 'abc';
-		$id = R::store( $bean );
-		$bean = R::load( 'bean', $id );
+		$id = R::store($bean);
+		$bean = R::load('bean', $id);
 		$bean->title = 'xxx';
-		R::store( $bean );
+		R::store($bean);
 		// Causes flush even though it contains -- keep-cache (not at the end, not intended)
-		R::findOne( 'bean', ' title = ? ', array( '-- keep-cache' ) );
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->title, 'xxx' );
+		R::findOne('bean', ' title = ? ', array('-- keep-cache'));
+		$bean = R::load('bean', $id);
+		asrt($bean->title, 'xxx');
 	}
 
 	/**
@@ -337,28 +337,28 @@ class Writecache extends Base
 	 */
 	public function testInstructNoDrop()
 	{
-		$str = 'SELECT * FROM ' . R::getWriter()->esc( 'bean', TRUE ) . ' -- keep-cache';
-		$bean = R::dispense( 'bean' );
+		$str = 'SELECT * FROM ' . R::getWriter()->esc('bean', TRUE) . ' -- keep-cache';
+		$bean = R::dispense('bean');
 		$bean->title = 'abc';
-		$id = R::store( $bean );
-		$bean = R::load( 'bean', $id );
+		$id = R::store($bean);
+		$bean = R::load('bean', $id);
 		$bean->title = 'xxx';
-		R::store( $bean );
-		R::exec( $str );
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->title, 'abc' );
+		R::store($bean);
+		R::exec($str);
+		$bean = R::load('bean', $id);
+		asrt($bean->title, 'abc');
 		R::nuke();
 		// Now INSTRUCT the cache to not drop the cache CASE 2
-		$str = 'SELECT * FROM ' . R::getWriter()->esc( 'bean', TRUE ) . ' -- keep-cache';
-		$bean = R::dispense( 'bean' );
+		$str = 'SELECT * FROM ' . R::getWriter()->esc('bean', TRUE) . ' -- keep-cache';
+		$bean = R::dispense('bean');
 		$bean->title = 'abc';
-		$id = R::store( $bean );
-		$bean = R::load( 'bean', $id );
+		$id = R::store($bean);
+		$bean = R::load('bean', $id);
 		$bean->title = 'xxx';
-		R::store( $bean );
-		R::findOne( 'bean', ' title = ? ', array( 'cache' ) );
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->title, 'xxx' );
+		R::store($bean);
+		R::findOne('bean', ' title = ? ', array('cache'));
+		$bean = R::load('bean', $id);
+		asrt($bean->title, 'xxx');
 	}
 
 	/**
@@ -368,17 +368,17 @@ class Writecache extends Base
 	 */
 	public function testConfusionRegression()
 	{
-		testpack( 'Testing possible confusion regression' );
-		$bean = R::dispense( 'bean' );
+		testpack('Testing possible confusion regression');
+		$bean = R::dispense('bean');
 		$bean->title = 'abc';
-		$id1 = R::store( $bean );
-		$bean = R::dispense( 'bean' );
+		$id1 = R::store($bean);
+		$bean = R::dispense('bean');
 		$bean->title = 'abc2';
-		$id2 = R::store( $bean );
-		$bean = R::load( 'bean', $id1 );
-		asrt( $bean->title, 'abc' );
-		$bean = R::load( 'bean', $id2 );
-		asrt( $bean->title, 'abc2' );
+		$id2 = R::store($bean);
+		$bean = R::load('bean', $id1);
+		asrt($bean->title, 'abc');
+		$bean = R::load('bean', $id2);
+		asrt($bean->title, 'abc2');
 	}
 
 	/**
@@ -388,13 +388,13 @@ class Writecache extends Base
 	 */
 	public function testGhostBeans()
 	{
-		testpack( 'Testing ghost beans' );
-		$bean = R::dispense( 'bean' );
+		testpack('Testing ghost beans');
+		$bean = R::dispense('bean');
 		$bean->title = 'abc';
-		$id1 = R::store( $bean );
-		R::trash( $bean );
-		$bean = R::load( 'bean', $id1 );
-		asrt( (int) $bean->id, 0 );
+		$id1 = R::store($bean);
+		R::trash($bean);
+		$bean = R::load('bean', $id1);
+		asrt((int) $bean->id, 0);
 	}
 
 	/**
@@ -404,24 +404,24 @@ class Writecache extends Base
 	 */
 	public function testExplicitCacheFlush()
 	{
-		testpack( 'Test cache flush (explicit)' );
-		R::setNarrowFieldMode( FALSE );
-		R::debug( TRUE, 1 );
+		testpack('Test cache flush (explicit)');
+		R::setNarrowFieldMode(FALSE);
+		R::debug(TRUE, 1);
 		$logger = R::getDatabaseAdapter()->getDatabase()->getLogger();
-		$bean = R::dispense( 'bean' );
+		$bean = R::dispense('bean');
 		$bean->title = 'abc';
-		$id1 = R::store( $bean );
+		$id1 = R::store($bean);
 		$logger->clear();
-		$bean = R::load( 'bean', $id1 );
-		asrt( $bean->title, 'abc' );
-		asrt( count( $logger->grep( 'SELECT *' ) ), 1 );
-		$bean = R::load( 'bean', $id1 );
-		asrt( count( $logger->grep( 'SELECT *' ) ), 1 );
+		$bean = R::load('bean', $id1);
+		asrt($bean->title, 'abc');
+		asrt(count($logger->grep('SELECT *')), 1);
+		$bean = R::load('bean', $id1);
+		asrt(count($logger->grep('SELECT *')), 1);
 		R::getWriter()->flushCache();
-		$bean = R::load( 'bean', $id1 );
-		asrt( count( $logger->grep( 'SELECT *' ) ), 2 );
+		$bean = R::load('bean', $id1);
+		asrt(count($logger->grep('SELECT *')), 2);
 		R::getWriter()->flushCache();
-		R::getWriter()->setUseCache( FALSE );
-		R::setNarrowFieldMode( TRUE );
+		R::getWriter()->setUseCache(FALSE);
+		R::setNarrowFieldMode(TRUE);
 	}
 }

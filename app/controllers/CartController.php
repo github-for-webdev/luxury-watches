@@ -4,19 +4,21 @@ namespace app\controllers;
 
 use app\models\Cart;
 
-class CartController extends AppController {
+class CartController extends AppController
+{
 
-    public function addAction(){
+    public function addAction()
+    {
         $id = !empty($_GET['id']) ? (int)$_GET['id'] : null;
         $qty = !empty($_GET['qty']) ? (int)$_GET['qty'] : null;
         $mod_id = !empty($_GET['mod']) ? (int)$_GET['mod'] : null;
         $mod = null;
-        if($id){
+        if ($id) {
             $product = \R::findOne('product', 'id = ?', [$id]);
             if (!$product) {
                 return false;
             }
-            if($mod_id) {
+            if ($mod_id) {
                 $mod = \R::findOne('modification', 'id = ? AND product_id = ?', [$mod_id, $id]);
             }
         }
@@ -27,5 +29,4 @@ class CartController extends AppController {
         }
         redirect();
     }
-
 }

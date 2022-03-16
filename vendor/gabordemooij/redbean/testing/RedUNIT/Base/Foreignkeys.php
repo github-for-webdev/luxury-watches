@@ -44,45 +44,46 @@ class Foreignkeys extends Base implements Observer
 	{
 		$writer = R::getWriter();
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$category = R::dispense( 'category' );
+		$book = R::dispense('book');
+		$category = R::dispense('category');
 		$book->sharedCategory[] = $category;
-		R::store( $book );
-		asrt( count( get_uniques_for_type('book_category') ), 1 );
-		asrt( are_cols_in_unique( 'book_category', array( 'book_id', 'category_id' ) ), TRUE );
+		R::store($book);
+		asrt(count(get_uniques_for_type('book_category')), 1);
+		asrt(are_cols_in_unique('book_category', array('book_id', 'category_id')), TRUE);
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$category = R::dispense( 'category' );
-		$book->via( 'library' )->sharedCategory[] = $category;
-		R::store( $book );
-		asrt( count( get_uniques_for_type('book_category') ), 0 );
-		asrt( are_cols_in_unique( 'book_category', array( 'book_id', 'category_id' ) ), FALSE );
-		asrt( count( get_uniques_for_type('library') ), 1 );
-		asrt( are_cols_in_unique( 'library', array( 'book_id', 'category_id' ) ), TRUE );
+		$book = R::dispense('book');
+		$category = R::dispense('category');
+		$book->via('library')->sharedCategory[] = $category;
+		R::store($book);
+		asrt(count(get_uniques_for_type('book_category')), 0);
+		asrt(are_cols_in_unique('book_category', array('book_id', 'category_id')), FALSE);
+		asrt(count(get_uniques_for_type('library')), 1);
+		asrt(are_cols_in_unique('library', array('book_id', 'category_id')), TRUE);
 		AQueryWriter::clearRenames();
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$category = R::dispense( 'category' );
+		$book = R::dispense('book');
+		$category = R::dispense('category');
 		$book->sharedCategory[] = $category;
-		R::store( $book );
-		asrt( count( get_uniques_for_type('book_category') ), 1 );
-		asrt( are_cols_in_unique( 'book_category', array( 'book_id', 'category_id' ) ), TRUE );
-		asrt( count( get_uniques_for_type('library') ), 0 );
-		asrt( are_cols_in_unique( 'library', array( 'book_id', 'category_id' ) ), FALSE );
+		R::store($book);
+		asrt(count(get_uniques_for_type('book_category')), 1);
+		asrt(are_cols_in_unique('book_category', array('book_id', 'category_id')), TRUE);
+		asrt(count(get_uniques_for_type('library')), 0);
+		asrt(are_cols_in_unique('library', array('book_id', 'category_id')), FALSE);
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$book2 = R::dispense( 'book' );
+		$book = R::dispense('book');
+		$book2 = R::dispense('book');
 		$book->sharedBook[] = $book2;
-		R::store( $book );
-		asrt( count( get_uniques_for_type('book_book') ), 1 );
-		asrt( are_cols_in_unique( 'book_book', array( 'book_id', 'book2_id' ) ), TRUE );
+		R::store($book);
+		asrt(count(get_uniques_for_type('book_book')), 1);
+		asrt(are_cols_in_unique('book_book', array('book_id', 'book2_id')), TRUE);
 		try {
-			$result = R::getWriter()->addUniqueConstraint( 'nonexistant', array( 'a', 'b' ) );
-		} catch( \Exception $e ) {
-			print_r( $e ); exit;
+			$result = R::getWriter()->addUniqueConstraint('nonexistant', array('a', 'b'));
+		} catch (\Exception $e) {
+			print_r($e);
+			exit;
 		}
 		pass(); //dont crash!
-		asrt( $result, FALSE );
+		asrt($result, FALSE);
 	}
 
 	/**
@@ -92,70 +93,70 @@ class Foreignkeys extends Base implements Observer
 	 */
 	public function testFKInspect()
 	{
-		$faultyWriter = new \FaultyWriter( R::getDatabaseAdapter() );
+		$faultyWriter = new \FaultyWriter(R::getDatabaseAdapter());
 		try {
-			$null = \ProxyWriter::callMethod( $faultyWriter, 'getForeignKeyForTypeProperty', 'test', 'test' );
+			$null = \ProxyWriter::callMethod($faultyWriter, 'getForeignKeyForTypeProperty', 'test', 'test');
 			pass();
-		} catch( \Exception $e ) {
+		} catch (\Exception $e) {
 			fail();
 		}
-		asrt( is_null( $null ), TRUE );
+		asrt(is_null($null), TRUE);
 		$writer = R::getWriter();
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$page = R::dispense( 'page' );
+		$book = R::dispense('book');
+		$page = R::dispense('page');
 		$book->xownPage[] = $page;
-		R::store( $book );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'page', 'book_id' );
-		asrt( is_array( $keys ), TRUE );
-		asrt( $keys['on_delete'], 'CASCADE' );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'page', 'id' );
-		asrt( is_null( $keys ), TRUE );
+		R::store($book);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'page', 'book_id');
+		asrt(is_array($keys), TRUE);
+		asrt($keys['on_delete'], 'CASCADE');
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'page', 'id');
+		asrt(is_null($keys), TRUE);
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$page = R::dispense( 'page' );
+		$book = R::dispense('book');
+		$page = R::dispense('page');
 		$book->ownPage[] = $page;
-		R::store( $book );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'page', 'book_id' );
-		asrt( is_array( $keys ), TRUE );
-		asrt( $keys['on_delete'], 'SET NULL' );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'page', 'id' );
-		asrt( is_null( $keys ), TRUE );
+		R::store($book);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'page', 'book_id');
+		asrt(is_array($keys), TRUE);
+		asrt($keys['on_delete'], 'SET NULL');
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'page', 'id');
+		asrt(is_null($keys), TRUE);
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$page = R::dispense( 'page' );
+		$book = R::dispense('book');
+		$page = R::dispense('page');
 		$book->alias('magazine')->xownPage[] = $page;
-		R::store( $book );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'page', 'magazine_id' );
-		asrt( is_array( $keys ), TRUE );
-		asrt( $keys['on_delete'], 'CASCADE' );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'page', 'book_id' );
-		asrt( is_null( $keys ), TRUE );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'page', 'id' );
-		asrt( is_null( $keys ), TRUE );
+		R::store($book);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'page', 'magazine_id');
+		asrt(is_array($keys), TRUE);
+		asrt($keys['on_delete'], 'CASCADE');
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'page', 'book_id');
+		asrt(is_null($keys), TRUE);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'page', 'id');
+		asrt(is_null($keys), TRUE);
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$page = R::dispense( 'page' );
-		$book->cover= $page;
-		R::store( $book );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'book', 'cover_id' );
-		asrt( is_array( $keys ), TRUE );
-		asrt( $keys['on_delete'], 'SET NULL' );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'book', 'page_id' );
-		asrt( is_null( $keys ), TRUE );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'book', 'id' );
-		asrt( is_null( $keys ), TRUE );
+		$book = R::dispense('book');
+		$page = R::dispense('page');
+		$book->cover = $page;
+		R::store($book);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'book', 'cover_id');
+		asrt(is_array($keys), TRUE);
+		asrt($keys['on_delete'], 'SET NULL');
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'book', 'page_id');
+		asrt(is_null($keys), TRUE);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'book', 'id');
+		asrt(is_null($keys), TRUE);
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$category = R::dispense( 'category' );
+		$book = R::dispense('book');
+		$category = R::dispense('category');
 		$book->sharedTag[] = $category;
-		R::store( $book );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'book_category', 'book_id' );
-		asrt( is_array( $keys ), TRUE );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'book_category', 'category_id' );
-		asrt( is_array( $keys ), TRUE );
-		$keys = \ProxyWriter::callMethod( $writer, 'getForeignKeyForTypeProperty', 'book_category', 'id' );
-		asrt( is_null( $keys ), TRUE );
+		R::store($book);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'book_category', 'book_id');
+		asrt(is_array($keys), TRUE);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'book_category', 'category_id');
+		asrt(is_array($keys), TRUE);
+		$keys = \ProxyWriter::callMethod($writer, 'getForeignKeyForTypeProperty', 'book_category', 'id');
+		asrt(is_null($keys), TRUE);
 	}
 
 	/**
@@ -165,11 +166,11 @@ class Foreignkeys extends Base implements Observer
 	 */
 	public function testDependency()
 	{
-		$can = $this->createBeanInCan( FALSE );
-		asrt( R::count( 'bean' ), 1 );
-		R::trash( $can );
+		$can = $this->createBeanInCan(FALSE);
+		asrt(R::count('bean'), 1);
+		R::trash($can);
 		// Bean stays
-		asrt( R::count( 'bean' ), 1 );
+		asrt(R::count('bean'), 1);
 	}
 
 	/**
@@ -179,23 +180,23 @@ class Foreignkeys extends Base implements Observer
 	 */
 	public function testDependency2()
 	{
-		$can = $this->createBeanInCan( TRUE );
-		asrt( R::count( 'bean' ), 1 );
-		R::trash( $can );
+		$can = $this->createBeanInCan(TRUE);
+		asrt(R::count('bean'), 1);
+		R::trash($can);
 		// Bean gone
-		asrt( R::count( 'bean' ), 0 );
-		$can = $this->createBeanInCan( FALSE );
-		asrt( R::count( 'bean' ), 1 );
-		R::trash( $can );
+		asrt(R::count('bean'), 0);
+		$can = $this->createBeanInCan(FALSE);
+		asrt(R::count('bean'), 1);
+		R::trash($can);
 		// Bean stays, constraint removed
-		asrt( R::count( 'bean' ), 0 );
+		asrt(R::count('bean'), 0);
 		//need to recreate table to get rid of constraint!
 		R::nuke();
-		$can = $this->createBeanInCan( FALSE );
-		asrt( R::count( 'bean' ), 1 );
-		R::trash( $can );
+		$can = $this->createBeanInCan(FALSE);
+		asrt(R::count('bean'), 1);
+		R::trash($can);
 		// Bean stays, constraint removed
-		asrt( R::count( 'bean' ), 1 );
+		asrt(R::count('bean'), 1);
 	}
 
 	/**
@@ -207,9 +208,9 @@ class Foreignkeys extends Base implements Observer
 	{
 		R::nuke();
 		$can = $this->createCanForBean();
-		asrt( R::count( 'bean' ), 1 );
-		R::trash( $can );
-		asrt( R::count( 'bean' ), 1 );
+		asrt(R::count('bean'), 1);
+		R::trash($can);
+		asrt(R::count('bean'), 1);
 	}
 
 	/**
@@ -220,20 +221,20 @@ class Foreignkeys extends Base implements Observer
 	public function testDependency4()
 	{
 		R::nuke();
-		$can = $this->createBeanInCan( TRUE );
-		R::store( $can );
-		R::trash( $can );
+		$can = $this->createBeanInCan(TRUE);
+		R::store($can);
+		R::trash($can);
 		$can = $this->createCanForBean();
-		asrt( R::count( 'bean' ), 1 );
-		R::trash( $can );
-		asrt( R::count( 'bean' ), 0 );
-		$can = $this->createBeanInCan( TRUE );
-		R::store( $can );
-		R::trash( $can );
+		asrt(R::count('bean'), 1);
+		R::trash($can);
+		asrt(R::count('bean'), 0);
+		$can = $this->createBeanInCan(TRUE);
+		R::store($can);
+		R::trash($can);
 		$can = $this->createCanForBean();
-		asrt( R::count( 'bean' ), 1 );
-		R::trash( $can );
-		asrt( R::count( 'bean' ), 0 );
+		asrt(R::count('bean'), 1);
+		R::trash($can);
+		asrt(R::count('bean'), 0);
 	}
 
 	/**
@@ -244,17 +245,17 @@ class Foreignkeys extends Base implements Observer
 	 */
 	public function testIssue171()
 	{
-		R::getDatabaseAdapter()->addEventListener( 'sql_exec', $this );
-		$account = R::dispense( 'account' );
-		$user    = R::dispense( 'user' );
-		$player  = R::dispense( 'player' );
+		R::getDatabaseAdapter()->addEventListener('sql_exec', $this);
+		$account = R::dispense('account');
+		$user    = R::dispense('user');
+		$player  = R::dispense('player');
 		$account->ownUser[] = $user;
-		R::store( $account );
-		asrt( strpos( implode( ',', $this->queries ), 'index_foreignkey_user_account' ) !== FALSE, TRUE );
+		R::store($account);
+		asrt(strpos(implode(',', $this->queries), 'index_foreignkey_user_account') !== FALSE, TRUE);
 		$this->queries = array();
 		$account->ownPlayer[] = $player;
-		R::store( $account );
-		asrt( strpos( implode( ',', $this->queries ), 'index_foreignkey_player_accou' ) !== FALSE, TRUE );
+		R::store($account);
+		asrt(strpos(implode(',', $this->queries), 'index_foreignkey_player_accou') !== FALSE, TRUE);
 	}
 
 	/**
@@ -266,16 +267,16 @@ class Foreignkeys extends Base implements Observer
 	public function testCreationOfForeignKeys()
 	{
 		$this->queries = array();
-		$account = R::dispense( 'account' );
-		$user    = R::dispense( 'user' );
-		$player  = R::dispense( 'player' );
+		$account = R::dispense('account');
+		$user    = R::dispense('user');
+		$player  = R::dispense('player');
 		$user->account = $account;
-		R::store( $user );
-		asrt( strpos( implode( ',', $this->queries ), 'index_foreignkey_user_account' ) !== FALSE, TRUE );
+		R::store($user);
+		asrt(strpos(implode(',', $this->queries), 'index_foreignkey_user_account') !== FALSE, TRUE);
 		$this->queries = array();
 		$player->account = $account;
-		R::store( $player );
-		asrt( strpos( implode( ',', $this->queries ), 'index_foreignkey_player_accou' ) !== FALSE, TRUE );
+		R::store($player);
+		asrt(strpos(implode(',', $this->queries), 'index_foreignkey_player_accou') !== FALSE, TRUE);
 	}
 
 	/**
@@ -285,10 +286,10 @@ class Foreignkeys extends Base implements Observer
 	 *
 	 * @return OODBBean $can
 	 */
-	private function createBeanInCan( $isExcl )
+	private function createBeanInCan($isExcl)
 	{
-		$can  = R::dispense( 'can' );
-		$bean = R::dispense( 'bean' );
+		$can  = R::dispense('can');
+		$bean = R::dispense('bean');
 		$can->name   = 'bakedbeans';
 		$bean->taste = 'salty';
 		if ($isExcl) {
@@ -296,7 +297,7 @@ class Foreignkeys extends Base implements Observer
 		} else {
 			$can->ownBean[] = $bean;
 		}
-		R::store( $can );
+		R::store($can);
 		return $can;
 	}
 
@@ -309,10 +310,10 @@ class Foreignkeys extends Base implements Observer
 	 */
 	private function createCanForBean()
 	{
-		$can  = R::dispense( 'can' );
-		$bean = R::dispense( 'bean' );
+		$can  = R::dispense('can');
+		$bean = R::dispense('bean');
 		$bean->can = $can;
-		R::store( $bean );
+		R::store($bean);
 		return $can;
 	}
 
@@ -322,7 +323,7 @@ class Foreignkeys extends Base implements Observer
 	 * @param string          $event
 	 * @param Adapter $info
 	 */
-	public function onEvent( $event, $info )
+	public function onEvent($event, $info)
 	{
 		$this->queries[] = $info->getSQL();
 	}

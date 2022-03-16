@@ -1,6 +1,7 @@
 <?php
 
 use \R as R;
+
 require 'RedUNIT/CUBRID.php';
 //Load the CUBRID query writer
 require('../RedBeanPHP/QueryWriter/CUBRID.php');
@@ -19,9 +20,9 @@ $ini['CUBRID'] = array(
 	'pass'	=> ''
 );
 
-$colorMap[ 'CUBRID' ] = '0;35';
+$colorMap['CUBRID'] = '0;35';
 
 $dsn = "cubrid:host={$ini['CUBRID']['host']};port=33000;dbname={$ini['CUBRID']['schema']}";
-R::addDatabase( 'CUBRID', $dsn, $ini['CUBRID']['user'], $ini['CUBRID']['pass'], FALSE );
-R::selectDatabase( 'CUBRID' );
-R::exec( 'AUTOCOMMIT IS ON' );
+R::addDatabase('CUBRID', $dsn, $ini['CUBRID']['user'], $ini['CUBRID']['pass'], FALSE);
+R::selectDatabase('CUBRID');
+R::exec('AUTOCOMMIT IS ON');

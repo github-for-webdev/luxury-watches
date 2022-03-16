@@ -36,21 +36,21 @@ class Dispense extends Base
 	public function testIssue546()
 	{
 		try {
-			R::findOrDispense( 'invalid_type' );
+			R::findOrDispense('invalid_type');
 			fail();
-		} catch ( RedException $exception ) {
+		} catch (RedException $exception) {
 			pass();
 		}
 		try {
-			R::findOneOrDispense( 'invalid_type' );
+			R::findOneOrDispense('invalid_type');
 			fail();
-		} catch ( RedException $exception ) {
+		} catch (RedException $exception) {
 			pass();
 		}
 		try {
-			DispenseHelper::checkType( 'invalid_type' );
+			DispenseHelper::checkType('invalid_type');
 			fail();
-		} catch ( RedException $exception ) {
+		} catch (RedException $exception) {
 			pass();
 		}
 	}
@@ -64,32 +64,32 @@ class Dispense extends Base
 	{
 		$redbean = R::getRedBean();
 		// Can we dispense a bean?
-		$page = $redbean->dispense( "page" );
+		$page = $redbean->dispense("page");
 		// Does it have a meta type?
-		asrt( ( (bool) $page->getMeta( "type" ) ), TRUE );
+		asrt(((bool) $page->getMeta("type")), TRUE);
 		// Does it have an ID?
-		asrt( isset( $page->id ), TRUE );
+		asrt(isset($page->id), TRUE);
 		// Type should be 'page'
-		asrt( ( $page->getMeta( "type" ) ), "page" );
+		asrt(($page->getMeta("type")), "page");
 		// ID should be 0 because bean does not exist in database yet.
-		asrt( ( $page->id ), 0 );
+		asrt(($page->id), 0);
 		// Try some faulty dispense actions.
-		foreach ( array( "", ".", "-") as $value ) {
+		foreach (array("", ".", "-") as $value) {
 			try {
-				$redbean->dispense( $value );
+				$redbean->dispense($value);
 				fail();
-			} catch (RedException $e ) {
+			} catch (RedException $e) {
 				pass();
 			}
 		}
-		$bean = $redbean->dispense( "testbean" );
+		$bean = $redbean->dispense("testbean");
 		$bean["property"] = 123;
 		$bean["abc"]      = "def";
-		asrt( $bean["property"], 123 );
-		asrt( $bean["abc"], "def" );
-		asrt( $bean->abc, "def" );
-		asrt( isset( $bean["abd"] ), FALSE );
-		asrt( isset( $bean["abc"] ), TRUE );
+		asrt($bean["property"], 123);
+		asrt($bean["abc"], "def");
+		asrt($bean->abc, "def");
+		asrt(isset($bean["abd"]), FALSE);
+		asrt(isset($bean["abc"]), TRUE);
 	}
 
 	/**
@@ -99,35 +99,35 @@ class Dispense extends Base
 	 */
 	public function testDispenseAll()
 	{
-		list( $book, $page ) = Facade::dispenseAll( 'book,page' );
-		asrt( ( $book instanceof OODBBean ), TRUE );
-		asrt( ( $page instanceof OODBBean ), TRUE );
-		asrt( $book->getMeta( 'type' ), 'book');
-		asrt( $page->getMeta( 'type' ), 'page');
-		list( $book, $page, $texts, $mark ) = R::dispenseAll( 'book,page,text*2,mark' );
-		asrt( ( $book instanceof OODBBean ), TRUE );
-		asrt( ( $page instanceof OODBBean ), TRUE );
-		asrt( is_array( $texts ), TRUE );
-		asrt( ( $mark instanceof OODBBean ), TRUE );
-		asrt( $book->getMeta( 'type'), 'book' );
-		asrt( $page->getMeta( 'type'), 'page' );
-		asrt( $mark->getMeta( 'type'), 'mark' );
-		asrt( $texts[0]->getMeta( 'type'), 'text' );
-		asrt( $texts[1]->getMeta( 'type'), 'text' );
-		list( $eggs, $milk, $butter ) = R::dispenseAll( 'eggs*3,milk*1,butter*9' );
-		asrt( count( $eggs ), 3 );
-		asrt( ( $milk instanceof OODBBean ), TRUE );
-		asrt( count( $butter ), 9 );
-		list( $eggs, $milk, $butter ) = R::dispenseAll( 'eggs*3,milk*1,butter*9', TRUE );
-		asrt( count( $eggs ), 3 );
-		asrt( count( $milk ), 1 );
-		asrt( count( $eggs ), 3 );
-		list( $beer ) = R::dispenseAll( 'beer*0', TRUE );
-		asrt( is_array( $beer ), TRUE );
-		asrt( count( $beer ), 0 );
-		list( $beer ) = R::dispenseAll( 'beer*0', FALSE );
-		asrt( is_array( $beer ), FALSE );
-		asrt( is_null( $beer ), TRUE );
+		list($book, $page) = Facade::dispenseAll('book,page');
+		asrt(($book instanceof OODBBean), TRUE);
+		asrt(($page instanceof OODBBean), TRUE);
+		asrt($book->getMeta('type'), 'book');
+		asrt($page->getMeta('type'), 'page');
+		list($book, $page, $texts, $mark) = R::dispenseAll('book,page,text*2,mark');
+		asrt(($book instanceof OODBBean), TRUE);
+		asrt(($page instanceof OODBBean), TRUE);
+		asrt(is_array($texts), TRUE);
+		asrt(($mark instanceof OODBBean), TRUE);
+		asrt($book->getMeta('type'), 'book');
+		asrt($page->getMeta('type'), 'page');
+		asrt($mark->getMeta('type'), 'mark');
+		asrt($texts[0]->getMeta('type'), 'text');
+		asrt($texts[1]->getMeta('type'), 'text');
+		list($eggs, $milk, $butter) = R::dispenseAll('eggs*3,milk*1,butter*9');
+		asrt(count($eggs), 3);
+		asrt(($milk instanceof OODBBean), TRUE);
+		asrt(count($butter), 9);
+		list($eggs, $milk, $butter) = R::dispenseAll('eggs*3,milk*1,butter*9', TRUE);
+		asrt(count($eggs), 3);
+		asrt(count($milk), 1);
+		asrt(count($eggs), 3);
+		list($beer) = R::dispenseAll('beer*0', TRUE);
+		asrt(is_array($beer), TRUE);
+		asrt(count($beer), 0);
+		list($beer) = R::dispenseAll('beer*0', FALSE);
+		asrt(is_array($beer), FALSE);
+		asrt(is_null($beer), TRUE);
 	}
 
 	/**
@@ -138,45 +138,45 @@ class Dispense extends Base
 	public function testDispenseArray()
 	{
 		$oodb = R::getRedBean();
-		$array = $oodb->dispense( 'book', 0, TRUE );
-		asrt( is_array( $array ), TRUE );
-		$array = $oodb->dispense( 'book', 1, TRUE );
-		asrt( is_array( $array ), TRUE );
-		$array = $oodb->dispense( 'book', 2, TRUE );
-		asrt( is_array( $array ), TRUE );
-		$array = R::dispense( 'book', 0, TRUE );
-		asrt( is_array( $array ), TRUE );
-		$array = R::dispense( 'book', 1, TRUE );
-		asrt( is_array( $array ), TRUE );
-		$array = R::dispense( 'book', 2, TRUE );
-		asrt( is_array( $array ), TRUE );
-		$array = $oodb->dispense( 'book', 0, FALSE );
-		asrt( is_array( $array ), FALSE );
-		asrt( is_null( $array ), TRUE );
-		$array = $oodb->dispense( 'book', 1, FALSE );
-		asrt( is_array( $array ), FALSE );
-		asrt( ( $array instanceof OODBBean ), TRUE );
-		$array = $oodb->dispense( 'book', 2, FALSE );
-		asrt( is_array( $array ), TRUE );
-		$array = R::dispense( 'book', 0, FALSE );
-		asrt( is_array( $array ), FALSE );
-		$array = R::dispense( 'book', 1, FALSE );
-		asrt( is_array( $array ), FALSE );
-		$array = R::dispense( 'book', 2, FALSE );
-		asrt( is_array( $array ), TRUE );
-		$array = $oodb->dispense( 'book', 0 );
-		asrt( is_array( $array ), FALSE );
-		asrt( is_null( $array ), TRUE );
-		$array = $oodb->dispense( 'book', 1 );
-		asrt( is_array( $array ), FALSE );
-		asrt( ( $array instanceof OODBBean ), TRUE );
-		$array = $oodb->dispense( 'book', 2 );
-		asrt( is_array( $array ), TRUE );
-		$array = R::dispense( 'book', 0 );
-		asrt( is_array( $array ), FALSE );
-		$array = R::dispense( 'book', 1 );
-		asrt( is_array( $array ), FALSE );
-		$array = R::dispense( 'book', 2 );
-		asrt( is_array( $array ), TRUE );
+		$array = $oodb->dispense('book', 0, TRUE);
+		asrt(is_array($array), TRUE);
+		$array = $oodb->dispense('book', 1, TRUE);
+		asrt(is_array($array), TRUE);
+		$array = $oodb->dispense('book', 2, TRUE);
+		asrt(is_array($array), TRUE);
+		$array = R::dispense('book', 0, TRUE);
+		asrt(is_array($array), TRUE);
+		$array = R::dispense('book', 1, TRUE);
+		asrt(is_array($array), TRUE);
+		$array = R::dispense('book', 2, TRUE);
+		asrt(is_array($array), TRUE);
+		$array = $oodb->dispense('book', 0, FALSE);
+		asrt(is_array($array), FALSE);
+		asrt(is_null($array), TRUE);
+		$array = $oodb->dispense('book', 1, FALSE);
+		asrt(is_array($array), FALSE);
+		asrt(($array instanceof OODBBean), TRUE);
+		$array = $oodb->dispense('book', 2, FALSE);
+		asrt(is_array($array), TRUE);
+		$array = R::dispense('book', 0, FALSE);
+		asrt(is_array($array), FALSE);
+		$array = R::dispense('book', 1, FALSE);
+		asrt(is_array($array), FALSE);
+		$array = R::dispense('book', 2, FALSE);
+		asrt(is_array($array), TRUE);
+		$array = $oodb->dispense('book', 0);
+		asrt(is_array($array), FALSE);
+		asrt(is_null($array), TRUE);
+		$array = $oodb->dispense('book', 1);
+		asrt(is_array($array), FALSE);
+		asrt(($array instanceof OODBBean), TRUE);
+		$array = $oodb->dispense('book', 2);
+		asrt(is_array($array), TRUE);
+		$array = R::dispense('book', 0);
+		asrt(is_array($array), FALSE);
+		$array = R::dispense('book', 1);
+		asrt(is_array($array), FALSE);
+		$array = R::dispense('book', 2);
+		asrt(is_array($array), TRUE);
 	}
 }

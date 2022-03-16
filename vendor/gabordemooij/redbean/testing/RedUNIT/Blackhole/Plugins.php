@@ -32,40 +32,42 @@ class Plugins extends Blackhole
 	public function testDynamicPlugins()
 	{
 		testpack('Test dynamic plugins');
-		R::ext( 'makeTea', function() {
+		R::ext('makeTea', function () {
 			return 'sorry cant do that!';
 		});
-		asrt( R::makeTea(), 'sorry cant do that!' );
+		asrt(R::makeTea(), 'sorry cant do that!');
 		//with parameters
-		R::ext( 'multiply', function( $a, $b ) {
+		R::ext('multiply', function ($a, $b) {
 			return $a * $b;
 		});
-		asrt( R::multiply( 3, 4 ), 12 );
+		asrt(R::multiply(3, 4), 12);
 		//can we call R inside?
-		R::ext( 'singVersion', function() {
+		R::ext('singVersion', function () {
 			return R::getVersion() . ' lalala !';
-		} );
-		asrt( R::singVersion(), ( R::getVersion().' lalala !' ) );
+		});
+		asrt(R::singVersion(), (R::getVersion() . ' lalala !'));
 		//should also work with Facade
-		asrt( Facade::singVersion(), ( R::getVersion().' lalala !' ) );
+		asrt(Facade::singVersion(), (R::getVersion() . ' lalala !'));
 		//test error handling
 		try {
-			R::ext( '---', function() {} );
+			R::ext('---', function () {
+			});
 			fail();
-		} catch ( RedException $e ) {
-			asrt( $e->getMessage(), 'Plugin name may only contain alphanumeric characters and underscores and cannot start with a number.' );
+		} catch (RedException $e) {
+			asrt($e->getMessage(), 'Plugin name may only contain alphanumeric characters and underscores and cannot start with a number.');
 		}
 		try {
-			R::__callStatic( '---', function() {} );
+			R::__callStatic('---', function () {
+			});
 			fail();
-		} catch ( RedException $e ) {
-			asrt( $e->getMessage(), 'Plugin name may only contain alphanumeric characters and underscores and cannot start with a number.' );
+		} catch (RedException $e) {
+			asrt($e->getMessage(), 'Plugin name may only contain alphanumeric characters and underscores and cannot start with a number.');
 		}
 		try {
 			R::invalidMethod();
 			fail();
-		} catch ( RedException $e ) {
-			asrt( $e->getMessage(), 'Plugin \'invalidMethod\' does not exist, add this plugin using: R::ext(\'invalidMethod\')' );
+		} catch (RedException $e) {
+			asrt($e->getMessage(), 'Plugin \'invalidMethod\' does not exist, add this plugin using: R::ext(\'invalidMethod\')');
 		}
 	}
 }

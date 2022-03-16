@@ -29,14 +29,14 @@ class Largenum extends Base
 	 */
 	public function testLargeNum()
 	{
-		if ( defined( 'HHVM_VERSION' ) ) return; //oops hhvm has incorrect binding for large nums.
-		$number = R::dispense( 'number' );
+		if (defined('HHVM_VERSION')) return; //oops hhvm has incorrect binding for large nums.
+		$number = R::dispense('number');
 		$number->name = 'big number';
-		R::store( $number );
+		R::store($number);
 		//This should not cause an error... (some people use LIMIT 0, HUGE to simulate OFFSET on MYSQL).
-		$beans = R::findAll( 'number', ' LIMIT ? ', array( PHP_INT_MAX ) );
-		asrt( is_array( $beans ), TRUE );
-		asrt( count( $beans ), 1 );
+		$beans = R::findAll('number', ' LIMIT ? ', array(PHP_INT_MAX));
+		asrt(is_array($beans), TRUE);
+		asrt(count($beans), 1);
 		pass();
 	}
 }

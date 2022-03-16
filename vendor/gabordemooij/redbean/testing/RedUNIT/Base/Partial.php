@@ -24,7 +24,8 @@ use RedBeanPHP\Facade as R;
  * This source file is subject to the New BSD/GPLv2 License that is bundled
  * with this source code in the file license.txt.
  */
-class Partial extends Base {
+class Partial extends Base
+{
 
 	/**
 	 * Github Issue #754.
@@ -45,7 +46,7 @@ class Partial extends Base {
 	public function testChangeListIssue()
 	{
 		R::nuke();
-		R::usePartialBeans( TRUE );
+		R::usePartialBeans(TRUE);
 		\Model_Coffee::$defaults = array(
 			'strength'    => 'strong',
 			'beans'       => 'Arabica',
@@ -53,14 +54,14 @@ class Partial extends Base {
 		);
 		$coffee = R::dispense('coffee');
 		$changelist = $coffee->getMeta('changelist');
-		asrt( count( $changelist), 3 );
+		asrt(count($changelist), 3);
 		$coffee->preparation = 'Espresso';
 		$changelist = $coffee->getMeta('changelist');
-		asrt( count( $changelist), 4 );
-		$id = R::store( $coffee );
-		$coffee = R::load( 'coffee', $id );
+		asrt(count($changelist), 4);
+		$id = R::store($coffee);
+		$coffee = R::load('coffee', $id);
 		$changelist = $coffee->getMeta('changelist');
-		asrt( count( $changelist), 0 );
+		asrt(count($changelist), 0);
 	}
 
 	/**
@@ -71,13 +72,13 @@ class Partial extends Base {
 	 */
 	public function testChangeListImportRow()
 	{
-		R::usePartialBeans( TRUE );
-		$bean = R::dispense( 'bean' );
-		asrt( count( $bean->getMeta('changelist') ), 0 );
+		R::usePartialBeans(TRUE);
+		$bean = R::dispense('bean');
+		asrt(count($bean->getMeta('changelist')), 0);
 		$bean->property = 'abc';
-		asrt( count( $bean->getMeta('changelist') ), 1 );
-		$bean->importRow( array( 'property' => 123 ) );
-		asrt( count( $bean->getMeta('changelist') ), 0 );
+		asrt(count($bean->getMeta('changelist')), 1);
+		$bean->importRow(array('property' => 123));
+		asrt(count($bean->getMeta('changelist')), 0);
 	}
 
 	/**
@@ -88,39 +89,39 @@ class Partial extends Base {
 	public function testPartialBeans()
 	{
 		R::nuke();
-		R::usePartialBeans( FALSE );
-		$book = R::dispense( 'book' );
+		R::usePartialBeans(FALSE);
+		$book = R::dispense('book');
 		$book->title = 'A book about half beans';
 		$book->price = 99;
 		$book->pages = 60;
-		$id = R::store( $book );
+		$id = R::store($book);
 		/* test baseline condition */
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'A book about half beans' );
-		asrt( (integer) $book->pages, 60 );
+		$book = R::load('book', $id);
+		asrt($book->title, 'A book about half beans');
+		asrt((int) $book->pages, 60);
 		$book->pages++;
-		R::exec( 'UPDATE book SET title = ? ', array( 'Another Title' ) );
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'A book about half beans' );
-		asrt( (integer) $book->pages, 61 );
+		R::exec('UPDATE book SET title = ? ', array('Another Title'));
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt($book->title, 'A book about half beans');
+		asrt((int) $book->pages, 61);
 		/* now test partial beans mode */
-		R::usePartialBeans( TRUE );
+		R::usePartialBeans(TRUE);
 		$book->pages++;
-		R::exec( 'UPDATE book SET title = ? ', array( 'Another Title' ) );
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'Another Title' );
-		asrt( (integer) $book->pages, 62 );
+		R::exec('UPDATE book SET title = ? ', array('Another Title'));
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt($book->title, 'Another Title');
+		asrt((int) $book->pages, 62);
 		/* mask should be cleared... */
-		R::exec( 'UPDATE book SET pages = ? ', array( 64 ) );
+		R::exec('UPDATE book SET pages = ? ', array(64));
 		$book->price = 92;
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( (integer) $book->pages, 64 );
-		asrt( $book->title, 'Another Title' );
-		asrt( (integer) $book->price, 92 );
-		R::usePartialBeans( FALSE );
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt((int) $book->pages, 64);
+		asrt($book->title, 'Another Title');
+		asrt((int) $book->price, 92);
+		R::usePartialBeans(FALSE);
 	}
 
 	/**
@@ -132,39 +133,39 @@ class Partial extends Base {
 	public function testPartialBeansTypeList()
 	{
 		R::nuke();
-		R::usePartialBeans( array( 'notbook' ) );
-		$book = R::dispense( 'book' );
+		R::usePartialBeans(array('notbook'));
+		$book = R::dispense('book');
 		$book->title = 'A book about half beans';
 		$book->price = 99;
 		$book->pages = 60;
-		$id = R::store( $book );
+		$id = R::store($book);
 		/* test baseline condition */
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'A book about half beans' );
-		asrt( (integer) $book->pages, 60 );
+		$book = R::load('book', $id);
+		asrt($book->title, 'A book about half beans');
+		asrt((int) $book->pages, 60);
 		$book->pages++;
-		R::exec( 'UPDATE book SET title = ? ', array( 'Another Title' ) );
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'A book about half beans' );
-		asrt( (integer) $book->pages, 61 );
+		R::exec('UPDATE book SET title = ? ', array('Another Title'));
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt($book->title, 'A book about half beans');
+		asrt((int) $book->pages, 61);
 		/* now test partial beans mode */
-		R::usePartialBeans( array( 'book', 'more' ) );
+		R::usePartialBeans(array('book', 'more'));
 		$book->pages++;
-		R::exec( 'UPDATE book SET title = ? ', array( 'Another Title' ) );
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'Another Title' );
-		asrt( (integer) $book->pages, 62 );
+		R::exec('UPDATE book SET title = ? ', array('Another Title'));
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt($book->title, 'Another Title');
+		asrt((int) $book->pages, 62);
 		/* mask should be cleared... */
-		R::exec( 'UPDATE book SET pages = ? ', array( 64 ) );
+		R::exec('UPDATE book SET pages = ? ', array(64));
 		$book->price = 92;
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( (integer) $book->pages, 64 );
-		asrt( $book->title, 'Another Title' );
-		asrt( (integer) $book->price, 92 );
-		R::usePartialBeans( FALSE );
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt((int) $book->pages, 64);
+		asrt($book->title, 'Another Title');
+		asrt((int) $book->price, 92);
+		R::usePartialBeans(FALSE);
 	}
 
 	/**
@@ -176,41 +177,41 @@ class Partial extends Base {
 	public function testPartialBeansFrozen()
 	{
 		R::nuke();
-		R::usePartialBeans( FALSE );
-		$book = R::dispense( 'book' );
+		R::usePartialBeans(FALSE);
+		$book = R::dispense('book');
 		$book->title = 'A book about half beans';
 		$book->price = 99;
 		$book->pages = 60;
-		$id = R::store( $book );
+		$id = R::store($book);
 		/* test baseline condition */
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'A book about half beans' );
-		asrt( (integer) $book->pages, 60 );
+		$book = R::load('book', $id);
+		asrt($book->title, 'A book about half beans');
+		asrt((int) $book->pages, 60);
 		$book->pages++;
-		R::exec( 'UPDATE book SET title = ? ', array( 'Another Title' ) );
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'A book about half beans' );
-		asrt( (integer) $book->pages, 61 );
+		R::exec('UPDATE book SET title = ? ', array('Another Title'));
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt($book->title, 'A book about half beans');
+		asrt((int) $book->pages, 61);
 		/* now test partial beans mode */
-		R::freeze( TRUE );
-		R::usePartialBeans( TRUE );
+		R::freeze(TRUE);
+		R::usePartialBeans(TRUE);
 		$book->pages++;
-		R::exec( 'UPDATE book SET title = ? ', array( 'Another Title' ) );
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'Another Title' );
-		asrt( (integer) $book->pages, 62 );
+		R::exec('UPDATE book SET title = ? ', array('Another Title'));
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt($book->title, 'Another Title');
+		asrt((int) $book->pages, 62);
 		/* mask should be cleared... */
-		R::exec( 'UPDATE book SET pages = ? ', array( 64 ) );
+		R::exec('UPDATE book SET pages = ? ', array(64));
 		$book->price = 92;
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( (integer) $book->pages, 64 );
-		asrt( $book->title, 'Another Title' );
-		asrt( (integer) $book->price, 92 );
-		R::usePartialBeans( FALSE );
-		R::freeze( FALSE );
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt((int) $book->pages, 64);
+		asrt($book->title, 'Another Title');
+		asrt((int) $book->price, 92);
+		R::usePartialBeans(FALSE);
+		R::freeze(FALSE);
 	}
 
 	/**
@@ -223,40 +224,40 @@ class Partial extends Base {
 	public function testPartialBeansTypeListFrozen()
 	{
 		R::nuke();
-		R::usePartialBeans( array( 'notbook' ) );
-		$book = R::dispense( 'book' );
+		R::usePartialBeans(array('notbook'));
+		$book = R::dispense('book');
 		$book->title = 'A book about half beans';
 		$book->price = 99;
 		$book->pages = 60;
-		$id = R::store( $book );
+		$id = R::store($book);
 		/* test baseline condition */
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'A book about half beans' );
-		asrt( (integer) $book->pages, 60 );
+		$book = R::load('book', $id);
+		asrt($book->title, 'A book about half beans');
+		asrt((int) $book->pages, 60);
 		$book->pages++;
-		R::exec( 'UPDATE book SET title = ? ', array( 'Another Title' ) );
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'A book about half beans' );
-		asrt( (integer) $book->pages, 61 );
+		R::exec('UPDATE book SET title = ? ', array('Another Title'));
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt($book->title, 'A book about half beans');
+		asrt((int) $book->pages, 61);
 		/* now test partial beans mode */
-		R::freeze( TRUE );
-		R::usePartialBeans( array( 'book', 'more' ) );
+		R::freeze(TRUE);
+		R::usePartialBeans(array('book', 'more'));
 		$book->pages++;
-		R::exec( 'UPDATE book SET title = ? ', array( 'Another Title' ) );
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( $book->title, 'Another Title' );
-		asrt( (integer) $book->pages, 62 );
+		R::exec('UPDATE book SET title = ? ', array('Another Title'));
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt($book->title, 'Another Title');
+		asrt((int) $book->pages, 62);
 		/* mask should be cleared... */
-		R::exec( 'UPDATE book SET pages = ? ', array( 64 ) );
+		R::exec('UPDATE book SET pages = ? ', array(64));
 		$book->price = 92;
-		$id = R::store( $book );
-		$book = R::load( 'book', $id );
-		asrt( (integer) $book->pages, 64 );
-		asrt( $book->title, 'Another Title' );
-		asrt( (integer) $book->price, 92 );
-		R::usePartialBeans( FALSE );
-		R::freeze( FALSE );
+		$id = R::store($book);
+		$book = R::load('book', $id);
+		asrt((int) $book->pages, 64);
+		asrt($book->title, 'Another Title');
+		asrt((int) $book->price, 92);
+		R::usePartialBeans(FALSE);
+		R::freeze(FALSE);
 	}
 }

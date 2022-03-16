@@ -28,14 +28,14 @@ class Base extends RedUNIT
 	 *
 	 * @var array
 	 */
-	protected static $driverList = array( 'mysql', 'pgsql', 'sqlite', 'CUBRID' );
+	protected static $driverList = array('mysql', 'pgsql', 'sqlite', 'CUBRID');
 
 	/**
 	 * Adds a driver to the list.
 	 *
 	 * @param string $driverID driver identifier.
 	 */
-	public static function addToDriverList( $driverID )
+	public static function addToDriverList($driverID)
 	{
 		self::$driverList[] = $driverID;
 	}

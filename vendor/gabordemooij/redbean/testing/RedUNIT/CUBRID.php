@@ -28,6 +28,6 @@ class CUBRID extends RedUNIT
 	 */
 	public function getTargetDrivers()
 	{
-		return array( 'CUBRID' );
+		return array('CUBRID');
 	}
 }

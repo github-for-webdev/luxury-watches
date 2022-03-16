@@ -32,7 +32,7 @@ class Concurrency extends Base
 	 */
 	public function getTargetDrivers()
 	{
-		return array( 'pgsql','mysql' );
+		return array('pgsql', 'mysql');
 	}
 
 	/**
@@ -42,9 +42,10 @@ class Concurrency extends Base
 	 */
 	public function prepare()
 	{
-		try{
+		try {
 			R::close();
-		} catch( \Exception $e ) {}
+		} catch (\Exception $e) {
+		}
 	}
 
 	/**
@@ -63,8 +64,14 @@ class Concurrency extends Base
 		if (!$c) {
 			R::selectDatabase($this->currentlyActiveDriverID . 'c2');
 			R::freeze(TRUE);
-			try { R::exec('SET SESSION innodb_lock_wait_timeout=5');}catch( \Exception $e ){}
-			try { R::exec('SET autocommit = 0'); }catch( \Exception $e ){}
+			try {
+				R::exec('SET SESSION innodb_lock_wait_timeout=5');
+			} catch (\Exception $e) {
+			}
+			try {
+				R::exec('SET autocommit = 0');
+			} catch (\Exception $e) {
+			}
 			R::begin();
 			$lock = R::loadForUpdate('lock', $lock->id);
 			$lock->value = 4;
@@ -75,26 +82,44 @@ class Concurrency extends Base
 			R::selectDatabase($this->currentlyActiveDriverID . 'c2');
 			sleep(1);
 			R::freeze(TRUE);
-			try{ R::exec('SET SESSION innodb_lock_wait_timeout=5');}catch( \Exception $e ){}
-			try{R::exec("SET lock_timeout = '1s';");}catch( \Exception $e ){}
-			try { R::exec('SET autocommit = 0'); }catch( \Exception $e ){}
+			try {
+				R::exec('SET SESSION innodb_lock_wait_timeout=5');
+			} catch (\Exception $e) {
+			}
+			try {
+				R::exec("SET lock_timeout = '1s';");
+			} catch (\Exception $e) {
+			}
+			try {
+				R::exec('SET autocommit = 0');
+			} catch (\Exception $e) {
+			}
 			R::begin();
 			$exception = NULL;
 			try {
 				$lock = R::loadForUpdate('lock', $lock->id);
-			} catch( \Exception $e ) {
+			} catch (\Exception $e) {
 				$exception = $e;
 			}
-			if ( !$exception ) fail();
+			if (!$exception) fail();
 			pass();
 			$details = $exception->getDriverDetails();
-			asrt( ($details[1]===1205 || $details[0]==='55P03'), TRUE );
+			asrt(($details[1] === 1205 || $details[0] === '55P03'), TRUE);
 			var_dump($lock);
 		}
-		try { R::exec('SET autocommit = 1'); }catch( \Exception $e ){}
+		try {
+			R::exec('SET autocommit = 1');
+		} catch (\Exception $e) {
+		}
 		pcntl_wait($status);
-		try { R::exec('SET SESSION innodb_lock_wait_timeout=50');}catch( \Exception $e ){}
-		try{R::exec("SET lock_timeout = '50s';");}catch( \Exception $e ){}
+		try {
+			R::exec('SET SESSION innodb_lock_wait_timeout=50');
+		} catch (\Exception $e) {
+		}
+		try {
+			R::exec("SET lock_timeout = '50s';");
+		} catch (\Exception $e) {
+		}
 	}
 
 	/**
@@ -108,11 +133,20 @@ class Concurrency extends Base
 		if ($c == -1) exit(1);
 		if (!$c) {
 			R::selectDatabase($this->currentlyActiveDriverID . 'c');
-			try{ R::exec('SET SESSION innodb_lock_wait_timeout=51');}catch( \Exception $e ){}
-			try{R::exec("SET lock_timeout = '51s';");}catch( \Exception $e ){}
+			try {
+				R::exec('SET SESSION innodb_lock_wait_timeout=51');
+			} catch (\Exception $e) {
+			}
+			try {
+				R::exec("SET lock_timeout = '51s';");
+			} catch (\Exception $e) {
+			}
 			R::exec('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 			sleep(2);
-			try { R::exec('SET autocommit = 0'); }catch( \Exception $e ){}
+			try {
+				R::exec('SET autocommit = 0');
+			} catch (\Exception $e) {
+			}
 			R::freeze(TRUE);
 			R::begin();
 			echo "CHILD: SUBTRACTING 2 START\n";
@@ -127,8 +161,14 @@ class Concurrency extends Base
 			exit(0);
 		} else {
 			R::selectDatabase($this->currentlyActiveDriverID . 'c');
-			try{ R::exec('SET SESSION innodb_lock_wait_timeout=51');}catch( \Exception $e ){}
-			try{R::exec("SET lock_timeout = '51s';");}catch( \Exception $e ){}
+			try {
+				R::exec('SET SESSION innodb_lock_wait_timeout=51');
+			} catch (\Exception $e) {
+			}
+			try {
+				R::exec("SET lock_timeout = '51s';");
+			} catch (\Exception $e) {
+			}
 			echo "PARENT: PREP START\n";
 			R::nuke();
 			$i = R::dispense('inventory');
@@ -137,12 +177,15 @@ class Concurrency extends Base
 			R::exec('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
 			echo "PARENT: PREP DONE\n";
 			sleep(3);
-			echo "PARENT: ADDING 5 START\n"; 
-			try { R::exec('SET autocommit = 0'); }catch( \Exception $e ){}
-			R::freeze( TRUE );
+			echo "PARENT: ADDING 5 START\n";
+			try {
+				R::exec('SET autocommit = 0');
+			} catch (\Exception $e) {
+			}
+			R::freeze(TRUE);
 			R::begin();
 			$i = R::findForUpdate('inventory', ' id = ? ', array(1));
-			$i = reset( $i );
+			$i = reset($i);
 			print_r($i);
 			$i->apples += 5;
 			R::store($i);
@@ -151,9 +194,12 @@ class Concurrency extends Base
 			$i = R::getAll('select * from inventory where id = 1');
 			print_r($i);
 			asrt((int)$i[0]['apples'], 13);
-			R::freeze( FALSE );
-			try { R::exec('SET autocommit = 1'); }catch( \Exception $e ){}
-			pcntl_wait($status); 
+			R::freeze(FALSE);
+			try {
+				R::exec('SET autocommit = 1');
+			} catch (\Exception $e) {
+			}
+			pcntl_wait($status);
 		}
 	}
 
@@ -169,15 +215,15 @@ class Concurrency extends Base
 		$beans = R::dispenseAll('bean*10');
 		R::storeAll($beans[0]);
 		$ids = array();
-		foreach($beans[0] as $bean) $ids[] = $bean->id;
-		R::debug( TRUE, 1 );
+		foreach ($beans[0] as $bean) $ids[] = $bean->id;
+		R::debug(TRUE, 1);
 		$logs = R::getDatabaseAdapter()
-            ->getDatabase()
-            ->getLogger();
-		$beans = R::batch( 'bean', $ids );
-		asrt( count( $beans ), 10 );
+			->getDatabase()
+			->getLogger();
+		$beans = R::batch('bean', $ids);
+		asrt(count($beans), 10);
 		$entries = $logs->grep('for update');
-		asrt( count( $entries ), 0 );
+		asrt(count($entries), 0);
 		$logs->clear();
 
 		/* findOneForUpdate */
@@ -185,15 +231,15 @@ class Concurrency extends Base
 		$beans = R::dispenseAll('bean*10');
 		R::storeAll($beans[0]);
 		$ids = array();
-		foreach($beans[0] as $bean) $ids[] = $bean->id;
-		R::debug( TRUE, 1 );
+		foreach ($beans[0] as $bean) $ids[] = $bean->id;
+		R::debug(TRUE, 1);
 		$logs = R::getDatabaseAdapter()
-            ->getDatabase()
-            ->getLogger();
-		$beans = R::findOneForUpdate( 'bean' );
-		asrt( count( $beans ), 1 );
+			->getDatabase()
+			->getLogger();
+		$beans = R::findOneForUpdate('bean');
+		asrt(count($beans), 1);
 		$entries = $logs->grep('for update');
-		asrt( count( $entries ), 0 );
+		asrt(count($entries), 0);
 		$logs->clear();
 
 		/* findForUpdate */
@@ -201,15 +247,15 @@ class Concurrency extends Base
 		$beans = R::dispenseAll('bean*10');
 		R::storeAll($beans[0]);
 		$ids = array();
-		foreach($beans[0] as $bean) $ids[] = $bean->id;
-		R::debug( TRUE, 1 );
+		foreach ($beans[0] as $bean) $ids[] = $bean->id;
+		R::debug(TRUE, 1);
 		$logs = R::getDatabaseAdapter()
-            ->getDatabase()
-            ->getLogger();
-		$beans = R::findForUpdate( 'bean' );
-		asrt( count( $beans ), 10 );
+			->getDatabase()
+			->getLogger();
+		$beans = R::findForUpdate('bean');
+		asrt(count($beans), 10);
 		$entries = $logs->grep('for update');
-		asrt( count( $entries ), 0 );
+		asrt(count($entries), 0);
 		$logs->clear();
 
 		/* batch + snippet */
@@ -218,16 +264,16 @@ class Concurrency extends Base
 		R::storeAll($beans[0]);
 		$ids = array();
 		R::getWriter()->setSQLSelectSnippet('for update');
-		foreach($beans[0] as $bean) $ids[] = $bean->id;
-		R::debug( TRUE, 1 );
+		foreach ($beans[0] as $bean) $ids[] = $bean->id;
+		R::debug(TRUE, 1);
 		$logs = R::getDatabaseAdapter()
-            ->getDatabase()
-            ->getLogger();
-		$beans = R::batch( 'bean', $ids );
-		asrt( count( $beans ), 10 );
+			->getDatabase()
+			->getLogger();
+		$beans = R::batch('bean', $ids);
+		asrt(count($beans), 10);
 		$entries = $logs->grep('for update');
-		asrt( count( $entries ), 1 );
-		print_r( $entries );
+		asrt(count($entries), 1);
+		print_r($entries);
 		$logs->clear();
 
 		/* baseline */
@@ -235,15 +281,15 @@ class Concurrency extends Base
 		$beans = R::dispenseAll('bean*10');
 		R::storeAll($beans[0]);
 		$ids = array();
-		foreach($beans[0] as $bean) $ids[] = $bean->id;
-		R::debug( TRUE, 1 );
+		foreach ($beans[0] as $bean) $ids[] = $bean->id;
+		R::debug(TRUE, 1);
 		$logs = R::getDatabaseAdapter()
-            ->getDatabase()
-            ->getLogger();
-		$beans = R::batch( 'bean', $ids );
-		asrt( count( $beans ), 10 );
+			->getDatabase()
+			->getLogger();
+		$beans = R::batch('bean', $ids);
+		asrt(count($beans), 10);
 		$entries = $logs->grep('for update');
-		asrt( count( $entries ), 0 );
+		asrt(count($entries), 0);
 		$logs->clear();
 
 		/* find + snippet */
@@ -252,16 +298,16 @@ class Concurrency extends Base
 		R::storeAll($beans[0]);
 		$ids = array();
 		R::getWriter()->setSQLSelectSnippet('for update');
-		foreach($beans[0] as $bean) $ids[] = $bean->id;
-		R::debug( TRUE, 1 );
+		foreach ($beans[0] as $bean) $ids[] = $bean->id;
+		R::debug(TRUE, 1);
 		$logs = R::getDatabaseAdapter()
-            ->getDatabase()
-            ->getLogger();
-		$beans = R::find( 'bean' );
-		asrt( count( $beans ), 10 );
+			->getDatabase()
+			->getLogger();
+		$beans = R::find('bean');
+		asrt(count($beans), 10);
 		$entries = $logs->grep('for update');
-		asrt( count( $entries ), 1 );
-		print_r( $entries );
+		asrt(count($entries), 1);
+		print_r($entries);
 		$logs->clear();
 
 		/* baseline */
@@ -269,18 +315,18 @@ class Concurrency extends Base
 		$beans = R::dispenseAll('bean*10');
 		R::storeAll($beans[0]);
 		$ids = array();
-		foreach($beans[0] as $bean) $ids[] = $bean->id;
-		R::debug( TRUE, 1 );
+		foreach ($beans[0] as $bean) $ids[] = $bean->id;
+		R::debug(TRUE, 1);
 		$logs = R::getDatabaseAdapter()
-            ->getDatabase()
-            ->getLogger();
-		$beans = R::batch( 'bean', $ids );
-		asrt( count( $beans ), 10 );
+			->getDatabase()
+			->getLogger();
+		$beans = R::batch('bean', $ids);
+		asrt(count($beans), 10);
 		$entries = $logs->grep('for update');
-		asrt( count( $entries ), 0 );
+		asrt(count($entries), 0);
 		$logs->clear();
 
-		R::debug( FALSE );
+		R::debug(FALSE);
 	}
 
 	/**
@@ -294,21 +340,21 @@ class Concurrency extends Base
 		R::nuke();
 		$bean = R::dispense('lock');
 		$bean->title = 'lock';
-		$id = R::store( $bean );
-		R::getWriter()->setUseCache( TRUE );
-		$lock = R::loadForUpdate( 'lock', $id );
-		R::debug( TRUE, 1 );
-		$lock = R::loadForUpdate( 'lock', $id );
-		$logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->grep( AQueryWriter::C_SELECT_SNIPPET_FOR_UPDATE );
-		asrt( count($logs), 1 ); //if no cache clear, then would have been 2
-		R::debug( FALSE );
-		$lock = R::findForUpdate( 'lock', 'id = ?', array( $id ) );
-		R::debug( TRUE, 1 );
-		$lock = R::findForUpdate( 'lock', 'id = ?', array( $id ) );
-		$logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->grep( AQueryWriter::C_SELECT_SNIPPET_FOR_UPDATE );
-		asrt( count($logs), 1 ); //if no cache clear, then would have been 2
-		R::getWriter()->setUseCache( FALSE );
-		R::debug( FALSE );
+		$id = R::store($bean);
+		R::getWriter()->setUseCache(TRUE);
+		$lock = R::loadForUpdate('lock', $id);
+		R::debug(TRUE, 1);
+		$lock = R::loadForUpdate('lock', $id);
+		$logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->grep(AQueryWriter::C_SELECT_SNIPPET_FOR_UPDATE);
+		asrt(count($logs), 1); //if no cache clear, then would have been 2
+		R::debug(FALSE);
+		$lock = R::findForUpdate('lock', 'id = ?', array($id));
+		R::debug(TRUE, 1);
+		$lock = R::findForUpdate('lock', 'id = ?', array($id));
+		$logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->grep(AQueryWriter::C_SELECT_SNIPPET_FOR_UPDATE);
+		asrt(count($logs), 1); //if no cache clear, then would have been 2
+		R::getWriter()->setUseCache(FALSE);
+		R::debug(FALSE);
 		R::nuke();
 	}
 }

@@ -2,9 +2,11 @@
 
 namespace app\models;
 
-class Product extends AppModel {
+class Product extends AppModel
+{
 
-    public function setRecentlyViewed($id) {
+    public function setRecentlyViewed($id)
+    {
         $recentlyViewed = $this->getAllRecentlyViewed();
         if (!$recentlyViewed) {
             setcookie('recentlyViewed', $id, time() + 3600 * 24, '/');
@@ -18,7 +20,8 @@ class Product extends AppModel {
         }
     }
 
-    public function getRecentlyViewed() {
+    public function getRecentlyViewed()
+    {
         if (!empty($_COOKIE['recentlyViewed'])) {
             $recentlyViewed = $_COOKIE['recentlyViewed'];
             $recentlyViewed = explode('.', $recentlyViewed);
@@ -27,11 +30,11 @@ class Product extends AppModel {
         return false;
     }
 
-    public function getAllRecentlyViewed() {
-        if(!empty($_COOKIE['recentlyViewed'])) {
+    public function getAllRecentlyViewed()
+    {
+        if (!empty($_COOKIE['recentlyViewed'])) {
             return $_COOKIE['recentlyViewed'];
         }
         return false;
     }
-
 }

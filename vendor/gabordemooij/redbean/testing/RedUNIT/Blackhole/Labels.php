@@ -34,14 +34,14 @@ class Labels extends Blackhole
 	 */
 	public function testLabels()
 	{
-		testpack( 'Test Labels' );
-		$meals = R::dispenseLabels( 'meal', array( 'meat', 'fish', 'vegetarian' ) );
-		asrt( is_array( $meals ), TRUE );
-		asrt( count( $meals ), 3 );
-		foreach ( $meals as $m ) {
-			asrt( ( $m instanceof OODBBean ), TRUE );
+		testpack('Test Labels');
+		$meals = R::dispenseLabels('meal', array('meat', 'fish', 'vegetarian'));
+		asrt(is_array($meals), TRUE);
+		asrt(count($meals), 3);
+		foreach ($meals as $m) {
+			asrt(($m instanceof OODBBean), TRUE);
 		}
-		$listOfMeals = implode( ',', R::gatherLabels( $meals ) );
-		asrt( $listOfMeals, 'fish,meat,vegetarian' );
+		$listOfMeals = implode(',', R::gatherLabels($meals));
+		asrt($listOfMeals, 'fish,meat,vegetarian');
 	}
 }

@@ -35,21 +35,21 @@ class Observers extends Base
 		$adapter = $toolbox->getDatabaseAdapter();
 		$writer  = $toolbox->getWriter();
 		$redbean = $toolbox->getRedBean();
-		asrt( ( $adapter instanceof DBAdapter ), TRUE );
-		asrt( ( $writer instanceof QueryWriter ), TRUE );
-		asrt( ( $redbean instanceof OODB ), TRUE );
+		asrt(($adapter instanceof DBAdapter), TRUE);
+		asrt(($writer instanceof QueryWriter), TRUE);
+		asrt(($redbean instanceof OODB), TRUE);
 		$observable = new \ObservableMock();
 		$observer   = new \ObserverMock();
-		$observable->addEventListener( "event1", $observer );
-		$observable->addEventListener( "event3", $observer );
-		$observable->test( "event1", "testsignal1" );
-		asrt( $observer->event, "event1" );
-		asrt( $observer->info, "testsignal1" );
-		$observable->test( "event2", "testsignal2" );
-		asrt( $observer->event, "event1" );
-		asrt( $observer->info, "testsignal1" );
-		$observable->test( "event3", "testsignal3" );
-		asrt( $observer->event, "event3" );
-		asrt( $observer->info, "testsignal3" );
+		$observable->addEventListener("event1", $observer);
+		$observable->addEventListener("event3", $observer);
+		$observable->test("event1", "testsignal1");
+		asrt($observer->event, "event1");
+		asrt($observer->info, "testsignal1");
+		$observable->test("event2", "testsignal2");
+		asrt($observer->event, "event1");
+		asrt($observer->info, "testsignal1");
+		$observable->test("event3", "testsignal3");
+		asrt($observer->event, "event3");
+		asrt($observer->info, "testsignal3");
 	}
 }

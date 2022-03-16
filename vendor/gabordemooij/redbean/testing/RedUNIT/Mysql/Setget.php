@@ -42,11 +42,11 @@ class Setget extends Mysql
 	public function testDateObject()
 	{
 		$dt = new \DateTime();
-		$dt->setTimeZone( new \DateTimeZone( 'Europe/Amsterdam' ) );
-		$dt->setDate( 1981, 5, 1 );
-		$dt->setTime( 3, 13, 13 );
-		asrt( setget( $dt ), '1981-05-01 03:13:13' );
-		$bean = R::dispense( 'bean' );
+		$dt->setTimeZone(new \DateTimeZone('Europe/Amsterdam'));
+		$dt->setDate(1981, 5, 1);
+		$dt->setTime(3, 13, 13);
+		asrt(setget($dt), '1981-05-01 03:13:13');
+		$bean = R::dispense('bean');
 		$bean->dt = $dt;
 	}
 
@@ -58,9 +58,9 @@ class Setget extends Mysql
 	public function testGetInsertID()
 	{
 		R::nuke();
-		$id = R::store( R::dispense( 'book' ) );
+		$id = R::store(R::dispense('book'));
 		$id2 = R::getInsertID();
-		asrt( $id, $id2 );
+		asrt($id, $id2);
 	}
 
 	/**
@@ -70,34 +70,34 @@ class Setget extends Mysql
 	 */
 	public function testNumbers()
 	{
-		asrt( setget( "-1" ), "-1" );
-		asrt( setget( -1 ), "-1" );
-		asrt( setget( "-0.25" ), "-0.25" );
-		asrt( setget( -0.25 ), "-0.25" );
-		asrt( setget( "1.0" ), "1" );
-		asrt( setget( 1.0 ), "1" );
-		asrt( setget( "3.20" ), "3.20" );
-		asrt( setget( "13.20" ), "13.20" );
-		asrt( setget( "134.20" ), "134.20" );
-		asrt( setget( 3.21 ), '3.21' );
-		asrt( setget( "0.12345678" ), "0.12345678" );
-		asrt( setget( 0.12345678 ), "0.12345678" );
-		asrt( setget( "-0.12345678" ), "-0.12345678" );
-		asrt( setget( -0.12345678 ), "-0.12345678" );
-		asrt( setget( "2147483647" ), "2147483647" );
-		asrt( setget( 2147483647 ), "2147483647" );
-		asrt( setget( -2147483647 ), "-2147483647" );
-		asrt( setget( "-2147483647" ), "-2147483647" );
-		asrt( setget( -4294967295 ), "-4294967295" );
-		asrt( setget( "-4294967295" ), "-4294967295" );
-		asrt( setget( 4294967295 ), "4294967295" );
-		asrt( setget( "4294967295" ), "4294967295" );
-		asrt( setget( "2147483648" ), "2147483648" );
-		asrt( setget( "-2147483648" ), "-2147483648" );
-		$x = setget( "199936710040730" );
-		asrt( $x === "199936710040730"  || $x === "1.9993671004073E+14", TRUE );
-		$x = setget( "-199936710040730" );
-		asrt( $x === "-199936710040730"  || $x === "-1.9993671004073E+14", TRUE );
+		asrt(setget("-1"), "-1");
+		asrt(setget(-1), "-1");
+		asrt(setget("-0.25"), "-0.25");
+		asrt(setget(-0.25), "-0.25");
+		asrt(setget("1.0"), "1");
+		asrt(setget(1.0), "1");
+		asrt(setget("3.20"), "3.20");
+		asrt(setget("13.20"), "13.20");
+		asrt(setget("134.20"), "134.20");
+		asrt(setget(3.21), '3.21');
+		asrt(setget("0.12345678"), "0.12345678");
+		asrt(setget(0.12345678), "0.12345678");
+		asrt(setget("-0.12345678"), "-0.12345678");
+		asrt(setget(-0.12345678), "-0.12345678");
+		asrt(setget("2147483647"), "2147483647");
+		asrt(setget(2147483647), "2147483647");
+		asrt(setget(-2147483647), "-2147483647");
+		asrt(setget("-2147483647"), "-2147483647");
+		asrt(setget(-4294967295), "-4294967295");
+		asrt(setget("-4294967295"), "-4294967295");
+		asrt(setget(4294967295), "4294967295");
+		asrt(setget("4294967295"), "4294967295");
+		asrt(setget("2147483648"), "2147483648");
+		asrt(setget("-2147483648"), "-2147483648");
+		$x = setget("199936710040730");
+		asrt($x === "199936710040730"  || $x === "1.9993671004073E+14", TRUE);
+		$x = setget("-199936710040730");
+		asrt($x === "-199936710040730"  || $x === "-1.9993671004073E+14", TRUE);
 		//asrt( setget( "199936710040730" ), "199936710040730" );
 		//asrt( setget( "-199936710040730" ), "-199936710040730" );
 		//Architecture dependent... only test this if you are sure what arch
@@ -112,10 +112,10 @@ class Setget extends Mysql
 	 */
 	public function testDates()
 	{
-		asrt( setget( "2010-10-11" ), "2010-10-11" );
-		asrt( setget( "2010-10-11 12:10" ), "2010-10-11 12:10" );
-		asrt( setget( "2010-10-11 12:10:11" ), "2010-10-11 12:10:11" );
-		asrt( setget( "x2010-10-11 12:10:11" ), "x2010-10-11 12:10:11" );
+		asrt(setget("2010-10-11"), "2010-10-11");
+		asrt(setget("2010-10-11 12:10"), "2010-10-11 12:10");
+		asrt(setget("2010-10-11 12:10:11"), "2010-10-11 12:10:11");
+		asrt(setget("x2010-10-11 12:10:11"), "x2010-10-11 12:10:11");
 	}
 
 	/**
@@ -125,10 +125,10 @@ class Setget extends Mysql
 	 */
 	public function testStrings()
 	{
-		asrt( setget( "a" ), "a" );
-		asrt( setget( "." ), "." );
-		asrt( setget( "\"" ), "\"" );
-		asrt( setget( "just some text" ), "just some text" );
+		asrt(setget("a"), "a");
+		asrt(setget("."), ".");
+		asrt(setget("\""), "\"");
+		asrt(setget("just some text"), "just some text");
 	}
 
 	/**
@@ -138,10 +138,10 @@ class Setget extends Mysql
 	 */
 	public function testBool()
 	{
-		asrt( setget( TRUE ), "1" );
-		asrt( setget( FALSE ), "0" );
-		asrt( setget( "TRUE" ), "TRUE" );
-		asrt( setget( "FALSE" ), "FALSE" );
+		asrt(setget(TRUE), "1");
+		asrt(setget(FALSE), "0");
+		asrt(setget("TRUE"), "TRUE");
+		asrt(setget("FALSE"), "FALSE");
 	}
 
 	/**
@@ -151,14 +151,14 @@ class Setget extends Mysql
 	 */
 	public function testNull()
 	{
-		asrt( setget( "NULL" ), "NULL" );
-		asrt( setget( "NULL" ), "NULL" );
-		asrt( setget( "0123" ), "0123" );
-		asrt( setget( "0000123" ), "0000123" );
-		asrt( setget( NULL ), NULL );
-		asrt( ( setget( 0 ) == 0 ), TRUE );
-		asrt( ( setget( 1 ) == 1 ), TRUE );
-		asrt( ( setget( TRUE ) == TRUE ), TRUE );
-		asrt( ( setget( FALSE ) == FALSE ), TRUE );
+		asrt(setget("NULL"), "NULL");
+		asrt(setget("NULL"), "NULL");
+		asrt(setget("0123"), "0123");
+		asrt(setget("0000123"), "0000123");
+		asrt(setget(NULL), NULL);
+		asrt((setget(0) == 0), TRUE);
+		asrt((setget(1) == 1), TRUE);
+		asrt((setget(TRUE) == TRUE), TRUE);
+		asrt((setget(FALSE) == FALSE), TRUE);
 	}
 }

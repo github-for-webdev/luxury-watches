@@ -2,11 +2,13 @@
 
 namespace ishop;
 
-class Cache {
+class Cache
+{
 
     use TSingletone;
 
-    public function set($key, $data, $seconds = 3600) {
+    public function set($key, $data, $seconds = 3600)
+    {
         if ($seconds) {
             $content['data'] = $data;
             $content['end_time'] = time() + $seconds;
@@ -17,7 +19,8 @@ class Cache {
         return false;
     }
 
-    public function get($key) {
+    public function get($key)
+    {
         $file = CACHE . '/' . md5($key) . '.txt';
         if (file_exists($file)) {
             $content = unserialize(file_get_contents($file));
@@ -29,11 +32,11 @@ class Cache {
         return false;
     }
 
-    public function delete($key) {
+    public function delete($key)
+    {
         $file = CACHE . '/' . md5($key) . '.txt';
         if (file_exists($file)) {
             unlink($file);
         }
     }
-
 }

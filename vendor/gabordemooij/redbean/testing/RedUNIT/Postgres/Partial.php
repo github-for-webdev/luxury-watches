@@ -52,62 +52,62 @@ class Partial extends Postgres
 	public function testIssue547BoolCol()
 	{
 		R::nuke();
-		R::usePartialBeans( FALSE );
-		$bean = R::dispense( 'bean' );
+		R::usePartialBeans(FALSE);
+		$bean = R::dispense('bean');
 		$bean->property1 = 'value1';
-		$id = R::store( $bean );
-		R::freeze( TRUE );
+		$id = R::store($bean);
+		R::freeze(TRUE);
 		R::exec('ALTER TABLE bean ADD COLUMN "property2" BOOLEAN DEFAULT FALSE;');
-		$bean = R::load( 'bean', $id );
+		$bean = R::load('bean', $id);
 		$bean->property1 = 'value1b';
 		/* we cant save the bean, because there is an unsupported field type in the table */
 		/* this was the bug... (or missing feature?) */
 		try {
-			R::store( $bean );
+			R::store($bean);
 			//No fail? Then this instance of Postgres is more lenient (newer version) - No further testing for now
 			return;
-		} catch( SQLException $e ) {
-			asrt( strpos( $e->getMessage(), 'Invalid text representation' ) > 1, TRUE );
-			asrt( $e->getSQLState(), '22P02' );
+		} catch (SQLException $e) {
+			asrt(strpos($e->getMessage(), 'Invalid text representation') > 1, TRUE);
+			asrt($e->getSQLState(), '22P02');
 		}
 		/* solved by adding feature partial beans, now only the changed properties get saved */
-		R::usePartialBeans( TRUE );
-		$id = R::store( $bean );
+		R::usePartialBeans(TRUE);
+		$id = R::store($bean);
 		/* no exception... */
 		pass();
 		/* also test behavior of boolean column in general */
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->property1, 'value1b' );
-		asrt( $bean->property2, FALSE );
+		$bean = R::load('bean', $id);
+		asrt($bean->property1, 'value1b');
+		asrt($bean->property2, FALSE);
 		$bean->property2 = TRUE;
-		$id = R::store( $bean );
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->property1, 'value1b' );
-		asrt( $bean->property2, TRUE );
+		$id = R::store($bean);
+		$bean = R::load('bean', $id);
+		asrt($bean->property1, 'value1b');
+		asrt($bean->property2, TRUE);
 		$bean->property2 = FALSE;
-		$id = R::store( $bean );
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->property1, 'value1b' );
-		asrt( $bean->property2, FALSE );
+		$id = R::store($bean);
+		$bean = R::load('bean', $id);
+		asrt($bean->property1, 'value1b');
+		asrt($bean->property2, FALSE);
 		$bean->property2 = 't';
-		$id = R::store( $bean );
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->property1, 'value1b' );
-		asrt( $bean->property2, TRUE );
+		$id = R::store($bean);
+		$bean = R::load('bean', $id);
+		asrt($bean->property1, 'value1b');
+		asrt($bean->property2, TRUE);
 		$bean->property2 = 'f';
-		$id = R::store( $bean );
-		$bean = R::load( 'bean', $id );
-		asrt( $bean->property1, 'value1b' );
-		asrt( $bean->property2, FALSE );
+		$id = R::store($bean);
+		$bean = R::load('bean', $id);
+		asrt($bean->property1, 'value1b');
+		asrt($bean->property2, FALSE);
 		/* but invalid text should not work */
 		$bean->property2 = 'tx'; //instead of just 't'
 		try {
-			$id = R::store( $bean );
+			$id = R::store($bean);
 			fail();
-		} catch( SQLException $e ) {
-			asrt( strpos( $e->getMessage(), 'Invalid text representation' ) > 1, TRUE );
-			asrt( $e->getSQLState(), '22P02' );
+		} catch (SQLException $e) {
+			asrt(strpos($e->getMessage(), 'Invalid text representation') > 1, TRUE);
+			asrt($e->getSQLState(), '22P02');
 		}
-		R::usePartialBeans( FALSE );
+		R::usePartialBeans(FALSE);
 	}
 }

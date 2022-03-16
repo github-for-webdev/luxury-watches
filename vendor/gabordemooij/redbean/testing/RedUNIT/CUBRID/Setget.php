@@ -42,11 +42,11 @@ class Setget extends \RedUNIT\CUBRID
 	public function testDateObject()
 	{
 		$dt = new \DateTime();
-		$dt->setTimeZone( new \DateTimeZone( 'Europe/Amsterdam' ) );
-		$dt->setDate( 1981, 5, 1 );
-		$dt->setTime( 3, 13, 13 );
-		asrt( setget( $dt ), '1981-05-01 03:13:13.000' );
-		$bean = R::dispense( 'bean' );
+		$dt->setTimeZone(new \DateTimeZone('Europe/Amsterdam'));
+		$dt->setDate(1981, 5, 1);
+		$dt->setTime(3, 13, 13);
+		asrt(setget($dt), '1981-05-01 03:13:13.000');
+		$bean = R::dispense('bean');
 		$bean->dt = $dt;
 	}
 
@@ -57,26 +57,26 @@ class Setget extends \RedUNIT\CUBRID
 	 */
 	public function testNumbers()
 	{
-		asrt( setget( "-1" ), "-1" );
-		asrt( setget( -1 ), "-1" );
-		asrt( setget( "1.0" ), "1" );
-		asrt( setget( 1.0 ), "1" );
-		asrt( setget( "-0.25" ), "-0.2500000000000000" );
-		asrt( setget( -0.25 ), "-0.2500000000000000" );
-		asrt( setget( "0.12345678" ), "0.1234567800000000" );
-		asrt( setget( 0.12345678 ), "0.1234567800000000" );
-		asrt( setget( "-0.12345678" ), "-0.1234567800000000" );
-		asrt( setget( -0.12345678 ), "-0.1234567800000000" );
-		asrt( setget( "2147483647" ), "2147483647" );
-		asrt( setget( 2147483647 ), "2147483647" );
-		asrt( setget( -2147483647 ), "-2147483647" );
-		asrt( setget( "-2147483647" ), "-2147483647" );
-		asrt( setget( "2147483648" ), "2147483648.0000000000000000" );
-		asrt( setget( "-2147483648" ), "-2147483648.0000000000000000" );
-		$x = setget( "199936710040730" );
-		asrt( $x === "199936710040730.0000000000000000"  || $x === "1.9993671004073E+14", TRUE );
-		$x = setget( "-199936710040730" );
-		asrt( $x === "-199936710040730.0000000000000000"  || $x === "-1.9993671004073E+14", TRUE );
+		asrt(setget("-1"), "-1");
+		asrt(setget(-1), "-1");
+		asrt(setget("1.0"), "1");
+		asrt(setget(1.0), "1");
+		asrt(setget("-0.25"), "-0.2500000000000000");
+		asrt(setget(-0.25), "-0.2500000000000000");
+		asrt(setget("0.12345678"), "0.1234567800000000");
+		asrt(setget(0.12345678), "0.1234567800000000");
+		asrt(setget("-0.12345678"), "-0.1234567800000000");
+		asrt(setget(-0.12345678), "-0.1234567800000000");
+		asrt(setget("2147483647"), "2147483647");
+		asrt(setget(2147483647), "2147483647");
+		asrt(setget(-2147483647), "-2147483647");
+		asrt(setget("-2147483647"), "-2147483647");
+		asrt(setget("2147483648"), "2147483648.0000000000000000");
+		asrt(setget("-2147483648"), "-2147483648.0000000000000000");
+		$x = setget("199936710040730");
+		asrt($x === "199936710040730.0000000000000000"  || $x === "1.9993671004073E+14", TRUE);
+		$x = setget("-199936710040730");
+		asrt($x === "-199936710040730.0000000000000000"  || $x === "-1.9993671004073E+14", TRUE);
 	}
 
 	/**
@@ -86,10 +86,10 @@ class Setget extends \RedUNIT\CUBRID
 	 */
 	public function testDates()
 	{
-		asrt( setget( "2010-10-11" ), "2010-10-11" );
-		asrt( setget( "2010-10-11 12:10" ), "2010-10-11 12:10" );
-		asrt( setget( "2010-10-11 12:10:11" ), "2010-10-11 12:10:11.000" );
-		asrt( setget( "x2010-10-11 12:10:11" ), "x2010-10-11 12:10:11" );
+		asrt(setget("2010-10-11"), "2010-10-11");
+		asrt(setget("2010-10-11 12:10"), "2010-10-11 12:10");
+		asrt(setget("2010-10-11 12:10:11"), "2010-10-11 12:10:11.000");
+		asrt(setget("x2010-10-11 12:10:11"), "x2010-10-11 12:10:11");
 	}
 
 	/**
@@ -99,10 +99,10 @@ class Setget extends \RedUNIT\CUBRID
 	 */
 	public function testStrings()
 	{
-		asrt( setget( "a" ), "a" );
-		asrt( setget( "." ), "." );
-		asrt( setget( "\"" ), "\"" );
-		asrt( setget( "just some text" ), "just some text" );
+		asrt(setget("a"), "a");
+		asrt(setget("."), ".");
+		asrt(setget("\""), "\"");
+		asrt(setget("just some text"), "just some text");
 	}
 
 	/**
@@ -112,10 +112,10 @@ class Setget extends \RedUNIT\CUBRID
 	 */
 	public function testBool()
 	{
-		asrt( setget( TRUE ), "1" );
-		asrt( setget( FALSE ), "0" );
-		asrt( setget( "TRUE" ), "TRUE" );
-		asrt( setget( "FALSE" ), "FALSE" );
+		asrt(setget(TRUE), "1");
+		asrt(setget(FALSE), "0");
+		asrt(setget("TRUE"), "TRUE");
+		asrt(setget("FALSE"), "FALSE");
 	}
 
 	/**
@@ -125,25 +125,25 @@ class Setget extends \RedUNIT\CUBRID
 	 */
 	public function testNull()
 	{
-		asrt( setget( "NULL" ), "NULL" );
-		asrt( setget( "NULL" ), "NULL" );
-		asrt( setget( "0123" ), "0123" );
-		asrt( setget( "0000123" ), "0000123" );
-		asrt( setget( NULL ), NULL );
-		asrt( ( setget( 0 ) == 0 ), TRUE );
-		asrt( ( setget( 1 ) == 1 ), TRUE );
-		asrt( ( setget( TRUE ) == TRUE ), TRUE );
-		asrt( ( setget( FALSE ) == FALSE ), TRUE );
+		asrt(setget("NULL"), "NULL");
+		asrt(setget("NULL"), "NULL");
+		asrt(setget("0123"), "0123");
+		asrt(setget("0000123"), "0000123");
+		asrt(setget(NULL), NULL);
+		asrt((setget(0) == 0), TRUE);
+		asrt((setget(1) == 1), TRUE);
+		asrt((setget(TRUE) == TRUE), TRUE);
+		asrt((setget(FALSE) == FALSE), TRUE);
 		// minor test sqltest
-		$a = R::getWriter()->sqlStateIn( '000', array() );
+		$a = R::getWriter()->sqlStateIn('000', array());
 		// Unknown state must return FALSE.
-		asrt( $a, FALSE );
+		asrt($a, FALSE);
 		try {
-			R::getWriter()->esc( '`aaa`' );
+			R::getWriter()->esc('`aaa`');
 			fail();
-		} catch (\Exception $e ) {
+		} catch (\Exception $e) {
 			pass();
 		}
-		asrt( ( $e instanceof RedException ), TRUE );
+		asrt(($e instanceof RedException), TRUE);
 	}
 }

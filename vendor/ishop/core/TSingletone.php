@@ -2,11 +2,13 @@
 
 namespace ishop;
 
-trait TSingletone {
+trait TSingletone
+{
 
     private static $instance;
 
-    public static function instance() {
+    public static function instance()
+    {
         if (self::$instance === null) {
             self::$instance = new self;
         }

@@ -1,6 +1,7 @@
 <?php
 
 namespace RedUNIT;
+
 use RedBeanPHP\Facade as R;
 
 /**
@@ -47,12 +48,12 @@ abstract class RedUNIT
 	{
 		R::getDatabaseAdapter()->getDatabase()->connect();
 		try {
-			R::freeze( FALSE );
-			R::debug( FALSE );
+			R::freeze(FALSE);
+			R::debug(FALSE);
 			R::nuke();
-		} catch( \Exception $e ) {
-			R::freeze( FALSE );
-			R::debug( FALSE );
+		} catch (\Exception $e) {
+			R::freeze(FALSE);
+			R::debug(FALSE);
 			R::nuke();
 		}
 	}
@@ -69,20 +70,20 @@ abstract class RedUNIT
 	public function run()
 	{
 		$old_error_handler = set_error_handler('redunit_error_handler');
-		$class = new \ReflectionClass( $this );
-		$skip = array( 'run', 'getTargetDrivers', 'onEvent', 'cleanUp', 'prepare' );
+		$class = new \ReflectionClass($this);
+		$skip = array('run', 'getTargetDrivers', 'onEvent', 'cleanUp', 'prepare');
 		// Call all methods except run automatically
-		foreach ( $class->getMethods( \ReflectionMethod::IS_PUBLIC ) as $method ) {
+		foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
 			// Skip methods inherited from parent class
-			if ( $method->class != $class->getName() ) continue;
-			if ( in_array( $method->name, $skip ) ) continue;
-			$classname = str_replace( $class->getParentClass()->getName().'_', '', $method->class );
-			printtext( "\n\t" . $classname."->".$method->name." [".$method->class."->".$method->name."]" . " \n\t" );
+			if ($method->class != $class->getName()) continue;
+			if (in_array($method->name, $skip)) continue;
+			$classname = str_replace($class->getParentClass()->getName() . '_', '', $method->class);
+			printtext("\n\t" . $classname . "->" . $method->name . " [" . $method->class . "->" . $method->name . "]" . " \n\t");
 			$call = $method->name;
 			$this->$call();
 			try {
 				R::nuke();
-			} catch( \PDOException $e ) {
+			} catch (\PDOException $e) {
 				// Some tests use a broken database on purpose, so an exception is ok
 			}
 		}
@@ -112,7 +113,7 @@ abstract class RedUNIT
 	 *
 	 * @return void
 	 */
-	public function setCurrentDriver( $driver )
+	public function setCurrentDriver($driver)
 	{
 		$this->currentlyActiveDriverID = $driver;
 	}
@@ -129,7 +130,7 @@ abstract class RedUNIT
 	 *
 	 * @return void
 	 */
-	public function setRound( $roundNumber )
+	public function setRound($roundNumber)
 	{
 		$this->round = (int) $roundNumber;
 	}
@@ -157,6 +158,6 @@ abstract class RedUNIT
 	 */
 	public function isFirstRound()
 	{
-		return ( $this->round === 0 );
+		return ($this->round === 0);
 	}
 }

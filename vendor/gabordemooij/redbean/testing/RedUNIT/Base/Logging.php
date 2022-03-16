@@ -33,15 +33,15 @@ class Logging extends Base
 	{
 		R::nuke();
 		R::startLogging();
-		R::store( R::dispense( 'book' ) );
+		R::store(R::dispense('book'));
 		$logs = R::getLogs();
-		$count = count( $logs );
-		asrt( ( count( $logs ) > 0 ), TRUE );
-		asrt( ( R::getLogger() instanceof Logger ), TRUE );
+		$count = count($logs);
+		asrt((count($logs) > 0), TRUE);
+		asrt((R::getLogger() instanceof Logger), TRUE);
 		R::stopLogging();
-		R::store( R::dispense( 'book' ) );
+		R::store(R::dispense('book'));
 		$logs = R::getLogs();
-		asrt( ( count( $logs ) === 0 ), TRUE );
+		asrt((count($logs) === 0), TRUE);
 	}
 
 	/**
@@ -64,127 +64,127 @@ class Logging extends Base
 		R::nuke();
 		$debugger = new Debug;
 		$database = R::getDatabaseAdapter()->getDatabase();
-		$database->setLogger( $debugger );
-		asrt( $database->getLogger(), $debugger );
-		$database->setEnableLogging( TRUE );
-		$debugger->setMode( RDefault::C_LOGGER_ARRAY );
+		$database->setLogger($debugger);
+		asrt($database->getLogger(), $debugger);
+		$database->setEnableLogging(TRUE);
+		$debugger->setMode(RDefault::C_LOGGER_ARRAY);
 		/* debug logger with nostringonlybinding should have unquoted ints */
-		R::store( R::dispense( 'book' ) );
-		R::getAll( 'SELECT * FROM book WHERE id < ?', array( array( 999, \PDO::PARAM_INT ) ) );
-		asrt( count( $debugger->grep('999') ), 1 );
-		asrt( count( $debugger->grep('\'999\'') ), 0 );
-		asrt( count( $debugger->grep('rray') ), 0 );
-		$debugger->setUseStringOnlyBinding( FALSE );
+		R::store(R::dispense('book'));
+		R::getAll('SELECT * FROM book WHERE id < ?', array(array(999, \PDO::PARAM_INT)));
+		asrt(count($debugger->grep('999')), 1);
+		asrt(count($debugger->grep('\'999\'')), 0);
+		asrt(count($debugger->grep('rray')), 0);
+		$debugger->setUseStringOnlyBinding(FALSE);
 		$debugger->clear();
-		R::getAll( 'SELECT * FROM book WHERE id < ?', array( array( 999, \PDO::PARAM_STR ) ) );
+		R::getAll('SELECT * FROM book WHERE id < ?', array(array(999, \PDO::PARAM_STR)));
 		/* ...but quoted strings */
-		asrt( count( $debugger->grep('\'999\'') ), 1 );
-		asrt( count( $debugger->grep('rray') ), 0 );
-		$debugger->setUseStringOnlyBinding( FALSE );
+		asrt(count($debugger->grep('\'999\'')), 1);
+		asrt(count($debugger->grep('rray')), 0);
+		$debugger->setUseStringOnlyBinding(FALSE);
 		$debugger->clear();
 		/* even if PARAM INT if stringonlybinding then override */
-		$debugger->setUseStringOnlyBinding( TRUE );
-		R::getAll( 'SELECT * FROM book WHERE id < ?', array( array( 999, \PDO::PARAM_INT ) ) );
-		asrt( count( $debugger->grep('\'999\'') ), 1 );
-		asrt( count( $debugger->grep('rray') ), 0 );
+		$debugger->setUseStringOnlyBinding(TRUE);
+		R::getAll('SELECT * FROM book WHERE id < ?', array(array(999, \PDO::PARAM_INT)));
+		asrt(count($debugger->grep('\'999\'')), 1);
+		asrt(count($debugger->grep('rray')), 0);
 		/* if no type and stringonlybinding always quote */
 		$debugger->clear();
-		R::getAll( 'SELECT * FROM book WHERE id < ?', array( 999 ) );
-		asrt( count( $debugger->grep('\'999\'') ), 1 );
-		asrt( count( $debugger->grep('rray') ), 0 );
+		R::getAll('SELECT * FROM book WHERE id < ?', array(999));
+		asrt(count($debugger->grep('\'999\'')), 1);
+		asrt(count($debugger->grep('rray')), 0);
 		/* a more closer inspection */
 		/* log implicit INT param without StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( 123 ) );
-		asrt( count( $debugger->grep('123') ), 1 );
-		asrt( count( $debugger->grep('\'123\'') ), 0 );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array(123));
+		asrt(count($debugger->grep('123')), 1);
+		asrt(count($debugger->grep('\'123\'')), 0);
 		/* log implicit STR param without StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( 'abc' ) );
-		asrt( count( $debugger->grep('\'abc\'') ), 1 );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array('abc'));
+		asrt(count($debugger->grep('\'abc\'')), 1);
 		/* log NULL param without StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( NULL ) );
-		asrt( count( $debugger->grep('NULL') ), 1 );
-		asrt( count( $debugger->grep('\'NULL\'') ), 0 );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array(NULL));
+		asrt(count($debugger->grep('NULL')), 1);
+		asrt(count($debugger->grep('\'NULL\'')), 0);
 		/* log explicit INT param without StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( 123, \PDO::PARAM_INT ) );
-		asrt( count( $debugger->grep('123') ), 1 );
-		asrt( count( $debugger->grep('\'123\'') ), 0 );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array(123, \PDO::PARAM_INT));
+		asrt(count($debugger->grep('123')), 1);
+		asrt(count($debugger->grep('\'123\'')), 0);
 		/* log explicit STR param without StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( 'abc', \PDO::PARAM_STR ) );
-		asrt( count( $debugger->grep('\'abc\'') ), 1 );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array('abc', \PDO::PARAM_STR));
+		asrt(count($debugger->grep('\'abc\'')), 1);
 		/* log NULL with explicit param type without StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( NULL, \PDO::PARAM_STR ) );
-		asrt( count( $debugger->grep('NULL') ), 1 );
-		asrt( count( $debugger->grep('\'NULL\'') ), 0 );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array(NULL, \PDO::PARAM_STR));
+		asrt(count($debugger->grep('NULL')), 1);
+		asrt(count($debugger->grep('\'NULL\'')), 0);
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( NULL, \PDO::PARAM_INT ) );
-		asrt( count( $debugger->grep('NULL') ), 1 );
-		asrt( count( $debugger->grep('\'NULL\'') ), 0 );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array(NULL, \PDO::PARAM_INT));
+		asrt(count($debugger->grep('NULL')), 1);
+		asrt(count($debugger->grep('\'NULL\'')), 0);
 		/* log implicit INT param with StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( TRUE );
-		$debugger->log(' Hello ? ', array( 123 ) );
-		asrt( count( $debugger->grep('\'123\'') ), 1 );
+		$debugger->setUseStringOnlyBinding(TRUE);
+		$debugger->log(' Hello ? ', array(123));
+		asrt(count($debugger->grep('\'123\'')), 1);
 		/* log implicit STR param with StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( TRUE );
-		$debugger->log(' Hello ? ', array( 'abc' ) );
-		asrt( count( $debugger->grep('\'abc\'') ), 1 );
+		$debugger->setUseStringOnlyBinding(TRUE);
+		$debugger->log(' Hello ? ', array('abc'));
+		asrt(count($debugger->grep('\'abc\'')), 1);
 		/* log NULL param with StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( TRUE );
-		$debugger->log(' Hello ? ', array( NULL ) );
-		asrt( count( $debugger->grep('\'NULL\'') ), 1 );
+		$debugger->setUseStringOnlyBinding(TRUE);
+		$debugger->log(' Hello ? ', array(NULL));
+		asrt(count($debugger->grep('\'NULL\'')), 1);
 		/* log explicit INT param with StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( TRUE );
-		$debugger->log(' Hello ? ', array( 123, \PDO::PARAM_INT ) );
-		asrt( count( $debugger->grep('\'123\'') ), 1 );
+		$debugger->setUseStringOnlyBinding(TRUE);
+		$debugger->log(' Hello ? ', array(123, \PDO::PARAM_INT));
+		asrt(count($debugger->grep('\'123\'')), 1);
 		/* log explicit STR param with StringOnly */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( TRUE );
-		$debugger->log(' Hello ? ', array( 'abc', \PDO::PARAM_STR ) );
-		asrt( count( $debugger->grep('\'abc\'') ), 1 );
+		$debugger->setUseStringOnlyBinding(TRUE);
+		$debugger->log(' Hello ? ', array('abc', \PDO::PARAM_STR));
+		asrt(count($debugger->grep('\'abc\'')), 1);
 		/* log NULL with explicit param type with StringOnly - remains just NULL */
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( NULL, \PDO::PARAM_STR ) );
-		asrt( count( $debugger->grep('NULL') ), 1 );
-		asrt( count( $debugger->grep('\'NULL\'') ), 0 );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array(NULL, \PDO::PARAM_STR));
+		asrt(count($debugger->grep('NULL')), 1);
+		asrt(count($debugger->grep('\'NULL\'')), 0);
 		$debugger->clear();
-		$debugger->setUseStringOnlyBinding( FALSE );
-		$debugger->log(' Hello ? ', array( NULL, \PDO::PARAM_INT ) );
-		asrt( count( $debugger->grep('NULL') ), 1 );
-		asrt( count( $debugger->grep('\'NULL\'') ), 0 );
-		$debugger->setUseStringOnlyBinding( FALSE );
+		$debugger->setUseStringOnlyBinding(FALSE);
+		$debugger->log(' Hello ? ', array(NULL, \PDO::PARAM_INT));
+		asrt(count($debugger->grep('NULL')), 1);
+		asrt(count($debugger->grep('\'NULL\'')), 0);
+		$debugger->setUseStringOnlyBinding(FALSE);
 		/* Does stringonly mode switch along with Database mode ? */
-		$database->setUseStringOnlyBinding( TRUE );
+		$database->setUseStringOnlyBinding(TRUE);
 		$debugger->clear();
-		$debugger->log(' Hello ? ', array( 123, \PDO::PARAM_INT ) );
-		asrt( count( $debugger->grep('\'123\'') ), 1 );
-		$database->setUseStringOnlyBinding( FALSE );
+		$debugger->log(' Hello ? ', array(123, \PDO::PARAM_INT));
+		asrt(count($debugger->grep('\'123\'')), 1);
+		$database->setUseStringOnlyBinding(FALSE);
 		$debugger->clear();
-		$debugger->log(' Hello ? ', array( 123, \PDO::PARAM_INT ) );
-		asrt( count( $debugger->grep('\'123\'') ), 0 );
-		asrt( count( $debugger->grep('123') ), 1 );
-		$database->setUseStringOnlyBinding( TRUE );
+		$debugger->log(' Hello ? ', array(123, \PDO::PARAM_INT));
+		asrt(count($debugger->grep('\'123\'')), 0);
+		asrt(count($debugger->grep('123')), 1);
+		$database->setUseStringOnlyBinding(TRUE);
 		$debugger->clear();
-		$debugger->log(' Hello ? ', array( 123, \PDO::PARAM_INT ) );
-		asrt( count( $debugger->grep('\'123\'') ), 1 );
-		$database->setUseStringOnlyBinding( FALSE );
-		$debugger->setUseStringOnlyBinding( FALSE );
+		$debugger->log(' Hello ? ', array(123, \PDO::PARAM_INT));
+		asrt(count($debugger->grep('\'123\'')), 1);
+		$database->setUseStringOnlyBinding(FALSE);
+		$debugger->setUseStringOnlyBinding(FALSE);
 	}
 
 	/**
@@ -195,24 +195,24 @@ class Logging extends Base
 	public function testCanSetLogger()
 	{
 		R::nuke();
-		R::store( R::dispense( 'bean' ) );
+		R::store(R::dispense('bean'));
 		$logger = new RDefault;
-		$logger->setMode( RDefault::C_LOGGER_ARRAY );
+		$logger->setMode(RDefault::C_LOGGER_ARRAY);
 		$database = R::getDatabaseAdapter()->getDatabase();
-		$database->setLogger( $logger );
-		asrt( $database->getLogger(), $logger );
-		$database->setEnableLogging( FALSE );
+		$database->setLogger($logger);
+		asrt($database->getLogger(), $logger);
+		$database->setEnableLogging(FALSE);
 		$logs = $logger->getLogs();
-		asrt( is_array( $logs ), TRUE );
-		asrt( count( $logs ), 0 );
-		$database->setEnableLogging( TRUE );
+		asrt(is_array($logs), TRUE);
+		asrt(count($logs), 0);
+		$database->setEnableLogging(TRUE);
 		$logs = $logger->getLogs();
-		asrt( is_array( $logs ), TRUE );
-		asrt( count( $logs ), 0 );
-		R::findOne( 'bean' ); //writes 3 log entries
+		asrt(is_array($logs), TRUE);
+		asrt(count($logs), 0);
+		R::findOne('bean'); //writes 3 log entries
 		$logs = $logger->getLogs();
-		asrt( is_array( $logs ), TRUE );
-		asrt( count( $logs ), 3 );
+		asrt(is_array($logs), TRUE);
+		asrt(count($logs), 3);
 	}
 
 	/**
@@ -223,34 +223,34 @@ class Logging extends Base
 	public function testQueryCount()
 	{
 		R::nuke();
-		R::store( R::dispense( 'bean' ) );
+		R::store(R::dispense('bean'));
 		R::resetQueryCount();
-		asrt( R::getQueryCount(), 0 );
-		R::findOne( 'bean' );
-		asrt( R::getQueryCount(), 1 );
+		asrt(R::getQueryCount(), 0);
+		R::findOne('bean');
+		asrt(R::getQueryCount(), 1);
 		R::resetQueryCount();
-		asrt( R::getQueryCount(), 0 );
-		R::findOne( 'bean' );
-		R::findOne( 'bean' );
-		R::findOne( 'bean' );
-		asrt( R::getQueryCount(), 0 );
-		R::store( R::dispense( 'bean2' ) );
+		asrt(R::getQueryCount(), 0);
+		R::findOne('bean');
+		R::findOne('bean');
+		R::findOne('bean');
+		asrt(R::getQueryCount(), 0);
+		R::store(R::dispense('bean2'));
 		R::resetQueryCount();
-		R::findOne( 'bean' );
-		R::findOne( 'bean2' );
-		asrt( R::getQueryCount(), 2 );
+		R::findOne('bean');
+		R::findOne('bean2');
+		asrt(R::getQueryCount(), 2);
 		R::resetQueryCount();
-		R::findOne( 'bean', ' id < 100' );
-		R::findOne( 'bean', ' id < 101' );
-		R::findOne( 'bean', ' id < 102' );
-		R::findOne( 'bean', ' id < 103' );
-		asrt( R::getQueryCount(), 4 );
-		R::findOne( 'bean', ' id < 100' );
-		R::findOne( 'bean', ' id < 101' );
-		R::findOne( 'bean', ' id < 102' );
-		R::findOne( 'bean', ' id < 103' );
-		asrt( R::getQueryCount(), 4 );
-		R::findOne( 'bean', ' id < 104' );
-		asrt( R::getQueryCount(), 5 );
+		R::findOne('bean', ' id < 100');
+		R::findOne('bean', ' id < 101');
+		R::findOne('bean', ' id < 102');
+		R::findOne('bean', ' id < 103');
+		asrt(R::getQueryCount(), 4);
+		R::findOne('bean', ' id < 100');
+		R::findOne('bean', ' id < 101');
+		R::findOne('bean', ' id < 102');
+		R::findOne('bean', ' id < 103');
+		asrt(R::getQueryCount(), 4);
+		R::findOne('bean', ' id < 104');
+		asrt(R::getQueryCount(), 5);
 	}
 }

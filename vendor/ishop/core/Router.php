@@ -2,24 +2,29 @@
 
 namespace ishop;
 
-class Router {
+class Router
+{
 
     protected static $routes = [];
     protected static $route = [];
 
-    public static function add($regular_expression, $route = []) {
+    public static function add($regular_expression, $route = [])
+    {
         self::$routes[$regular_expression] = $route;
     }
 
-    public static function getRoutes() {
+    public static function getRoutes()
+    {
         return self::$routes;
     }
 
-    public static function getRoute() {
+    public static function getRoute()
+    {
         return self::$route;
     }
 
-    public static function dispatch($url) {
+    public static function dispatch($url)
+    {
         $url = self::removeQueryString($url);
         if (self::matchRoute($url)) {
             $controller = 'app\controllers\\' . self::$route['prefix'] . self::$route['controller'] . 'Controller';
@@ -40,10 +45,11 @@ class Router {
         }
     }
 
-    public static function matchRoute($url) {
-        foreach(self::$routes as $pattern => $route) {
+    public static function matchRoute($url)
+    {
+        foreach (self::$routes as $pattern => $route) {
             if (preg_match("#($pattern)#", $url, $matches)) {
-                foreach($matches as $key => $value) {
+                foreach ($matches as $key => $value) {
                     if (is_string($key)) {
                         $route[$key] = $value;
                     }
@@ -64,15 +70,18 @@ class Router {
         return false;
     }
 
-    protected static function upperCamelCase($name) {
+    protected static function upperCamelCase($name)
+    {
         return str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
     }
 
-    protected static function lowerCamelCase($name) {
+    protected static function lowerCamelCase($name)
+    {
         return lcfirst(self::upperCamelCase($name));
     }
 
-    protected static function removeQueryString($url) {
+    protected static function removeQueryString($url)
+    {
         if ($url) {
             $params = explode('&', $url, 2);
             if (false === strpos($params[0], '=')) {

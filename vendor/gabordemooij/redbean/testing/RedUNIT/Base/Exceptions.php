@@ -30,7 +30,8 @@ use RedBeanPHP\Driver\RPDO;
  * This source file is subject to the New BSD/GPLv2 License that is bundled
  * with this source code in the file license.txt.
  */
-class Exceptions extends Base {
+class Exceptions extends Base
+{
 
 	/**
 	 * Tests load exceptions.
@@ -50,50 +51,53 @@ class Exceptions extends Base {
 	{
 		/* bean does not exist, and table does not exist */
 		R::nuke();
-		$book = R::load( 'book', 1 );
+		$book = R::load('book', 1);
 		pass();
-		asrt( $book->id, 0 );
-		R::freeze( TRUE );
+		asrt($book->id, 0);
+		R::freeze(TRUE);
 		$exception = NULL;
 		try {
-			$book = R::load( 'book', 1 );
-		} catch( RedException $exception ) {}
-		asrt( ( $exception instanceof RedException ), TRUE );
-		R::freeze( FALSE );
-		R::store( $book );
+			$book = R::load('book', 1);
+		} catch (RedException $exception) {
+		}
+		asrt(($exception instanceof RedException), TRUE);
+		R::freeze(FALSE);
+		R::store($book);
 		/* bean does not exist - table exists */
-		$book = R::load( 'book', 2 );
+		$book = R::load('book', 2);
 		pass();
-		asrt( $book->id, 0 );
-		R::freeze( TRUE );
-		$book = R::load( 'book', 2 );
+		asrt($book->id, 0);
+		R::freeze(TRUE);
+		$book = R::load('book', 2);
 		pass();
-		asrt( $book->id, 0 );
+		asrt($book->id, 0);
 		/* other error */
-		if ( !( R::getWriter() instanceof SQLiteT ) ) {
-			R::freeze( FALSE );
+		if (!(R::getWriter() instanceof SQLiteT)) {
+			R::freeze(FALSE);
 			$exception = NULL;
 			try {
-				$book = R::load( 'book', 1, 'invalid sql' );
-			} catch( RedException $exception ) {}
+				$book = R::load('book', 1, 'invalid sql');
+			} catch (RedException $exception) {
+			}
 			//not supported for CUBRID
 			if ($this->currentlyActiveDriverID !== 'CUBRID') {
-				asrt( ( $exception instanceof RedException ), TRUE );
+				asrt(($exception instanceof RedException), TRUE);
 			}
 		} else {
 			/* error handling in SQLite is suboptimal */
-			R::freeze( FALSE );
-			$book = R::load( 'book', 1, 'invalid sql' );
+			R::freeze(FALSE);
+			$book = R::load('book', 1, 'invalid sql');
 			pass();
-			asrt( $book->id, 0 );
+			asrt($book->id, 0);
 		}
-		R::freeze( TRUE );
+		R::freeze(TRUE);
 		$exception = NULL;
 		try {
-			$book = R::load( 'book', 1, 'invalid sql' );
-		} catch( RedException $exception ) {}
-		asrt( ( $exception instanceof RedException ), TRUE );
-		R::freeze( FALSE );
+			$book = R::load('book', 1, 'invalid sql');
+		} catch (RedException $exception) {
+		}
+		asrt(($exception instanceof RedException), TRUE);
+		R::freeze(FALSE);
 		R::nuke();
 	}
 
@@ -107,37 +111,40 @@ class Exceptions extends Base {
 	public function testDeleteExceptions()
 	{
 		R::nuke();
-		$book = R::dispense( 'book' );
-		R::store( $book );
+		$book = R::dispense('book');
+		R::store($book);
 		R::nuke();
-		R::trash( $book );
-		R::freeze( TRUE );
+		R::trash($book);
+		R::freeze(TRUE);
 		$exception = NULL;
 		try {
-			R::trash( $book );
-		} catch( RedException $exception ) {}
-		asrt( ( $exception instanceof RedException ), TRUE );
-		R::freeze( FALSE );
+			R::trash($book);
+		} catch (RedException $exception) {
+		}
+		asrt(($exception instanceof RedException), TRUE);
+		R::freeze(FALSE);
 		$adapter = R::getDatabaseAdapter();
 		R::nuke();
-		$book = R::dispense( 'book' );
-		R::store( $book );
-		$broken = new BrokenWriter( $adapter );
+		$book = R::dispense('book');
+		R::store($book);
+		$broken = new BrokenWriter($adapter);
 		$redbean = R::getRedBean();
-		$oodb = new OODB( $broken, $redbean->isFrozen() );
-		R::setRedBean( $oodb );
+		$oodb = new OODB($broken, $redbean->isFrozen());
+		R::setRedBean($oodb);
 		$exception = NULL;
 		try {
-			R::trash( $book );
-		} catch( RedException $exception ) {}
-		asrt( ( $exception instanceof RedException ), TRUE );
-		R::freeze( TRUE );
+			R::trash($book);
+		} catch (RedException $exception) {
+		}
+		asrt(($exception instanceof RedException), TRUE);
+		R::freeze(TRUE);
 		$exception = NULL;
 		try {
-			R::trash( $book );
-		} catch( RedException $exception ) {}
-		asrt( ( $exception instanceof RedException ), TRUE );
-		R::setRedBean( $redbean );
+			R::trash($book);
+		} catch (RedException $exception) {
+		}
+		asrt(($exception instanceof RedException), TRUE);
+		R::setRedBean($redbean);
 	}
 
 	/**
@@ -145,21 +152,23 @@ class Exceptions extends Base {
 	 *
 	 * @return void
 	 */
-	 public function testChainingExceptions()
-	 {
-		 R::freeze( TRUE );
-		 $exception = NULL;
-		 try {
-				$book = R::load( 'book', 1, 'invalid sql' );
-		} catch( RedException $exception ) {}
+	public function testChainingExceptions()
+	{
+		R::freeze(TRUE);
+		$exception = NULL;
+		try {
+			$book = R::load('book', 1, 'invalid sql');
+		} catch (RedException $exception) {
+		}
 		pass();
-		asrt( ( $exception instanceof RedException ), TRUE );
-		asrt( ( $exception->getPrevious() instanceof \Exception ), TRUE );
-	 }
+		asrt(($exception instanceof RedException), TRUE);
+		asrt(($exception->getPrevious() instanceof \Exception), TRUE);
+	}
 }
 
-class BrokenWriter extends SQLiteT {
-	public function deleteRecord( $type, $conditions = array(), $addSql = NULL, $bindings = array() )
+class BrokenWriter extends SQLiteT
+{
+	public function deleteRecord($type, $conditions = array(), $addSql = NULL, $bindings = array())
 	{
 		throw new SQLException('oops');
 	}

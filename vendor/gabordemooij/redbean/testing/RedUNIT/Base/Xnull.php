@@ -29,20 +29,20 @@ class Xnull extends Base
 	public function testISNULLConditions()
 	{
 		R::nuke();
-		R::useISNULLConditions( FALSE );
+		R::useISNULLConditions(FALSE);
 		$book = R::dispense('book');
 		$book->title = 'Much ado about Null';
-		R::store( $book );
+		R::store($book);
 		$book = R::dispense('book');
 		$book->title = NULL;
-		R::store( $book );
-		$books = R::findLike('book', array( 'title' => NULL ) );
+		R::store($book);
+		$books = R::findLike('book', array('title' => NULL));
 		asrt(count($books), 2);
-		$wasFalse = R::useISNULLConditions( TRUE );
-		asrt( $wasFalse, FALSE );
-		$books = R::findLike('book', array( 'title' => NULL ) );
+		$wasFalse = R::useISNULLConditions(TRUE);
+		asrt($wasFalse, FALSE);
+		$books = R::findLike('book', array('title' => NULL));
 		asrt(count($books), 1);
-		$books = R::find('book', ' title = :title ',  array( 'title' => NULL ) );
+		$books = R::find('book', ' title = :title ',  array('title' => NULL));
 		asrt(count($books), 0);
 	}
 
@@ -52,50 +52,50 @@ class Xnull extends Base
 	public function testBindings()
 	{
 		R::nuke();
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
 		$book->content = NULL;
 		//can we store a NULL?
-		asrt( is_null( $book->content ), TRUE );
-		R::store( $book );
+		asrt(is_null($book->content), TRUE);
+		R::store($book);
 		//did we really store the NULL value ?
-		$book = R::findOne( 'book', ' content IS NULL ' );
-		asrt( ( $book instanceof OODBBean ), TRUE );
+		$book = R::findOne('book', ' content IS NULL ');
+		asrt(($book instanceof OODBBean), TRUE);
 		//still NULL, not empty STRING ?
-		asrt( is_null( $book->content ), TRUE );
+		asrt(is_null($book->content), TRUE);
 		$book->pages = 100;
-		R::store( $book );
+		R::store($book);
 		//did we save it once again as NULL?
-		$book = R::findOne( 'book', ' content IS NULL ' );
-		asrt( ( $book instanceof OODBBean ), TRUE );
-		asrt( is_null( $book->content ), TRUE );
-		asrt( gettype( $book->pages ), 'string' );
-		$otherBook = R::dispense( 'book' );
+		$book = R::findOne('book', ' content IS NULL ');
+		asrt(($book instanceof OODBBean), TRUE);
+		asrt(is_null($book->content), TRUE);
+		asrt(gettype($book->pages), 'string');
+		$otherBook = R::dispense('book');
 		$otherBook->pages = 99;
 		//also if the column is VARCHAR-like?
 		$otherBook->content = 'blah blah';
-		R::store( $otherBook );
-		$book = R::findOne( 'book', ' content IS NULL ' );
-		asrt( ( $book instanceof OODBBean ), TRUE );
-		asrt( is_null( $book->content ), TRUE );
-		asrt( intval( $book->pages ), 100 );
+		R::store($otherBook);
+		$book = R::findOne('book', ' content IS NULL ');
+		asrt(($book instanceof OODBBean), TRUE);
+		asrt(is_null($book->content), TRUE);
+		asrt(intval($book->pages), 100);
 		//can we query not NULL as well?
-		$book = R::findOne( 'book', ' content IS NOT NULL ' );
-		asrt( ( $book instanceof OODBBean ), TRUE );
-		asrt( is_null( $book->content ), FALSE );
-		asrt( intval( $book->pages ), 99 );
-		asrt( $book->content, 'blah blah' );
+		$book = R::findOne('book', ' content IS NOT NULL ');
+		asrt(($book instanceof OODBBean), TRUE);
+		asrt(is_null($book->content), FALSE);
+		asrt(intval($book->pages), 99);
+		asrt($book->content, 'blah blah');
 		//Can we bind NULL directly?
 		$book->isGood = FALSE;
 		//Is NULL the default? And... no confusion with boolean FALSE?
-		R::store( $book );
-		$book = R::findOne( 'book', ' is_good IS NULL' );
-		asrt( ( $book instanceof OODBBean ), TRUE );
-		asrt( is_null( $book->content ), TRUE );
-		asrt( intval( $book->pages ), 100 );
-		$book = R::findOne( 'book', ' is_good = ?', array( 0 ) );
-		asrt( ( $book instanceof OODBBean ), TRUE );
-		asrt( is_null( $book->content ), FALSE );
-		asrt( intval( $book->pages ), 99 );
+		R::store($book);
+		$book = R::findOne('book', ' is_good IS NULL');
+		asrt(($book instanceof OODBBean), TRUE);
+		asrt(is_null($book->content), TRUE);
+		asrt(intval($book->pages), 100);
+		$book = R::findOne('book', ' is_good = ?', array(0));
+		asrt(($book instanceof OODBBean), TRUE);
+		asrt(is_null($book->content), FALSE);
+		asrt(intval($book->pages), 99);
 	}
 
 	/**
@@ -108,33 +108,33 @@ class Xnull extends Base
 	public function testUnsetParent()
 	{
 		R::nuke();
-		$book = R::dispense( 'book' );
+		$book = R::dispense('book');
 		$book->title = 'My Book';
-		$page = R::dispense( 'page' );
+		$page = R::dispense('page');
 		$page->text = 'Lorem Ipsum';
 		$book->ownPage[] = $page;
-		R::store( $book );
+		R::store($book);
 		$page = $page->fresh();
-		R::freeze( TRUE );
-		asrt( (int) $page->book->id, (int) $book->id );
-		unset( $page->book );
-		R::store( $page );
+		R::freeze(TRUE);
+		asrt((int) $page->book->id, (int) $book->id);
+		unset($page->book);
+		R::store($page);
 		$page = $page->fresh();
-		asrt( (int) $page->book->id, (int) $book->id );
+		asrt((int) $page->book->id, (int) $book->id);
 		$page->book = NULL;
-		R::store( $page );
+		R::store($page);
 		$page = $page->fresh();
-		asrt( $page->book, NULL );
-		asrt( $page->book_id, NULL );
-		asrt( $page->bookID, NULL );
-		asrt( $page->bookId, NULL );
-		$page = R::dispense( 'page' );
+		asrt($page->book, NULL);
+		asrt($page->book_id, NULL);
+		asrt($page->bookID, NULL);
+		asrt($page->bookId, NULL);
+		$page = R::dispense('page');
 		$page->text = 'Another Page';
 		$page->book = NULL;
 		try {
-			R::store( $page );
+			R::store($page);
 			fail();
-		} catch( \Exception $exception ) {
+		} catch (\Exception $exception) {
 			pass();
 		}
 		unset($page->book);
@@ -144,23 +144,23 @@ class Xnull extends Base
 		try {
 			R::store($page);
 			pass();
-		} catch( \Exception $exception ) {
+		} catch (\Exception $exception) {
 			fail();
 		}
 		$page = $page->fresh();
 		$page->book = NULL;
-		R::store( $page );
+		R::store($page);
 		$page = $page->fresh();
-		asrt( is_null( $page->book_id ), TRUE );
+		asrt(is_null($page->book_id), TRUE);
 		$page->book = $book;
-		R::store( $page );
+		R::store($page);
 		$page = $page->fresh();
-		asrt( (int) $page->book->id, (int) $book->id );
+		asrt((int) $page->book->id, (int) $book->id);
 		$page->book = NULL;
-		R::store( $page );
-		asrt( is_null( $page->book_id ), TRUE );
-		asrt( is_null( $page->book ), TRUE );
-		R::freeze( FALSE );
+		R::store($page);
+		asrt(is_null($page->book_id), TRUE);
+		asrt(is_null($page->book), TRUE);
+		R::freeze(FALSE);
 	}
 
 	/**
@@ -171,40 +171,40 @@ class Xnull extends Base
 	public function testUnsetAliasedParent()
 	{
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$author = R::dispense( 'author' );
+		$book = R::dispense('book');
+		$author = R::dispense('author');
 		$book->coauthor = $author;
-		R::store( $book );
+		R::store($book);
 		$book = $book->fresh();
-		asrt( is_null( $book->fetchAs('author')->coauthor ), FALSE );
-		unset( $book->coauthor );
-		R::store( $book );
+		asrt(is_null($book->fetchAs('author')->coauthor), FALSE);
+		unset($book->coauthor);
+		R::store($book);
 		$book = $book->fresh();
-		asrt( is_null( $book->fetchAs('author')->coauthor ), FALSE );
+		asrt(is_null($book->fetchAs('author')->coauthor), FALSE);
 		$book->coauthor = NULL;
-		R::store( $book );
+		R::store($book);
 		$book = $book->fresh();
-		asrt( is_null( $book->fetchAs('author')->coauthor ), TRUE );
-		R::trash( $book );
-		R::trash( $author );
-		R::freeze( TRUE );
-		$book = R::dispense( 'book' );
-		$author = R::dispense( 'author' );
+		asrt(is_null($book->fetchAs('author')->coauthor), TRUE);
+		R::trash($book);
+		R::trash($author);
+		R::freeze(TRUE);
+		$book = R::dispense('book');
+		$author = R::dispense('author');
 		$book->coauthor = $author;
-		R::store( $book );
+		R::store($book);
 		$book = $book->fresh();
-		asrt( is_null( $book->fetchAs('author')->coauthor ), FALSE );
-		unset( $book->coauthor );
-		R::store( $book );
+		asrt(is_null($book->fetchAs('author')->coauthor), FALSE);
+		unset($book->coauthor);
+		R::store($book);
 		$book = $book->fresh();
-		asrt( is_null( $book->fetchAs('author')->coauthor ), FALSE );
+		asrt(is_null($book->fetchAs('author')->coauthor), FALSE);
 		$book->coauthor = NULL;
-		R::store( $book );
+		R::store($book);
 		$book = $book->fresh();
-		asrt( is_null( $book->fetchAs('author')->coauthor ), TRUE );
-		R::trash( $book );
-		R::trash( $author );
-		R::freeze( FALSE );
+		asrt(is_null($book->fetchAs('author')->coauthor), TRUE);
+		R::trash($book);
+		R::trash($author);
+		R::freeze(FALSE);
 	}
 
 	/**
@@ -216,31 +216,31 @@ class Xnull extends Base
 	public function testBasicNullHandling()
 	{
 		// NULL can change bean
-		$bean      = R::dispense( 'bean' );
+		$bean      = R::dispense('bean');
 		$bean->bla = 'a';
-		R::store( $bean );
+		R::store($bean);
 		$bean = $bean->fresh();
-		asrt( $bean->hasChanged( 'bla' ), FALSE );
+		asrt($bean->hasChanged('bla'), FALSE);
 		$bean->bla = NULL;
-		asrt( $bean->hasChanged( 'bla' ), TRUE );
+		asrt($bean->hasChanged('bla'), TRUE);
 		// NULL test
-		$page = R::dispense( 'page' );
-		$book = R::dispense( 'book' );
+		$page = R::dispense('page');
+		$book = R::dispense('book');
 		$page->title = 'a NULL page';
 		$page->book  = $book;
 		$book->title = 'Why NUll is painful..';
-		R::store( $page );
+		R::store($page);
 		$bookid = $page->book->id;
-		unset( $page->book );
-		$id = R::store( $page );
-		$page = R::load( 'page', $id );
+		unset($page->book);
+		$id = R::store($page);
+		$page = R::load('page', $id);
 		$page->title = 'another title';
-		R::store( $page );
+		R::store($page);
 		pass();
-		$page = R::load( 'page', $id );
+		$page = R::load('page', $id);
 		$page->title   = 'another title';
 		$page->book_id = NULL;
-		R::store( $page );
+		R::store($page);
 		pass();
 	}
 
@@ -255,12 +255,12 @@ class Xnull extends Base
 	public function ColumnType()
 	{
 
-		$book = R::dispense( 'book' );
-		$page = R::dispense( 'page' );
+		$book = R::dispense('book');
+		$page = R::dispense('page');
 		$book->ownPage[] = $page;
-		R::store( $book );
+		R::store($book);
 		pass();
-		asrt( $page->getMeta( 'cast.book_id' ), 'id' );
+		asrt($page->getMeta('cast.book_id'), 'id');
 	}
 
 	/**
@@ -270,11 +270,11 @@ class Xnull extends Base
 	 */
 	public function TypeColumn()
 	{
-		$book = R::dispense( 'book' );
-		$page = R::dispense( 'page' );
+		$book = R::dispense('book');
+		$page = R::dispense('page');
 		$page->book = $book;
-		R::store( $page );
+		R::store($page);
 		pass();
-		asrt( $page->getMeta( 'cast.book_id' ), 'id' );
+		asrt($page->getMeta('cast.book_id'), 'id');
 	}
 }

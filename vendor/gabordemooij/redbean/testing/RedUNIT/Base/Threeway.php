@@ -34,42 +34,42 @@ class Threeway extends Base
 	{
 		AQueryWriter::clearRenames();
 		R::nuke();
-		$person = R::dispense( 'person' );
-		$role = R::dispense( 'role' );
+		$person = R::dispense('person');
+		$role = R::dispense('role');
 		$person->sharedRole[] = $role;
-		R::store( $person );
-		$person->link( 'person_role', array(
-			 'unit' => R::dispense('unit')
+		R::store($person);
+		$person->link('person_role', array(
+			'unit' => R::dispense('unit')
 		))->role = $role;
 		//Can we add a duplicate role now? - No because we started with a simple N-M table
 		//and unique constraint has been applied accordingly, manually change database.
-		asrt( R::count( 'person_role' ), 1 );
+		asrt(R::count('person_role'), 1);
 		R::nuke();
-		$person = R::dispense( 'person' );
-		$role = R::dispense( 'role' );
+		$person = R::dispense('person');
+		$role = R::dispense('role');
 		$person->via('participant')->sharedRole[] = $role;
-		R::store( $person );
-		$person->link( 'participant', array(
-			 'unit' => R::dispense('unit')
+		R::store($person);
+		$person->link('participant', array(
+			'unit' => R::dispense('unit')
 		))->role = $role;
 		//Can we add a duplicate role now? - No because we started with a simple N-M table
 		//and unique constraint has been applied accordingly, manually change database.
-		asrt( R::count( 'participant' ), 1 );
+		asrt(R::count('participant'), 1);
 		R::nuke();
-		$participant = R::dispense( 'participant' );
-		$person = R::dispense( 'person' );
-		$role = R::dispense( 'role' );
-		$unit = R::dispense( 'unit' );
+		$participant = R::dispense('participant');
+		$person = R::dispense('person');
+		$role = R::dispense('role');
+		$unit = R::dispense('unit');
 		$participant->person = $person;
 		$participant->role = $role;
 		$participant->unit = $unit;
-		R::store( $participant );
-		$person->link( 'participant', array(
-			 'unit' => R::dispense('unit')
+		R::store($participant);
+		$person->link('participant', array(
+			'unit' => R::dispense('unit')
 		))->role = $role;
-		R::store( $person );
+		R::store($person);
 		//Can we add a duplicate role now?
-		asrt( R::count( 'participant' ), 2 );
+		asrt(R::count('participant'), 2);
 		AQueryWriter::clearRenames();
 	}
 
@@ -86,43 +86,43 @@ class Threeway extends Base
 	{
 		AQueryWriter::clearRenames();
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$page = R::dispense( 'page' );
+		$book = R::dispense('book');
+		$page = R::dispense('page');
 		$book->sharedPageList[] = $page;
-		R::store( $book );
-		asrt( R::count( 'page' ), 1 );
+		R::store($book);
+		asrt(R::count('page'), 1);
 		$book = $book->fresh();
 		$book->sharedPageList[] = $page;
-		R::store( $book );
+		R::store($book);
 		//don't save the duplicate bean!
-		asrt( R::count( 'page' ), 1 );
+		asrt(R::count('page'), 1);
 		$book = $book->fresh();
 		$page->item = 2; //even if we change a property ?
 		$book->sharedPageList[] = $page;
-		R::store( $book );
-		foreach( $book->sharedPageList as $listItem) {
-			asrt( is_string( $listItem->id ), TRUE );
+		R::store($book);
+		foreach ($book->sharedPageList as $listItem) {
+			asrt(is_string($listItem->id), TRUE);
 		}
 		//same test but for own-list
 		R::nuke();
-		$book = R::dispense( 'book' );
-		$page = R::dispense( 'page' );
+		$book = R::dispense('book');
+		$page = R::dispense('page');
 		$book->ownPageList[] = $page;
-		R::store( $book );
-		asrt( R::count( 'page' ), 1 );
+		R::store($book);
+		asrt(R::count('page'), 1);
 		$book = $book->fresh();
 		$book->ownPageList[] = $page;
-		R::store( $book );
+		R::store($book);
 		//don't save the duplicate bean!
-		asrt( R::count( 'page' ), 1 );
+		asrt(R::count('page'), 1);
 		$book = $book->fresh();
 		$book->ownPageList[] = $page;
 		$page->item = 3;
-		R::store( $book );
+		R::store($book);
 		//don't save the duplicate bean!
-		asrt( R::count( 'page' ), 1 );
-		foreach( $book->ownPageList as $listItem) {
-			asrt( is_string( $listItem->id ), TRUE );
+		asrt(R::count('page'), 1);
+		foreach ($book->ownPageList as $listItem) {
+			asrt(is_string($listItem->id), TRUE);
 		}
 		AQueryWriter::clearRenames();
 	}

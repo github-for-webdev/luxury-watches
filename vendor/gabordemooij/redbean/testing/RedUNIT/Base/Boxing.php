@@ -31,26 +31,26 @@ class Boxing extends Base
 	public function testBoxing()
 	{
 		R::nuke();
-		$bean = R::dispense( 'boxedbean' )->box();
-		R::trash( $bean );
+		$bean = R::dispense('boxedbean')->box();
+		R::trash($bean);
 		pass();
-		$bean = R::dispense( 'boxedbean' );
-		$bean->sharedBoxbean = R::dispense( 'boxedbean' )->box();
-		R::store( $bean );
+		$bean = R::dispense('boxedbean');
+		$bean->sharedBoxbean = R::dispense('boxedbean')->box();
+		R::store($bean);
 		pass();
-		$bean = R::dispense( 'boxedbean' );
-		$bean->ownBoxedbean = R::dispense( 'boxedbean' )->box();
-		R::store( $bean );
+		$bean = R::dispense('boxedbean');
+		$bean->ownBoxedbean = R::dispense('boxedbean')->box();
+		R::store($bean);
 		pass();
-		$bean = R::dispense( 'boxedbean' );
-		$bean->other = R::dispense( 'boxedbean' )->box();
-		R::store( $bean );
+		$bean = R::dispense('boxedbean');
+		$bean->other = R::dispense('boxedbean')->box();
+		R::store($bean);
 		pass();
-		$bean = R::dispense( 'boxedbean' );
+		$bean = R::dispense('boxedbean');
 		$bean->title = 'MyBean';
 		$box = $bean->box();
-		asrt( ( $box instanceof \Model_Boxedbean ), TRUE );
-		R::store( $box );
+		asrt(($box instanceof \Model_Boxedbean), TRUE);
+		R::store($box);
 	}
 
 	/**
@@ -61,10 +61,10 @@ class Boxing extends Base
 	 */
 	public function testToStringIssue512()
 	{
-		R::setErrorHandlingFUSE( \RedBeanPHP\OODBBean::C_ERR_FATAL );
-		$boxedBean = R::dispense( 'boxedbean' );
+		R::setErrorHandlingFUSE(\RedBeanPHP\OODBBean::C_ERR_FATAL);
+		$boxedBean = R::dispense('boxedbean');
 		$str = (string) $boxedBean;
-		asrt( $str, '{"id":0}' ); //no fatal error
-		R::setErrorHandlingFUSE( FALSE );
+		asrt($str, '{"id":0}'); //no fatal error
+		R::setErrorHandlingFUSE(FALSE);
 	}
 }

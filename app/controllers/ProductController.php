@@ -5,9 +5,11 @@ namespace app\controllers;
 use app\models\Breadcrumbs;
 use app\models\Product;
 
-class ProductController extends AppController {
+class ProductController extends AppController
+{
 
-    public function viewAction() {
+    public function viewAction()
+    {
         $alias = $this->route['alias'];
         $product = \R::findOne('product', "alias = ? AND status = '1'", [$alias]);
         if (!$product) {
@@ -27,5 +29,4 @@ class ProductController extends AppController {
         $this->setMeta($product->title, $product->description, $product->keywords);
         $this->set(compact('product', 'related', 'gallery', 'recentlyViewed', 'breadcrumbs', 'mods'));
     }
-
 }

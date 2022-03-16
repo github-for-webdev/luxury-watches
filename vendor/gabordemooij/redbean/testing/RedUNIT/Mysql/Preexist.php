@@ -35,24 +35,24 @@ class Preexist extends Mysql
 		$writer      = $toolbox->getWriter();
 		$redbean     = $toolbox->getRedBean();
 		$pdo         = $adapter->getDatabase();
-		$a           = new AssociationManager( $toolbox );
-		$page        = $redbean->dispense( "page" );
+		$a           = new AssociationManager($toolbox);
+		$page        = $redbean->dispense("page");
 		$page->name  = "John's page";
-		$idpage      = $redbean->store( $page );
-		$page2       = $redbean->dispense( "page" );
+		$idpage      = $redbean->store($page);
+		$page2       = $redbean->dispense("page");
 		$page2->name = "John's second page";
-		$idpage2     = $redbean->store( $page2 );
-		$a->associate( $page, $page2 );
-		$adapter->exec( "ALTER TABLE " . $writer->esc( 'page' ) . "
-		CHANGE " . $writer->esc( 'name' ) . " " . $writer->esc( 'name' ) . "
-		VARCHAR( 254 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL " );
-		$page       = $redbean->dispense( "page" );
+		$idpage2     = $redbean->store($page2);
+		$a->associate($page, $page2);
+		$adapter->exec("ALTER TABLE " . $writer->esc('page') . "
+		CHANGE " . $writer->esc('name') . " " . $writer->esc('name') . "
+		VARCHAR( 254 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ");
+		$page       = $redbean->dispense("page");
 		$page->name = "Just Another Page In a Table";
-		$cols       = $writer->getColumns( "page" );
-		asrt( $cols["name"], "varchar(254)" );
-		$redbean->store( $page );
+		$cols       = $writer->getColumns("page");
+		asrt($cols["name"], "varchar(254)");
+		$redbean->store($page);
 		pass(); // No crash?
-		$cols = $writer->getColumns( "page" );
-		asrt( $cols["name"], "varchar(254)" ); //must still be same
+		$cols = $writer->getColumns("page");
+		asrt($cols["name"], "varchar(254)"); //must still be same
 	}
 }
