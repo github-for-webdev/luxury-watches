@@ -3190,10 +3190,8 @@ h3.ghj {
   }
 }
 /*--media-quaries-end-here--*/
-.product-one > .product-left {
-  margin-bottom: 20px;
-}
 
+/* new styles */
 .product-one > .product-left {
   margin-bottom: 20px;
 }
@@ -3202,4 +3200,8 @@ h3.ghj {
   margin-top: 3em;
   margin-right: 10px;
   float: left;
+}
+
+#cart table img {
+  height: 50px;
 }
