@@ -1,8 +1,8 @@
 <?php
 
-function debug($array)
+function debug($arr)
 {
-    echo '<pre>' . print_r($array, true) . '</pre>';
+    echo '<pre>' . print_r($arr, true) . '</pre>';
 }
 
 function redirect($http = false)
@@ -14,4 +14,9 @@ function redirect($http = false)
     }
     header("Location: $redirect");
     exit;
+}
+
+function h($str)
+{
+    return htmlspecialchars($str, ENT_QUOTES);
 }
