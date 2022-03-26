@@ -48,7 +48,7 @@ class Router
     public static function matchRoute($url)
     {
         foreach (self::$routes as $pattern => $route) {
-            if (preg_match("#($pattern)#", $url, $matches)) {
+            if (preg_match("#($pattern)#i", $url, $matches)) {
                 foreach ($matches as $key => $value) {
                     if (is_string($key)) {
                         $route[$key] = $value;
