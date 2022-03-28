@@ -1,3 +1,9 @@
+/*--A Design by W3layouts 
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+--*/
 body {
   background: #fff;
   font-family: "Lato-Regular";
@@ -1432,7 +1438,8 @@ a.mask {
   margin-top: 2.2em;
 }
 .account-left input[type="text"],
-.account-left input[type="password"] {
+.account-left input[type="password"],
+.account-left input[type="email"] {
   width: 90%;
   margin: 0px;
   color: #000;
@@ -3302,3 +3309,10 @@ span.twitter-typeahead {
   top: 46px !important;
 }
 /*search*/
+
+.drop > .btn-group > a {
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  top: -2px;
+}
