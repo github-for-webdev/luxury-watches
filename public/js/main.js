@@ -1,3 +1,36 @@
+/* Filters */
+$("body").on("change", ".w_sidebar input", function () {
+  var checked = $(".w_sidebar input:checked"),
+    data = "";
+  checked.each(function () {
+    data += this.value + ",";
+  });
+  if (data) {
+    $.ajax({
+      url: location.href,
+      data: { filter: data },
+      type: "GET",
+      beforeSend: function () {
+        $(".preloader").fadeIn(300, function () {
+          $(".product-one").hide();
+        });
+      },
+      success: function (res) {
+        $(".preloader")
+          .delay(500)
+          .fadeOut("slow", function () {
+            $(".product-one").html(res).fadeIn();
+          });
+      },
+      error: function () {
+        alert("Ошибка!");
+      },
+    });
+  } else {
+    window.location = location.pathname;
+  }
+});
+
 /* Search */
 var products = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.whitespace,
@@ -120,8 +153,8 @@ $(".available select").on("change", function () {
     price = $(this).find("option").filter(":selected").data("price"),
     basePrice = $("#base-price").data("base");
   if (price) {
-    $("#base-price").text(symbolLeft + price + symbolRight);
+    $("#base-price").text(symboleLeft + price + symboleRight);
   } else {
-    $("#base-price").text(symbolLeft + basePrice + symbolRight);
+    $("#base-price").text(symboleLeft + basePrice + symboleRight);
   }
 });
