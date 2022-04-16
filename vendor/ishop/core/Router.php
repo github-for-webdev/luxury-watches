@@ -8,9 +8,9 @@ class Router
     protected static $routes = [];
     protected static $route = [];
 
-    public static function add($regular_expression, $route = [])
+    public static function add($regexp, $route = [])
     {
-        self::$routes[$regular_expression] = $route;
+        self::$routes[$regexp] = $route;
     }
 
     public static function getRoutes()
@@ -48,10 +48,10 @@ class Router
     public static function matchRoute($url)
     {
         foreach (self::$routes as $pattern => $route) {
-            if (preg_match("#($pattern)#i", $url, $matches)) {
-                foreach ($matches as $key => $value) {
-                    if (is_string($key)) {
-                        $route[$key] = $value;
+            if (preg_match("#{$pattern}#i", $url, $matches)) {
+                foreach ($matches as $k => $v) {
+                    if (is_string($k)) {
+                        $route[$k] = $v;
                     }
                 }
                 if (empty($route['action'])) {
@@ -70,11 +70,13 @@ class Router
         return false;
     }
 
+    // CamelCase
     protected static function upperCamelCase($name)
     {
         return str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
     }
 
+    // camelCase
     protected static function lowerCamelCase($name)
     {
         return lcfirst(self::upperCamelCase($name));
