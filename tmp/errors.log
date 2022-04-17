@@ -3,3 +3,5 @@
 [2022-04-16 19:19:50] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 44
 [2022-04-16 19:21:43] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 44
 [2022-04-16 19:22:57] Текст ошибки: Страница не найдена | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 44
+[2022-04-16 19:32:46] Текст ошибки: Контроллер app\controllers\admin\UserController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 41
+[2022-04-16 19:32:50] Текст ошибки: Контроллер app\controllers\admin\OrderController не найден | Файл: D:\OpenServer\domains\luxurywatches\vendor\ishop\core\Router.php | Строка: 41
