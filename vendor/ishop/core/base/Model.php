@@ -2,7 +2,7 @@
 
 namespace ishop\base;
 
-use ishop\Database;
+use ishop\Db;
 use Valitron\Validator;
 
 abstract class Model
@@ -14,7 +14,7 @@ abstract class Model
 
     public function __construct()
     {
-        Database::instance();
+        Db::instance();
     }
 
     public function load($data)
@@ -33,6 +33,15 @@ abstract class Model
             $tbl->$name = $value;
         }
         return \R::store($tbl);
+    }
+
+    public function update($table, $id)
+    {
+        $bean = \R::load($table, $id);
+        foreach ($this->attributes as $name => $value) {
+            $bean->$name = $value;
+        }
+        return \R::store($bean);
     }
 
     public function validate($data)
