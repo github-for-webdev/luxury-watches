@@ -1,5 +1,3 @@
-CKEDITOR.replace("editor1");
-
 $(".delete").click(function () {
   var res = confirm("Подтвердите действие");
   if (!res) return false;
@@ -17,3 +15,6 @@ $(".sidebar-menu a").each(function () {
     $(this).closest(".treeview").addClass("active");
   }
 });
+
+// CKEDITOR.replace('editor1');
+$("#editor1").ckeditor();
