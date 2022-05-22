@@ -2,7 +2,7 @@
 
 namespace ishop\base;
 
-use ishop\Db;
+use ishop\Database;
 use Valitron\Validator;
 
 abstract class Model
@@ -14,7 +14,7 @@ abstract class Model
 
     public function __construct()
     {
-        Db::instance();
+        Database::instance();
     }
 
     public function load($data)
@@ -26,9 +26,13 @@ abstract class Model
         }
     }
 
-    public function save($table)
+    public function save($table, $valid = true)
     {
-        $tbl = \R::dispense($table);
+        if ($valid) {
+            $tbl = \R::dispense($table);
+        } else {
+            $tbl = \R::xdispense($table);
+        }
         foreach ($this->attributes as $name => $value) {
             $tbl->$name = $value;
         }
